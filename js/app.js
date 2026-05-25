@@ -285,6 +285,152 @@ const CHECKS = {
   }
 };
 
+// =============== AUDIO SYNTHESIS ===============
+// Mapa de nota para frequência (em Hz, baseado em A4 = 440 Hz)
+const NOTE_FREQUENCIES = {
+  'C': 261.63, 'C#': 277.18, 'Db': 277.18,
+  'D': 293.66, 'D#': 311.13, 'Eb': 311.13,
+  'E': 329.63,
+  'F': 349.23, 'F#': 369.99, 'Gb': 369.99,
+  'G': 392.00, 'G#': 415.30, 'Ab': 415.30,
+  'A': 440.00, 'A#': 466.16, 'Bb': 466.16,
+  'B': 493.88
+};
+
+// Lookup para escalas e modos (todas as tonalidades)
+const SCALE_PATTERNS = {
+  // Escalas Maiores
+  'C Maior': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+  'D Maior': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
+  'E Maior': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+  'F Maior': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+  'G Maior': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
+  'A Maior': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
+  'B Maior': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#'],
+  'F# Maior': ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'],
+  'C# Maior': ['C#', 'D#', 'E#', 'F#', 'G#', 'A#', 'B#'],
+  'Bb Maior': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+  'Eb Maior': ['Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'D'],
+  'Ab Maior': ['Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G'],
+  'Db Maior': ['Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C'],
+  'Gb Maior': ['Gb', 'Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F'],
+
+  // Escalas Menores Natural
+  'C Menor': ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'],
+  'D Menor': ['D', 'E', 'F', 'G', 'A', 'Bb', 'C'],
+  'E Menor': ['E', 'F#', 'G', 'A', 'B', 'C', 'D'],
+  'F Menor': ['F', 'G', 'Ab', 'Bb', 'C', 'Db', 'Eb'],
+  'G Menor': ['G', 'A', 'Bb', 'C', 'D', 'Eb', 'F'],
+  'A Menor': ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+  'B Menor': ['B', 'C#', 'D', 'E', 'F#', 'G', 'A'],
+  'Bb Menor': ['Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab'],
+  'Eb Menor': ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db'],
+  'F# Menor': ['F#', 'G#', 'A', 'B', 'C#', 'D', 'E'],
+
+  // Modos da Escala Maior
+  'C Jônico': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+  'D Dórico': ['D', 'E', 'F', 'G', 'A', 'B', 'C'],
+  'E Frígio': ['E', 'F', 'G', 'A', 'B', 'C', 'D'],
+  'F Lídio': ['F', 'G', 'A', 'B', 'C', 'D', 'E'],
+  'G Mixolídio': ['G', 'A', 'B', 'C', 'D', 'E', 'F'],
+  'A Eólio': ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+  'B Lócrio': ['B', 'C', 'D', 'E', 'F', 'G', 'A']
+};
+
+// Parser: extrai notas de descrição textual
+function extractNotesFromDescription(text) {
+  if (!text) return null;
+
+  // Estratégia 1: Se contém "X-Y-Z" ou "X-Y-Z-W", extrai direto (acordes)
+  const directPattern = /[A-G](?:[#b])?(?:\s*-\s*[A-G](?:[#b])?)+/g;
+  const directMatches = text.match(directPattern);
+  if (directMatches && directMatches.length > 0) {
+    return parseDashNotation(directMatches[0]);
+  }
+
+  // Estratégia 2: Se contém "Escala", "escala", "Modo", "modo" - lookup
+  const scalePattern = /(?:Escala|escala|Modo|modo)\s+([A-G](?:[#b])?)\s+(Maior|Menor|Jônico|Dórico|Frígio|Lídio|Mixolídio|Eólio|Lócrio)/;
+  const scaleMatch = text.match(scalePattern);
+  if (scaleMatch) {
+    const key = scaleMatch[1] + ' ' + scaleMatch[2];
+    if (SCALE_PATTERNS[key]) {
+      return SCALE_PATTERNS[key].map(n => NOTE_FREQUENCIES[n]);
+    }
+  }
+
+  return null;
+}
+
+// Parser para notação com hífen: "C-E-G" → [261.63, 329.63, 392.00]
+function parseDashNotation(text) {
+  const notes = text.match(/[A-G](?:[#b])?/g) || [];
+  return notes.length > 0 ? notes.map(n => NOTE_FREQUENCIES[n]) : null;
+}
+
+// Reproduzir acorde completo (notas simultâneas)
+async function playChordFull(frequencies) {
+  if (!frequencies || frequencies.length === 0) return;
+
+  try {
+    const synth = new Tone.PolySynth(Tone.Synth, {
+      oscillator: { type: 'triangle' },
+      envelope: { attack: 0.01, decay: 0.1, sustain: 0.4, release: 1.2 }
+    }).toDestination();
+
+    const notes = frequencies.map(f => Tone.Frequency(f).toNote());
+    synth.triggerAttackRelease(notes, '2n'); // 2 whole notes = ~1.5s em 120 BPM
+    await Tone.Transport.bpm.value >= 120 ? new Promise(resolve => setTimeout(resolve, 1500)) : null;
+  } catch (e) {
+    console.error('Erro ao tocar acorde:', e);
+  }
+}
+
+// Reproduzir arpegio (notas em sequência)
+async function playArpeggio(frequencies) {
+  if (!frequencies || frequencies.length === 0) return;
+
+  try {
+    const synth = new Tone.Synth({
+      oscillator: { type: 'triangle' },
+      envelope: { attack: 0.01, decay: 0.05, sustain: 0.2, release: 0.3 }
+    }).toDestination();
+
+    const stepDuration = 0.25; // segundos
+
+    for (let freq of frequencies) {
+      const note = Tone.Frequency(freq).toNote();
+      synth.triggerAttackRelease(note, '16n');
+      await new Promise(resolve => setTimeout(resolve, stepDuration * 1000));
+    }
+  } catch (e) {
+    console.error('Erro ao tocar arpegio:', e);
+  }
+}
+
+// Wrapper principal para botões de áudio
+async function playNotesFromDescription(text, asArpeggio = false) {
+  const frequencies = extractNotesFromDescription(text);
+  if (!frequencies) {
+    console.warn('Não consegui extrair notas de:', text);
+    return;
+  }
+
+  // Disable todos os botões durante reprodução
+  const buttons = document.querySelectorAll('.audio-btn');
+  buttons.forEach(btn => btn.disabled = true);
+
+  try {
+    if (asArpeggio) {
+      await playArpeggio(frequencies);
+    } else {
+      await playChordFull(frequencies);
+    }
+  } finally {
+    // Re-enable botões
+    buttons.forEach(btn => btn.disabled = false);
+  }
+}
+
 // =============== PROGRESS TRACKING ===============
 // Armazena qual dias foram estudados por fase
 let studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
@@ -485,6 +631,14 @@ function buildDay(day, qk, dayIndex) {
     <div class="session-title">${s[0]}</div>
     <div class="session-desc">${s[1]}</div>
     <div class="session-page">📖 ${s[2]}</div>
+    <div class="audio-controls">
+      <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', false)">
+        ▶️ Play
+      </button>
+      <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', true)">
+        ↗️ Arpegio
+      </button>
+    </div>
   </div>`).join('');
 
   // Verificar se este dia foi marcado como estudado

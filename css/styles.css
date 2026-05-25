@@ -701,6 +701,39 @@ body {
   user-select: none;
 }
 
+/* Audio Controls */
+.audio-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.audio-btn {
+  padding: 6px 12px;
+  background-color: var(--blue600);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.audio-btn:hover {
+  background-color: var(--blue700);
+}
+
+.audio-btn:active {
+  opacity: 0.9;
+}
+
+.audio-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Footer */
 footer {
   text-align: center;
