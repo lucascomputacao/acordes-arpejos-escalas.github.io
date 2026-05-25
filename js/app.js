@@ -13,6 +13,7 @@ const WEEKS = {
           ['Tríades maiores', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15'],
           ['Inversões de tríades maiores', 'Fundamental no baixo, 3ª no baixo, 5ª no baixo. Como identificar e tocar', 'p.16-17']
         ],
+        exemplos: [{ sessionIndex: 0, items: [{ label: 'Tríades maiores - Formas básicas', img: './public/images/dia-01/triades-maiores-formas-basicas.png', notes: 'C, Cm, C#5, Cº' }] }],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
       { n: 'Dia 2', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Sequência I-IV-V em C maior com tríades apenas (C-F-G)', sess: [['Tríades menores', 'Diferença pro maior: 3ª menor (♭3). Fórmula: 1-♭3-5', 'p.19-20'], ['Inversões de tríades menores', 'Mesma lógica das maiores: fundamental, 1ª inversão, 2ª inversão', 'p.20-21'], ['Ditado de tríades', 'Ouça acordes de músicas conhecidas e identifique maior ou menor', 'p.22']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Progressão 2: Em7 → A7 → D7M', img: './public/images/dia-01/page-17-ref.jpg', notes: 'E-G-B-D; A-C#-E-G; D-F#-A-C#' }] }], tip: 'Ouça sons de violão ou piano tocando tríades. Tente identificar de ouvido se é maior ou menor antes de ver a cifra.' },
