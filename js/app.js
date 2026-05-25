@@ -828,7 +828,7 @@ function buildDay(day, qk, dayIndex) {
   // Verificar se este dia foi marcado como estudado
   const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex];
 
-  return `<div class="card">
+  return `<div class="card" id="day-${day.n.toLowerCase().replace(/\s+/g, '-')}">
     <div class="card-header">
       <span class="card-title">${day.n}</span>
       <span class="badge ${day.b}">${day.bl}</span>
@@ -1052,9 +1052,8 @@ function navigateToDay(dayNum) {
         // Encontrou o dia! Navega para a fase e rola para o dia
         showTab(phaseKey);
         setTimeout(() => {
-          const dayCard = document.querySelector(
-            `#tab-${phaseKey} .card:nth-of-type(${dayIndex + 1})`
-          );
+          const dayId = day.n.toLowerCase().replace(/\s+/g, '-');
+          const dayCard = document.getElementById(dayId);
           if (dayCard) {
             dayCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
