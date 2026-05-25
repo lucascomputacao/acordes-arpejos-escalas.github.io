@@ -337,19 +337,27 @@ const SCALE_PATTERNS = {
   'B Lócrio': ['B', 'C', 'D', 'E', 'F', 'G', 'A']
 };
 
-// Parser: extrai notas de descrição textual
+// Parser: extrai notas de descrição textual com suporte a múltiplos padrões
 function extractNotesFromDescription(text) {
   if (!text) return null;
 
-  // Estratégia 1: Se contém "X-Y-Z" ou "X-Y-Z-W", extrai direto (acordes)
+  // Estratégia 1: Notação direta com hífen (C-E-G ou C-E-G-B)
   const directPattern = /[A-G](?:[#b])?(?:\s*-\s*[A-G](?:[#b])?)+/g;
   const directMatches = text.match(directPattern);
   if (directMatches && directMatches.length > 0) {
     return parseDashNotation(directMatches[0]);
   }
 
-  // Estratégia 2: Se contém "Escala", "escala", "Modo", "modo" - lookup
-  const scalePattern = /(?:Escala|escala|Modo|modo)\s+([A-G](?:[#b])?)\s+(Maior|Menor|Jônico|Dórico|Frígio|Lídio|Mixolídio|Eólio|Lócrio)/;
+  // Estratégia 2: Padrões interválares (1-3-5, 1-♭3-5, etc)
+  const intervalPattern = /\d-(?:♯|♭)?[0-9](?:-(?:♯|♭)?[0-9])+/;
+  const intervalMatch = text.match(intervalPattern);
+  if (intervalMatch) {
+    // Para padrões intervalares, tentar extrair de C por padrão
+    return parseIntervalPattern(intervalMatch[0], 'C');
+  }
+
+  // Estratégia 3: Escala nomeada (Escala Maior em C, etc)
+  const scalePattern = /(?:Escala|escala|Modo|modo)\s+(?:de\s+)?([A-G](?:[#b])?)\s+(Maior|Menor|Jônico|Dórico|Frígio|Lídio|Mixolídio|Eólio|Lócrio)/i;
   const scaleMatch = text.match(scalePattern);
   if (scaleMatch) {
     const key = scaleMatch[1] + ' ' + scaleMatch[2];
@@ -358,7 +366,86 @@ function extractNotesFromDescription(text) {
     }
   }
 
+  // Estratégia 4: Progressão romana com tonalidade (I-IV-V em C)
+  const romanPattern = /([IViv]+(?:-[IViv]+)*)\s+(?:em|in|de)\s+([A-G](?:[#b])?)/i;
+  const romanMatch = text.match(romanPattern);
+  if (romanMatch) {
+    return parseRomanProgression(romanMatch[1], romanMatch[2]);
+  }
+
+  // Estratégia 5: Campo Harmônico (tríades dos 7 graus)
+  if (text.match(/[Cc]ampo\s+[Hh]armônico/)) {
+    // Tentar extrair tonalidade
+    const tonalityMatch = text.match(/([A-G](?:[#b])?)\s+maior/i);
+    if (tonalityMatch) {
+      return generateHarmonicField(tonalityMatch[1], 'major');
+    }
+  }
+
+  // Se nada funcionou, retornar null (sem notas)
   return null;
+}
+
+// Parser para padrões intervalares (1-3-5 com posição relativa)
+function parseIntervalPattern(pattern, rootNote = 'C') {
+  // Mapear intervalos para semitons: 1=0, 2=2, 3=4, 4=5, 5=7, 6=9, 7=11, 8=12, 9=14, 13=21
+  const intervalToSemitones = { '1': 0, '2': 2, '3': 4, '4': 5, '5': 7, '6': 9, '7': 11 };
+
+  const rootFreq = NOTE_FREQUENCIES[rootNote];
+  if (!rootFreq) return null;
+
+  // Extrair números do padrão
+  const intervals = pattern.match(/\d/g) || [];
+  return intervals.map(interval => {
+    const semitones = intervalToSemitones[interval] || 0;
+    // Multiplicar frequência por 2^(semitones/12)
+    return rootFreq * Math.pow(2, semitones / 12);
+  });
+}
+
+// Parser para progressões romanas (I, ii, V, etc)
+function parseRomanProgression(romanStr, tonality) {
+  // Mapa simplificado: em uma escala maior, os graus são:
+  // I, ii, iii, IV, V, vi, vii° (ou vii dim)
+  const majorScale = SCALE_PATTERNS[tonality + ' Maior'];
+  if (!majorScale) return null;
+
+  // Extrair graus romanos individuais
+  const romanNumerals = romanStr.match(/[IViv°]+/g) || [];
+  const notes = [];
+
+  romanNumerals.forEach(roman => {
+    const romanLower = roman.toLowerCase().replace('°', '');
+    let degree = 0;
+
+    if (romanLower === 'i') degree = 0;
+    else if (romanLower === 'ii') degree = 1;
+    else if (romanLower === 'iii') degree = 2;
+    else if (romanLower === 'iv') degree = 3;
+    else if (romanLower === 'v') degree = 4;
+    else if (romanLower === 'vi') degree = 5;
+    else if (romanLower === 'vii') degree = 6;
+
+    if (majorScale[degree]) {
+      notes.push(NOTE_FREQUENCIES[majorScale[degree]]);
+    }
+  });
+
+  return notes.length > 0 ? notes : null;
+}
+
+// Gerar campo harmônico (7 acordes dos graus da escala)
+function generateHarmonicField(tonality, type = 'major') {
+  const scale = SCALE_PATTERNS[tonality + ' Maior'];
+  if (!scale) return null;
+
+  // Retornar primeiro acorde (tríade I) como exemplo
+  // Idealmente seria melhor tocar todos os 7, mas por simplicidade...
+  return [
+    NOTE_FREQUENCIES[scale[0]],  // 1
+    NOTE_FREQUENCIES[scale[2]],  // 3
+    NOTE_FREQUENCIES[scale[4]]   // 5
+  ];
 }
 
 // Parser para notação com hífen: "C-E-G" → [261.63, 329.63, 392.00]
@@ -367,35 +454,63 @@ function parseDashNotation(text) {
   return notes.length > 0 ? notes.map(n => NOTE_FREQUENCIES[n]) : null;
 }
 
-// Reproduzir acorde completo (notas simultâneas)
+// Reproduzir acorde completo (notas simultâneas) - som de guitarra
 async function playChordFull(frequencies) {
   if (!frequencies || frequencies.length === 0) return;
 
   try {
+    // Timbre de guitarra: sawtooth com filtro + envelope realista
     const synth = new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: 'triangle' },
-      envelope: { attack: 0.01, decay: 0.1, sustain: 0.4, release: 1.2 }
+      oscillator: { type: 'sawtooth' },
+      envelope: {
+        attack: 0.008,    // Very quick attack (plectrum strike)
+        decay: 0.05,      // Quick decay to sustain
+        sustain: 0.35,    // Low sustain (guitar decay)
+        release: 0.8      // Long release (string resonance)
+      }
     }).toDestination();
 
+    // Aplicar filtro para suavizar o sawtooth (simular corpo da guitarra)
+    const filter = new Tone.Filter({
+      frequency: 2000,
+      type: 'lowpass'
+    });
+    synth.connect(filter);
+    filter.toDestination();
+
     const notes = frequencies.map(f => Tone.Frequency(f).toNote());
-    synth.triggerAttackRelease(notes, '2n'); // 2 whole notes = ~1.5s em 120 BPM
-    await Tone.Transport.bpm.value >= 120 ? new Promise(resolve => setTimeout(resolve, 1500)) : null;
+    synth.triggerAttackRelease(notes, '2n'); // ~1.5s em 120 BPM
+    await new Promise(resolve => setTimeout(resolve, 1500));
   } catch (e) {
     console.error('Erro ao tocar acorde:', e);
   }
 }
 
-// Reproduzir arpegio (notas em sequência)
+// Reproduzir arpegio (notas em sequência) - som de guitarra
 async function playArpeggio(frequencies) {
   if (!frequencies || frequencies.length === 0) return;
 
   try {
+    // Timbre de guitarra: sawtooth com filtro + envelope rápido
     const synth = new Tone.Synth({
-      oscillator: { type: 'triangle' },
-      envelope: { attack: 0.01, decay: 0.05, sustain: 0.2, release: 0.3 }
+      oscillator: { type: 'sawtooth' },
+      envelope: {
+        attack: 0.01,     // Quick plectrum attack
+        decay: 0.08,      // Decay to sustain
+        sustain: 0.15,    // Very low sustain (arpegio decays quickly)
+        release: 0.2      // Short release for clean separation
+      }
     }).toDestination();
 
-    const stepDuration = 0.25; // segundos
+    // Filtro para suavizar
+    const filter = new Tone.Filter({
+      frequency: 2200,
+      type: 'lowpass'
+    });
+    synth.connect(filter);
+    filter.toDestination();
+
+    const stepDuration = 0.25; // segundos por nota
 
     for (let freq of frequencies) {
       const note = Tone.Frequency(freq).toNote();
@@ -627,19 +742,24 @@ function buildQuiz(k) {
 function buildDay(day, qk, dayIndex) {
   if (day.off) return `<div class="off-day">🌙 ${day.n} — dia livre</div>`;
 
-  const sesHtml = day.sess.map(s => `<div class="session">
+  const sesHtml = day.sess.map(s => {
+    // Verificar se consegue extrair notas dessa descrição
+    const hasNotes = extractNotesFromDescription(s[1]) !== null;
+
+    return `<div class="session">
     <div class="session-title">${s[0]}</div>
     <div class="session-desc">${s[1]}</div>
     <div class="session-page">📖 ${s[2]}</div>
-    <div class="audio-controls">
+    ${hasNotes ? `<div class="audio-controls">
       <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', false)">
         ▶️ Play
       </button>
       <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', true)">
         ↗️ Arpegio
       </button>
-    </div>
-  </div>`).join('');
+    </div>` : ''}
+  </div>`;
+  }).join('');
 
   // Verificar se este dia foi marcado como estudado
   const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex];
