@@ -12,6 +12,7 @@ CHORDS = {
     # ========== C MAJOR ==========
     'C Major - Forma C (barra 3ª)': {
         'filename': 'triade-C-forma-C.svg',
+        'start_fret': 3,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -23,6 +24,7 @@ CHORDS = {
     },
     'C Major - Forma A (5ª corda)': {
         'filename': 'triade-C-forma-A.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 3),
@@ -34,6 +36,7 @@ CHORDS = {
     },
     'C Major - Forma G (4ª corda)': {
         'filename': 'triade-C-forma-G.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 2),
@@ -45,6 +48,7 @@ CHORDS = {
     },
     'C Major - Forma E (6ª corda)': {
         'filename': 'triade-C-forma-E.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -56,6 +60,7 @@ CHORDS = {
     },
     'C Major - Forma D (barra 10ª)': {
         'filename': 'triade-C-forma-D.svg',
+        'start_fret': 10,
         'fingers': [
             (1, 0),
             (2, 'x'),
@@ -69,6 +74,7 @@ CHORDS = {
     # ========== C MINOR ==========
     'C Minor - Forma C (barra 3ª)': {
         'filename': 'triade-Cm-forma-C.svg',
+        'start_fret': 3,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -80,6 +86,7 @@ CHORDS = {
     },
     'C Minor - Forma A (5ª corda)': {
         'filename': 'triade-Cm-forma-A.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 3),
@@ -91,6 +98,7 @@ CHORDS = {
     },
     'C Minor - Forma G (4ª corda)': {
         'filename': 'triade-Cm-forma-G.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 2),
@@ -102,6 +110,7 @@ CHORDS = {
     },
     'C Minor - Forma E (6ª corda)': {
         'filename': 'triade-Cm-forma-E.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -113,6 +122,7 @@ CHORDS = {
     },
     'C Minor - Forma D (barra 10ª)': {
         'filename': 'triade-Cm-forma-D.svg',
+        'start_fret': 10,
         'fingers': [
             (1, 0),
             (2, 0),
@@ -126,6 +136,7 @@ CHORDS = {
     # ========== C AUGMENTED ==========
     'C Augmented - Forma C (barra 3ª)': {
         'filename': 'triade-Caug-forma-C.svg',
+        'start_fret': 3,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -137,6 +148,7 @@ CHORDS = {
     },
     'C Augmented - Forma A (5ª corda)': {
         'filename': 'triade-Caug-forma-A.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 3),
@@ -148,6 +160,7 @@ CHORDS = {
     },
     'C Augmented - Forma G (4ª corda)': {
         'filename': 'triade-Caug-forma-G.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 1),
             (2, 2),
@@ -159,6 +172,7 @@ CHORDS = {
     },
     'C Augmented - Forma E (6ª corda)': {
         'filename': 'triade-Caug-forma-E.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -170,6 +184,7 @@ CHORDS = {
     },
     'C Augmented - Forma D (barra 10ª)': {
         'filename': 'triade-Caug-forma-D.svg',
+        'start_fret': 10,
         'fingers': [
             (1, 0),
             (2, 0),
@@ -183,6 +198,7 @@ CHORDS = {
     # ========== C DIMINISHED ==========
     'C Diminished - Forma C (barra 3ª)': {
         'filename': 'triade-Cdim-forma-C.svg',
+        'start_fret': 3,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -194,6 +210,7 @@ CHORDS = {
     },
     'C Diminished - Forma A (5ª corda)': {
         'filename': 'triade-Cdim-forma-A.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 3),
@@ -205,6 +222,7 @@ CHORDS = {
     },
     'C Diminished - Forma G (4ª corda)': {
         'filename': 'triade-Cdim-forma-G.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 0),
             (2, 2),
@@ -216,6 +234,7 @@ CHORDS = {
     },
     'C Diminished - Forma E (6ª corda)': {
         'filename': 'triade-Cdim-forma-E.svg',
+        'start_fret': 0,
         'fingers': [
             (1, 'x'),
             (2, 'x'),
@@ -227,6 +246,7 @@ CHORDS = {
     },
     'C Diminished - Forma D (barra 10ª)': {
         'filename': 'triade-Cdim-forma-D.svg',
+        'start_fret': 10,
         'fingers': [
             (1, 0),
             (2, 0),
@@ -249,7 +269,7 @@ NUT_HEIGHT = 8
 HORIZONTAL_MODE = True  # Orientação horizontal (landscape)
 
 
-def create_chord_svg(chord_name, fingers):
+def create_chord_svg(chord_name, fingers, start_fret=0):
     """Cria um diagrama SVG de acorde em orientação horizontal (landscape)."""
     svg = f'''<svg width="{DIAGRAM_WIDTH}" height="{DIAGRAM_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
     <rect width="{DIAGRAM_WIDTH}" height="{DIAGRAM_HEIGHT}" fill="white"/>
@@ -277,8 +297,9 @@ def create_chord_svg(chord_name, fingers):
         x = START_X + NUT_HEIGHT + f * FRET_HEIGHT
         svg += f'    <line x1="{x}" y1="{START_Y}" x2="{x}" y2="{START_Y + STRING_SPACING * 5}" stroke="black" stroke-width="1"/>\n'
 
-        # Números dos trastes (embaixo)
-        svg += f'    <text x="{x}" y="{START_Y + STRING_SPACING * 5 + 20}" text-anchor="middle" font-size="12" fill="gray">{f}</text>\n'
+        # Números dos trastes (embaixo) - com offset baseado no start_fret
+        fret_number = start_fret + f - 1
+        svg += f'    <text x="{x}" y="{START_Y + STRING_SPACING * 5 + 20}" text-anchor="middle" font-size="12" fill="gray">{fret_number}</text>\n'
 
     svg += '''
     <!-- Posições dos dedos -->
@@ -317,7 +338,8 @@ def main():
 
     # Gerar cada acorde
     for chord_name, chord_data in CHORDS.items():
-        svg_content = create_chord_svg(chord_name, chord_data['fingers'])
+        start_fret = chord_data.get('start_fret', 0)
+        svg_content = create_chord_svg(chord_name, chord_data['fingers'], start_fret)
         output_file = output_dir / chord_data['filename']
 
         with open(output_file, 'w') as f:
