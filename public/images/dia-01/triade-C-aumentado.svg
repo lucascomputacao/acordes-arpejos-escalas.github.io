@@ -1,0 +1,41 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="400" fill="white"/>
+
+    <!-- Título -->
+    <text x="150.0" y="30" text-anchor="middle" font-size="16" font-weight="bold">C Augmented (Dó aumentado)</text>
+
+    <!-- Nut (capo) -->
+    <rect x="30" y="60" width="240.0" height="6" fill="black" stroke="black" stroke-width="2"/>
+
+    <!-- Cordas -->
+    <line x1="30.0" y1="60" x2="30.0" y2="336.0" stroke="black" stroke-width="2"/>
+    <line x1="78.0" y1="60" x2="78.0" y2="336.0" stroke="black" stroke-width="2"/>
+    <line x1="126.0" y1="60" x2="126.0" y2="336.0" stroke="black" stroke-width="2"/>
+    <line x1="174.0" y1="60" x2="174.0" y2="336.0" stroke="black" stroke-width="2"/>
+    <line x1="222.0" y1="60" x2="222.0" y2="336.0" stroke="black" stroke-width="2"/>
+    <line x1="270.0" y1="60" x2="270.0" y2="336.0" stroke="black" stroke-width="2"/>
+
+    <!-- Trastes horizontais -->
+    <line x1="30" y1="126" x2="270.0" y2="126" stroke="black" stroke-width="1"/>
+    <text x="10" y="156.0" text-anchor="end" font-size="12" fill="gray">1</text>
+    <line x1="30" y1="186" x2="270.0" y2="186" stroke="black" stroke-width="1"/>
+    <text x="10" y="216.0" text-anchor="end" font-size="12" fill="gray">2</text>
+    <line x1="30" y1="246" x2="270.0" y2="246" stroke="black" stroke-width="1"/>
+    <text x="10" y="276.0" text-anchor="end" font-size="12" fill="gray">3</text>
+    <line x1="30" y1="306" x2="270.0" y2="306" stroke="black" stroke-width="1"/>
+    <text x="10" y="336.0" text-anchor="end" font-size="12" fill="gray">4</text>
+
+    <!-- Posições dos dedos -->
+    <line x1="18.0" y1="40" x2="42.0" y2="52" stroke="black" stroke-width="2"/>
+    <line x1="42.0" y1="40" x2="18.0" y2="52" stroke="black" stroke-width="2"/>
+    <line x1="66.0" y1="40" x2="90.0" y2="52" stroke="black" stroke-width="2"/>
+    <line x1="90.0" y1="40" x2="66.0" y2="52" stroke="black" stroke-width="2"/>
+    <circle cx="126.0" cy="156.0" r="12" fill="#2196F3" stroke="black" stroke-width="2"/>
+    <text x="126.0" y="156.0" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="bold" fill="white">2</text>
+    <circle cx="174.0" cy="216.0" r="12" fill="#2196F3" stroke="black" stroke-width="2"/>
+    <text x="174.0" y="216.0" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="bold" fill="white">3</text>
+    <circle cx="222.0" cy="216.0" r="12" fill="#2196F3" stroke="black" stroke-width="2"/>
+    <text x="222.0" y="216.0" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="bold" fill="white">3</text>
+    <line x1="258.0" y1="40" x2="282.0" y2="52" stroke="black" stroke-width="2"/>
+    <line x1="282.0" y1="40" x2="258.0" y2="52" stroke="black" stroke-width="2"/>
+</svg>
