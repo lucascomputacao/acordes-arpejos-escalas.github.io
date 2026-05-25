@@ -285,6 +285,117 @@ const CHECKS = {
   }
 };
 
+// =============== PROGRESS TRACKING ===============
+// Armazena qual dias foram estudados por fase
+let studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
+
+// Inicializa o progresso carregando do localStorage
+function initializeProgress() {
+  const stored = localStorage.getItem('app_studentProgress');
+  if (stored) {
+    try {
+      studentProgress = JSON.parse(stored);
+    } catch (e) {
+      console.error('Erro ao carregar progresso:', e);
+      studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
+    }
+  }
+  // Garantir que cada fase tem um array com o tamanho correto
+  const phaseLengths = { f1: 15, f1b: 10, f2: 20, f3: 20, f4: 24 };
+  Object.keys(phaseLengths).forEach(phase => {
+    if (!Array.isArray(studentProgress[phase])) {
+      studentProgress[phase] = [];
+    }
+    // Preencher com false se necessário
+    while (studentProgress[phase].length < phaseLengths[phase]) {
+      studentProgress[phase].push(false);
+    }
+  });
+}
+
+// Salva um dia como estudado/não estudado
+function saveProgress(phase, dayIndex, completed) {
+  if (!studentProgress[phase]) studentProgress[phase] = [];
+  studentProgress[phase][dayIndex] = completed;
+  localStorage.setItem('app_studentProgress', JSON.stringify(studentProgress));
+  updateProgressBar();
+}
+
+// Marca um dia como completo/incompleto
+function markDayComplete(phase, dayIndex) {
+  const checkbox = document.getElementById(`complete-${phase}-${dayIndex}`);
+  if (checkbox) {
+    const isChecked = checkbox.checked;
+    saveProgress(phase, dayIndex, isChecked);
+  }
+}
+
+// Calcula estatísticas de progresso
+function getProgressStats() {
+  let total = 0, completed = 0;
+  Object.values(studentProgress).forEach(phaseProgress => {
+    phaseProgress.forEach(isDone => {
+      total++;
+      if (isDone) completed++;
+    });
+  });
+  return { completed, total, percentage: total > 0 ? Math.round((completed / total) * 100) : 0 };
+}
+
+// Atualiza a barra de progresso visual
+function updateProgressBar() {
+  const stats = getProgressStats();
+  const progressText = document.getElementById('progress-text');
+  const progressFill = document.getElementById('progress-bar-fill');
+
+  if (progressText) {
+    progressText.textContent = `${stats.completed} de ${stats.total} dias completados (${stats.percentage}%)`;
+  }
+
+  if (progressFill) {
+    progressFill.style.width = stats.percentage + '%';
+  }
+}
+
+// Exporta progresso como JSON
+function exportProgress() {
+  const data = JSON.stringify(studentProgress, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `progresso-estudos-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Importa progresso de JSON
+function importProgress(jsonData) {
+  try {
+    const imported = JSON.parse(jsonData);
+    studentProgress = imported;
+    localStorage.setItem('app_studentProgress', JSON.stringify(studentProgress));
+    location.reload(); // Recarregar página para atualizar checkboxes
+  } catch (e) {
+    alert('Erro ao importar: JSON inválido');
+    console.error(e);
+  }
+}
+
+// Limpa todo o progresso
+function clearProgress() {
+  if (confirm('Tem certeza? Isso vai apagar todo o progresso.')) {
+    studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
+    const phaseLengths = { f1: 15, f1b: 10, f2: 20, f3: 20, f4: 24 };
+    Object.keys(phaseLengths).forEach(phase => {
+      studentProgress[phase] = new Array(phaseLengths[phase]).fill(false);
+    });
+    localStorage.removeItem('app_studentProgress');
+    location.reload();
+  }
+}
+// ===================================================
+
 let ans = {}, rev = {};
 
 function buildQuiz(k) {
@@ -332,7 +443,7 @@ function buildQuiz(k) {
   </div>`;
 }
 
-function buildDay(day, qk) {
+function buildDay(day, qk, dayIndex) {
   if (day.off) return `<div class="off-day">🌙 ${day.n} — dia livre</div>`;
 
   const sesHtml = day.sess.map(s => `<div class="session">
@@ -341,11 +452,24 @@ function buildDay(day, qk) {
     <div class="session-page">📖 ${s[2]}</div>
   </div>`).join('');
 
+  // Verificar se este dia foi marcado como estudado
+  const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex] ? 'checked' : '';
+
   return `<div class="card">
     <div class="card-header">
       <span class="card-title">${day.n}</span>
       <span class="badge ${day.b}">${day.bl}</span>
       <span class="time-badge">⏱ ${day.t}</span>
+      <div class="day-checkbox-wrap">
+        <input type="checkbox" class="day-complete"
+               id="complete-${qk}-${dayIndex}"
+               onchange="markDayComplete('${qk}', ${dayIndex})"
+               ${isDayComplete}
+               style="cursor: pointer; margin: 0;">
+        <label for="complete-${qk}-${dayIndex}" style="cursor: pointer; font-size: 11px; margin: 0 0 0 4px;">
+          Estudado
+        </label>
+      </div>
     </div>
     <div class="warmup">
       <div class="warmup-label">🔥 Aquecimento — 5 min</div>
@@ -363,7 +487,7 @@ function buildWeek(k) {
   div.innerHTML = `
     <h2 class="section-title">${w.label}</h2>
     <p class="section-sub" style="margin-bottom:1.5rem">${w.sub}</p>
-    ${w.days.map(d => buildDay(d, k)).join('')}
+    ${w.days.map((d, dayIndex) => buildDay(d, k, dayIndex)).join('')}
   `;
 }
 
@@ -474,7 +598,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Carrega progresso do localStorage
+  initializeProgress();
+
   // Inicializa as semanas e checklists
   ['f1', 'f1b', 'f2', 'f3', 'f4'].forEach(k => buildWeek(k));
   buildChecks();
+
+  // Atualiza barra de progresso
+  updateProgressBar();
 });

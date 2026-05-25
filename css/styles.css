@@ -626,6 +626,81 @@ body {
   font-weight: 500;
 }
 
+/* Progress Tracking */
+.progress-container {
+  background: linear-gradient(135deg, var(--blue50) 0%, var(--teal50) 100%);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border: 1px solid var(--blue200);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue800);
+}
+
+.progress-stat {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue600);
+}
+
+.progress-bar-wrap {
+  background: var(--blue100);
+  border-radius: var(--radius-sm);
+  height: 8px;
+  overflow: hidden;
+  border: 1px solid var(--blue200);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue600) 0%, var(--teal600) 100%);
+  transition: width 0.3s ease;
+  border-radius: var(--radius-sm);
+}
+
+/* Day Complete Checkbox */
+.day-checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--blue50);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--blue200);
+  font-size: 12px;
+  color: var(--blue700);
+}
+
+.day-complete {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--blue600);
+  flex-shrink: 0;
+}
+
+.day-complete:checked {
+  background-color: var(--blue600);
+  border-color: var(--blue600);
+}
+
+.day-checkbox-wrap label {
+  user-select: none;
+}
+
 /* Footer */
 footer {
   text-align: center;
