@@ -270,41 +270,41 @@ HORIZONTAL_MODE = True  # Orientação horizontal (landscape)
 
 
 def create_chord_svg(chord_name, fingers, start_fret=0):
-    """Cria um diagrama SVG de acorde em orientação horizontal (landscape)."""
+    """Cria um diagrama SVG de acorde em orientação vertical (cordas na vertical, trastes na horizontal)."""
     svg = f'''<svg width="{DIAGRAM_WIDTH}" height="{DIAGRAM_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
     <rect width="{DIAGRAM_WIDTH}" height="{DIAGRAM_HEIGHT}" fill="white"/>
 
     <!-- Título -->
     <text x="20" y="20" text-anchor="start" font-size="14" font-weight="bold">{chord_name}</text>
 
-    <!-- Nut (capo) - linha vertical no topo -->
-    <rect x="{START_X}" y="{START_Y}" width="{NUT_HEIGHT}" height="{STRING_SPACING * 5}" fill="black" stroke="black" stroke-width="2"/>
+    <!-- Nut (capo) - linha horizontal no topo -->
+    <rect x="{START_X}" y="{START_Y}" width="{STRING_SPACING * 5}" height="{NUT_HEIGHT}" fill="black" stroke="black" stroke-width="2"/>
 
-    <!-- Cordas (linhas horizontais) -->
+    <!-- Cordas (linhas verticais) -->
 '''
 
-    # Desenhar cordas horizontais (da esquerda para direita)
+    # Desenhar cordas verticais (de cima para baixo)
     for i in range(6):
-        y = START_Y + i * STRING_SPACING
-        svg += f'    <line x1="{START_X}" y1="{y}" x2="{START_X + NUT_HEIGHT + FRET_HEIGHT * (FRET_COUNT + 0.5)}" y2="{y}" stroke="black" stroke-width="2"/>\n'
+        x = START_X + i * STRING_SPACING
+        svg += f'    <line x1="{x}" y1="{START_Y}" x2="{x}" y2="{START_Y + NUT_HEIGHT + FRET_HEIGHT * (FRET_COUNT + 0.5)}" stroke="black" stroke-width="2"/>\n'
 
     svg += '''
-    <!-- Trastes (linhas verticais) -->
+    <!-- Trastes (linhas horizontais) -->
 '''
 
     # Desenhar trastes
     for f in range(1, FRET_COUNT + 1):
-        x = START_X + NUT_HEIGHT + f * FRET_HEIGHT
-        svg += f'    <line x1="{x}" y1="{START_Y}" x2="{x}" y2="{START_Y + STRING_SPACING * 5}" stroke="black" stroke-width="1"/>\n'
+        y = START_Y + NUT_HEIGHT + f * FRET_HEIGHT
+        svg += f'    <line x1="{START_X}" y1="{y}" x2="{START_X + STRING_SPACING * 5}" y2="{y}" stroke="black" stroke-width="1"/>\n'
 
     # Adicionar números das casas na parte inferior, centrados no meio de cada casa
     for f in range(1, FRET_COUNT + 1):
         # Número da casa (começa no start_fret)
         fret_number = start_fret + f - 1
         # Posição X no meio da casa (entre o traste anterior e o atual)
-        x = START_X + NUT_HEIGHT + (f - 0.5) * FRET_HEIGHT
+        x = START_X + (f - 0.5) * FRET_HEIGHT
         # Posição Y na parte inferior (embaixo do diagrama)
-        y = START_Y + STRING_SPACING * 5 + 20
+        y = START_Y + NUT_HEIGHT + FRET_HEIGHT * (FRET_COUNT + 0.5) + 20
         svg += f'    <text x="{x}" y="{y}" text-anchor="middle" font-size="12" fill="gray">{fret_number}</text>\n'
 
     svg += '''
@@ -327,26 +327,26 @@ def create_chord_svg(chord_name, fingers, start_fret=0):
             min_string = sorted_strings[0]
             max_string = sorted_strings[-1]
 
-            y_min = START_Y + (min_string - 1) * STRING_SPACING
-            y_max = START_Y + (max_string - 1) * STRING_SPACING
-            x = START_X + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
+            x_min = START_X + (min_string - 1) * STRING_SPACING
+            x_max = START_X + (max_string - 1) * STRING_SPACING
+            y = START_Y + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
 
             # Desenhar barra preta contínua
-            svg += f'    <line x1="{x}" y1="{y_min}" x2="{x}" y2="{y_max}" stroke="black" stroke-width="12" stroke-linecap="round"/>\n'
+            svg += f'    <line x1="{x_min}" y1="{y}" x2="{x_max}" y2="{y}" stroke="black" stroke-width="12" stroke-linecap="round"/>\n'
 
     # Depois, adicionar marcadores individuais (para cordas soltas, mudas, ou notas isoladas)
     for string_num, fret in fingers:
         string_index = string_num - 1
-        y = START_Y + string_index * STRING_SPACING
+        x = START_X + string_index * STRING_SPACING
 
         if fret == 'x':
-            # X para corda mutada (no topo-esquerda)
+            # X para corda mutada (no topo)
             size = 8
-            svg += f'    <line x1="{START_X - 15}" y1="{y - size}" x2="{START_X - 5}" y2="{y + size}" stroke="black" stroke-width="2"/>\n'
-            svg += f'    <line x1="{START_X - 5}" y1="{y - size}" x2="{START_X - 15}" y2="{y + size}" stroke="black" stroke-width="2"/>\n'
+            svg += f'    <line x1="{x - size}" y1="{START_Y - 15}" x2="{x + size}" y2="{START_Y - 5}" stroke="black" stroke-width="2"/>\n'
+            svg += f'    <line x1="{x + size}" y1="{START_Y - 15}" x2="{x - size}" y2="{START_Y - 5}" stroke="black" stroke-width="2"/>\n'
         elif fret == 0 or fret == '0':
-            # O para corda aberta (no topo-esquerda)
-            svg += f'    <circle cx="{START_X - 10}" cy="{y}" r="6" fill="none" stroke="black" stroke-width="2"/>\n'
+            # O para corda aberta (no topo)
+            svg += f'    <circle cx="{x}" cy="{START_Y - 10}" r="6" fill="none" stroke="black" stroke-width="2"/>\n'
         else:
             # Para notas individuais (não parte de uma barra), desenhar círculo
             # Se faz parte de uma barra, não desenhar círculo (a barra já representa)
@@ -355,7 +355,7 @@ def create_chord_svg(chord_name, fingers, start_fret=0):
                 pass
             else:
                 # Nota isolada, desenhar círculo
-                x = START_X + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
+                y = START_Y + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
                 svg += f'    <circle cx="{x}" cy="{y}" r="10" fill="black" stroke="black" stroke-width="2"/>\n'
 
     svg += '</svg>'

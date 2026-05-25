@@ -4,35 +4,35 @@
     <!-- Título -->
     <text x="20" y="20" text-anchor="start" font-size="14" font-weight="bold">C Minor - Forma G (4ª corda)</text>
 
-    <!-- Nut (capo) - linha vertical no topo -->
-    <rect x="25" y="50" width="8" height="210.0" fill="black" stroke="black" stroke-width="2"/>
+    <!-- Nut (capo) - linha horizontal no topo -->
+    <rect x="25" y="50" width="210.0" height="8" fill="black" stroke="black" stroke-width="2"/>
 
-    <!-- Cordas (linhas horizontais) -->
-    <line x1="25" y1="50.0" x2="348.0" y2="50.0" stroke="black" stroke-width="2"/>
-    <line x1="25" y1="92.0" x2="348.0" y2="92.0" stroke="black" stroke-width="2"/>
-    <line x1="25" y1="134.0" x2="348.0" y2="134.0" stroke="black" stroke-width="2"/>
-    <line x1="25" y1="176.0" x2="348.0" y2="176.0" stroke="black" stroke-width="2"/>
-    <line x1="25" y1="218.0" x2="348.0" y2="218.0" stroke="black" stroke-width="2"/>
-    <line x1="25" y1="260.0" x2="348.0" y2="260.0" stroke="black" stroke-width="2"/>
+    <!-- Cordas (linhas verticais) -->
+    <line x1="25.0" y1="50" x2="25.0" y2="373.0" stroke="black" stroke-width="2"/>
+    <line x1="67.0" y1="50" x2="67.0" y2="373.0" stroke="black" stroke-width="2"/>
+    <line x1="109.0" y1="50" x2="109.0" y2="373.0" stroke="black" stroke-width="2"/>
+    <line x1="151.0" y1="50" x2="151.0" y2="373.0" stroke="black" stroke-width="2"/>
+    <line x1="193.0" y1="50" x2="193.0" y2="373.0" stroke="black" stroke-width="2"/>
+    <line x1="235.0" y1="50" x2="235.0" y2="373.0" stroke="black" stroke-width="2"/>
 
-    <!-- Trastes (linhas verticais) -->
-    <line x1="103" y1="50" x2="103" y2="260.0" stroke="black" stroke-width="1"/>
-    <line x1="173" y1="50" x2="173" y2="260.0" stroke="black" stroke-width="1"/>
-    <line x1="243" y1="50" x2="243" y2="260.0" stroke="black" stroke-width="1"/>
-    <line x1="313" y1="50" x2="313" y2="260.0" stroke="black" stroke-width="1"/>
-    <text x="68.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">0</text>
-    <text x="138.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">1</text>
-    <text x="208.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">2</text>
-    <text x="278.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">3</text>
+    <!-- Trastes (linhas horizontais) -->
+    <line x1="25" y1="128" x2="235.0" y2="128" stroke="black" stroke-width="1"/>
+    <line x1="25" y1="198" x2="235.0" y2="198" stroke="black" stroke-width="1"/>
+    <line x1="25" y1="268" x2="235.0" y2="268" stroke="black" stroke-width="1"/>
+    <line x1="25" y1="338" x2="235.0" y2="338" stroke="black" stroke-width="1"/>
+    <text x="60.0" y="393.0" text-anchor="middle" font-size="12" fill="gray">0</text>
+    <text x="130.0" y="393.0" text-anchor="middle" font-size="12" fill="gray">1</text>
+    <text x="200.0" y="393.0" text-anchor="middle" font-size="12" fill="gray">2</text>
+    <text x="270.0" y="393.0" text-anchor="middle" font-size="12" fill="gray">3</text>
 
     <!-- Posições dos dedos -->
-    <circle cx="15" cy="50.0" r="6" fill="none" stroke="black" stroke-width="2"/>
-    <circle cx="138.0" cy="92.0" r="10" fill="black" stroke="black" stroke-width="2"/>
-    <circle cx="15" cy="134.0" r="6" fill="none" stroke="black" stroke-width="2"/>
-    <line x1="10" y1="168.0" x2="20" y2="184.0" stroke="black" stroke-width="2"/>
-    <line x1="20" y1="168.0" x2="10" y2="184.0" stroke="black" stroke-width="2"/>
-    <line x1="10" y1="210.0" x2="20" y2="226.0" stroke="black" stroke-width="2"/>
-    <line x1="20" y1="210.0" x2="10" y2="226.0" stroke="black" stroke-width="2"/>
-    <line x1="10" y1="252.0" x2="20" y2="268.0" stroke="black" stroke-width="2"/>
-    <line x1="20" y1="252.0" x2="10" y2="268.0" stroke="black" stroke-width="2"/>
+    <circle cx="25.0" cy="40" r="6" fill="none" stroke="black" stroke-width="2"/>
+    <circle cx="67.0" cy="163.0" r="10" fill="black" stroke="black" stroke-width="2"/>
+    <circle cx="109.0" cy="40" r="6" fill="none" stroke="black" stroke-width="2"/>
+    <line x1="143.0" y1="35" x2="159.0" y2="45" stroke="black" stroke-width="2"/>
+    <line x1="159.0" y1="35" x2="143.0" y2="45" stroke="black" stroke-width="2"/>
+    <line x1="185.0" y1="35" x2="201.0" y2="45" stroke="black" stroke-width="2"/>
+    <line x1="201.0" y1="35" x2="185.0" y2="45" stroke="black" stroke-width="2"/>
+    <line x1="227.0" y1="35" x2="243.0" y2="45" stroke="black" stroke-width="2"/>
+    <line x1="243.0" y1="35" x2="227.0" y2="45" stroke="black" stroke-width="2"/>
 </svg>
