@@ -734,6 +734,54 @@ body {
   cursor: not-allowed;
 }
 
+/* Examples Grid for Chord Diagrams */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+}
+
+.example-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  text-align: center;
+}
+
+.example-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.example-img {
+  width: 100%;
+  max-width: 120px;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  padding: 4px;
+}
+
+@media (max-width: 600px) {
+  .examples-grid {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 8px;
+  }
+
+  .example-img {
+    max-width: 90px;
+  }
+}
+
 /* Footer */
 footer {
   text-align: center;

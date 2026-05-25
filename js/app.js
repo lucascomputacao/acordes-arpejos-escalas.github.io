@@ -14,19 +14,38 @@ const WEEKS = {
           ['Inversões de tríades maiores', 'Fundamental no baixo, 3ª no baixo, 5ª no baixo. Como identificar e tocar', 'p.16-17'],
           ['Digitações em cordas adjacentes', 'Formas nas cordas 6-5-4, 5-4-3, 4-3-2, 3-2-1', 'p.18']
         ],
+        exemplos: [
+          {
+            sessionIndex: 0,
+            items: [
+              { label: 'C Maior - Posição I', img: '/images/dia-01/cmaj-pos1.png', notes: 'C-E-G' },
+              { label: 'D Maior - Posição I', img: '/images/dia-01/dmaj-pos1.png', notes: 'D-F#-A' },
+              { label: 'E Maior - Posição I', img: '/images/dia-01/emaj-pos1.png', notes: 'E-G#-B' },
+              { label: 'F Maior - Posição I', img: '/images/dia-01/fmaj-pos1.png', notes: 'F-A-C' },
+              { label: 'G Maior - Posição I', img: '/images/dia-01/gmaj-pos1.png', notes: 'G-B-D' }
+            ]
+          },
+          {
+            sessionIndex: 1,
+            items: [
+              { label: 'C Maior - 1ª Inversão', img: '/images/dia-01/cmaj-inv1.png', notes: 'E-G-C' },
+              { label: 'C Maior - 2ª Inversão', img: '/images/dia-01/cmaj-inv2.png', notes: 'G-C-E' }
+            ]
+          }
+        ],
         tip: 'Use um diapasão em branco para marcar as notas de cada tríade. Enxergue o "triângulo" do acorde no braço.'
       },
-      { n: 'Dia 2', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Sequência I-IV-V em C maior com tríades apenas (C-F-G)', sess: [['Tríades menores', 'Diferença pro maior: 3ª menor (♭3). Fórmula: 1-♭3-5', 'p.19-20'], ['Inversões de tríades menores', 'Mesma lógica das maiores: fundamental, 1ª inversão, 2ª inversão', 'p.20-21'], ['Ditado de tríades', 'Ouça acordes de músicas conhecidas e identifique maior ou menor', 'p.22']], tip: 'Ouça sons de violão ou piano tocando tríades. Tente identificar de ouvido se é maior ou menor antes de ver a cifra.' },
-      { n: 'Dia 3', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Toque as 3 inversões de C, Dm, Em, F, G, Am em sequência', sess: [['Tríades diminutas e aumentadas', 'Diminuta: 1-♭3-♭5. Aumentada: 1-3-♯5', 'p.23-24'], ['Campo harmônico em tríades', 'Construir as tríades dos 7 graus da escala maior', 'p.25-26'], ['Progressões diatônicas', 'I-vi-IV-V, I-IV-V, ii-V-I em tríades', 'p.27']], tip: 'Decore o padrão do campo harmônico maior: M m m M M m dim. Você vai usar isso pra sempre.' },
-      { n: 'Dia 4', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Campo harmônico de C maior em tríades, todas as inversões, subindo o braço', sess: [['Encadeamentos de inversões', 'Movimentação suave entre acordes usando inversões', 'p.28-29'], ['Prática: progressão em todas as tonalidades', 'I-IV-V em C, G, D, A, E, F, B♭', 'p.30'], ['Análise de música real', 'Pegue uma música simples e identifique as tríades', 'p.31']], tip: 'Escolha uma música que você goste e que tenha poucos acordes. Tente tocar só com tríades e inversões.' },
-      { n: 'Dia 5', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Revisão livre: toque tríades em diferentes regiões do braço sem olhar cifras', sess: [['Consolidação das inversões', 'Refazer todos os exemplos das páginas anteriores sem consultar', 'p.14-31'], ['Teste de prontidão', 'Consegue tocar qualquer tríade em qualquer inversão sem pensar?', 'p.31'], ['Preparação para tétrades', 'Compreender que vamos adicionar a 7ª agora', 'p.32']], tip: 'Se não conseguir tocar de cor, volte atrás. Melhor consolidar pouco do que avançar com lacunas.', quiz: true },
+      { n: 'Dia 2', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Sequência I-IV-V em C maior com tríades apenas (C-F-G)', sess: [['Tríades menores', 'Diferença pro maior: 3ª menor (♭3). Fórmula: 1-♭3-5', 'p.19-20'], ['Inversões de tríades menores', 'Mesma lógica das maiores: fundamental, 1ª inversão, 2ª inversão', 'p.20-21'], ['Ditado de tríades', 'Ouça acordes de músicas conhecidas e identifique maior ou menor', 'p.22']], exemplos: [{ sessionIndex: 0, items: [{ label: 'D Menor - Posição I', img: '/images/dia-02/dm-pos1.png', notes: 'D-F-A' }, { label: 'E Menor - Posição I', img: '/images/dia-02/em-pos1.png', notes: 'E-G-B' }, { label: 'A Menor - Posição I', img: '/images/dia-02/am-pos1.png', notes: 'A-C-E' }] }, { sessionIndex: 1, items: [{ label: 'D Menor - 1ª Inversão', img: '/images/dia-02/dm-inv1.png', notes: 'F-A-D' }, { label: 'D Menor - 2ª Inversão', img: '/images/dia-02/dm-inv2.png', notes: 'A-D-F' }] }], tip: 'Ouça sons de violão ou piano tocando tríades. Tente identificar de ouvido se é maior ou menor antes de ver a cifra.' },
+      { n: 'Dia 3', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Toque as 3 inversões de C, Dm, Em, F, G, Am em sequência', sess: [['Tríades diminutas e aumentadas', 'Diminuta: 1-♭3-♭5. Aumentada: 1-3-♯5', 'p.23-24'], ['Campo harmônico em tríades', 'Construir as tríades dos 7 graus da escala maior', 'p.25-26'], ['Progressões diatônicas', 'I-vi-IV-V, I-IV-V, ii-V-I em tríades', 'p.27']], exemplos: [{ sessionIndex: 0, items: [{ label: 'B Diminuto - Posição I', img: '/images/dia-03/bdim-pos1.png', notes: 'B-D-F' }] }, { sessionIndex: 1, items: [{ label: 'Campo C Maior - I-IV-V', img: '/images/dia-03/campo-c.png', notes: 'C-F-G' }] }], tip: 'Decore o padrão do campo harmônico maior: M m m M M m dim. Você vai usar isso pra sempre.' },
+      { n: 'Dia 4', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Campo harmônico de C maior em tríades, todas as inversões, subindo o braço', sess: [['Encadeamentos de inversões', 'Movimentação suave entre acordes usando inversões', 'p.28-29'], ['Prática: progressão em todas as tonalidades', 'I-IV-V em C, G, D, A, E, F, B♭', 'p.30'], ['Análise de música real', 'Pegue uma música simples e identifique as tríades', 'p.31']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Encadeamento C → F', img: '/images/dia-04/enc-cf.png', notes: 'C-F' }] }], tip: 'Escolha uma música que você goste e que tenha poucos acordes. Tente tocar só com tríades e inversões.' },
+      { n: 'Dia 5', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Revisão livre: toque tríades em diferentes regiões do braço sem olhar cifras', sess: [['Consolidação das inversões', 'Refazer todos os exemplos das páginas anteriores sem consultar', 'p.14-31'], ['Teste de prontidão', 'Consegue tocar qualquer tríade em qualquer inversão sem pensar?', 'p.31'], ['Preparação para tétrades', 'Compreender que vamos adicionar a 7ª agora', 'p.32']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Consolidação - Tríade C', img: '/images/dia-05/consol-c.png', notes: 'C-E-G' }] }], tip: 'Se não conseguir tocar de cor, volte atrás. Melhor consolidar pouco do que avançar com lacunas.', quiz: true },
       { n: 'Sábado', off: true },
       { n: 'Domingo', off: true },
-      { n: 'Dia 6', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Tríades + agora adicionar a 7ª maior em cima (CEG → CEGB)', sess: [['Tétrade maior com 7ª maior (Cmaj7)', 'Fórmula: 1-3-5-7. Som característico, estável', 'p.33-34'], ['Inversões de tétrades', 'Fundamental, 1ª, 2ª, 3ª inversão. Baixo define a inversão', 'p.35-36'], ['Digitações comuns', 'Formas fechadas e abertas de maj7', 'p.37']], tip: 'A 7ª maior "flutua". Você vai ouvir isso em bossa nova o tempo todo.' },
-      { n: 'Dia 7', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Sequência Cmaj7-Dm7-G7-Cmaj7 em loop, explorando inversões', sess: [['Acorde dominante (G7)', 'Fórmula: 1-3-5-♭7. Função: tenso, quer resolver', 'p.38-39'], ['Acorde menor com 7ª menor (Dm7)', 'Fórmula: 1-♭3-5-♭7. Som suave, contexto de ii-V-I', 'p.40-41'], ['Acorde meio-diminuto (Bm7♭5)', 'Fórmula: 1-♭3-♭5-♭7. Aparece no 7º grau do campo harmônico maior', 'p.42']], tip: 'Decore: Imaj7 - iim7 - iiim7 - IVmaj7 - V7 - vim7 - viim7♭5. É o campo harmônico que rege o jazz e a MPB.' },
-      { n: 'Dia 8', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Todas as tétrades do campo harmônico de C maior, 3 inversões cada', sess: [['Cifragem moderna', 'Entender C7, Cmaj7, Cm7, CmM7, C7M, Cdim7, C°, C+', 'p.43-44'], ['Símbolos e abreviações', 'Diferença entre C7 e Cmaj7. Atenção aos símbolos: Δ, -, °, ø', 'p.45'], ['Exercício de leitura', 'Ler progressões cifradas e identificar a qualidade de cada acorde', 'p.46']], tip: 'Confundir C7 com Cmaj7 é o erro clássico. Um tem ♭7, o outro tem 7 natural. Grave isso.' },
-      { n: 'Dia 9', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Ditado harmônico: ouça uma progressão e escreva a cifra', sess: [['Progressões com tétrades', 'ii-V-I em várias tonalidades', 'p.47-48'], ['Substituições básicas', 'Trocar Imaj7 por iii-7, ou vi-7 por I6', 'p.49'], ['Repertório real', 'Analisar standards de jazz: Autumn Leaves, Blue Bossa', 'p.50']], tip: 'Toque os standards devagar, pensando na função harmônica de cada acorde.' },
-      { n: 'Dia 10', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Revisão: campo harmônico de 3 tonalidades com tétrades', sess: [['Consolidação geral', 'Refazer exercícios sem consultar. Testar prontidão', 'p.33-50'], ['Teste de reconhecimento', 'Ouvir e identificar tétrades sem ver', 'p.51'], ['Transição para arpejos', 'Entender que vamos começar a tocar as notas separadas agora', 'p.52']], tip: 'Se você dominou até aqui, o restante do livro vai fluir. Se não, volte.', quiz: true }
+      { n: 'Dia 6', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Tríades + agora adicionar a 7ª maior em cima (CEG → CEGB)', sess: [['Tétrade maior com 7ª maior (Cmaj7)', 'Fórmula: 1-3-5-7. Som característico, estável', 'p.33-34'], ['Inversões de tétrades', 'Fundamental, 1ª, 2ª, 3ª inversão. Baixo define a inversão', 'p.35-36'], ['Digitações comuns', 'Formas fechadas e abertas de maj7', 'p.37']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Cmaj7 - Posição I', img: '/images/dia-06/cmaj7-pos1.png', notes: 'C-E-G-B' }] }, { sessionIndex: 1, items: [{ label: 'Cmaj7 - 1ª Inversão', img: '/images/dia-06/cmaj7-inv1.png', notes: 'E-G-B-C' }, { label: 'Cmaj7 - 2ª Inversão', img: '/images/dia-06/cmaj7-inv2.png', notes: 'G-B-C-E' }] }], tip: 'A 7ª maior "flutua". Você vai ouvir isso em bossa nova o tempo todo.' },
+      { n: 'Dia 7', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Sequência Cmaj7-Dm7-G7-Cmaj7 em loop, explorando inversões', sess: [['Acorde dominante (G7)', 'Fórmula: 1-3-5-♭7. Função: tenso, quer resolver', 'p.38-39'], ['Acorde menor com 7ª menor (Dm7)', 'Fórmula: 1-♭3-5-♭7. Som suave, contexto de ii-V-I', 'p.40-41'], ['Acorde meio-diminuto (Bm7♭5)', 'Fórmula: 1-♭3-♭5-♭7. Aparece no 7º grau do campo harmônico maior', 'p.42']], exemplos: [{ sessionIndex: 0, items: [{ label: 'G7 - Dominante', img: '/images/dia-07/g7-pos1.png', notes: 'G-B-D-F' }] }, { sessionIndex: 1, items: [{ label: 'Dm7 - Menor 7ª', img: '/images/dia-07/dm7-pos1.png', notes: 'D-F-A-C' }] }], tip: 'Decore: Imaj7 - iim7 - iiim7 - IVmaj7 - V7 - vim7 - viim7♭5. É o campo harmônico que rege o jazz e a MPB.' },
+      { n: 'Dia 8', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Todas as tétrades do campo harmônico de C maior, 3 inversões cada', sess: [['Cifragem moderna', 'Entender C7, Cmaj7, Cm7, CmM7, C7M, Cdim7, C°, C+', 'p.43-44'], ['Símbolos e abreviações', 'Diferença entre C7 e Cmaj7. Atenção aos símbolos: Δ, -, °, ø', 'p.45'], ['Exercício de leitura', 'Ler progressões cifradas e identificar a qualidade de cada acorde', 'p.46']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Comparação: Cmaj7 vs C7', img: '/images/dia-08/cmaj7-c7.png', notes: 'C-E-G-B e C-E-G-Bb' }] }], tip: 'Confundir C7 com Cmaj7 é o erro clássico. Um tem ♭7, o outro tem 7 natural. Grave isso.' },
+      { n: 'Dia 9', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Ditado harmônico: ouça uma progressão e escreva a cifra', sess: [['Progressões com tétrades', 'ii-V-I em várias tonalidades', 'p.47-48'], ['Substituições básicas', 'Trocar Imaj7 por iii-7, ou vi-7 por I6', 'p.49'], ['Repertório real', 'Analisar standards de jazz: Autumn Leaves, Blue Bossa', 'p.50']], exemplos: [{ sessionIndex: 0, items: [{ label: 'ii-V-I em C', img: '/images/dia-09/iivi.png', notes: 'Dm7-G7-Cmaj7' }] }], tip: 'Toque os standards devagar, pensando na função harmônica de cada acorde.' },
+      { n: 'Dia 10', b: 'ba', bl: 'Acordes', t: '35 min', warm: 'Revisão: campo harmônico de 3 tonalidades com tétrades', sess: [['Consolidação geral', 'Refazer exercícios sem consultar. Testar prontidão', 'p.33-50'], ['Teste de reconhecimento', 'Ouvir e identificar tétrades sem ver', 'p.51'], ['Transição para arpejos', 'Entender que vamos começar a tocar as notas separadas agora', 'p.52']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Consolidação - Campo C', img: '/images/dia-10/consolidacao.png', notes: 'C-Dm7-Em7-Fmaj7' }] }], tip: 'Se você dominou até aqui, o restante do livro vai fluir. Se não, volte.', quiz: true }
     ]
   },
   f1b: {
@@ -546,6 +565,30 @@ async function playNotesFromDescription(text, asArpeggio = false) {
   }
 }
 
+// Toca uma sequência de exemplo: arpegio → pausa 200ms → acorde
+async function playExampleSequence(notes) {
+  const frequencies = extractNotesFromDescription(notes);
+  if (!frequencies) return;
+
+  // Disable botões durante reprodução
+  const buttons = document.querySelectorAll('.audio-btn');
+  buttons.forEach(btn => btn.disabled = true);
+
+  try {
+    // 1. Toca arpegio (notas em sequência)
+    await playArpeggio(frequencies);
+
+    // 2. Pausa de 200ms
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    // 3. Toca acorde (notas simultâneas)
+    await playChordFull(frequencies);
+  } finally {
+    // Re-enable botões
+    buttons.forEach(btn => btn.disabled = false);
+  }
+}
+
 // =============== PROGRESS TRACKING ===============
 // Armazena qual dias foram estudados por fase
 let studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
@@ -742,14 +785,30 @@ function buildQuiz(k) {
 function buildDay(day, qk, dayIndex) {
   if (day.off) return `<div class="off-day">🌙 ${day.n} — dia livre</div>`;
 
-  const sesHtml = day.sess.map(s => {
+  const sesHtml = day.sess.map((s, sesIndex) => {
     // Verificar se consegue extrair notas dessa descrição
     const hasNotes = extractNotesFromDescription(s[1]) !== null;
+
+    // Buscar exemplos para esta sessão
+    const sesExemplos = day.exemplos?.find(ex => ex.sessionIndex === sesIndex)?.items || [];
+
+    const exemplosHtml = sesExemplos.length > 0 ? `
+      <div class="examples-grid">
+        ${sesExemplos.map(ex => `
+          <div class="example-item">
+            <div class="example-label">${ex.label}</div>
+            <img src="${ex.img}" alt="${ex.label}" class="example-img" onerror="this.style.display='none'">
+            <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
 
     return `<div class="session">
     <div class="session-title">${s[0]}</div>
     <div class="session-desc">${s[1]}</div>
     <div class="session-page">📖 ${s[2]}</div>
+    ${exemplosHtml}
     ${hasNotes ? `<div class="audio-controls">
       <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', false)">
         ▶️ Play
