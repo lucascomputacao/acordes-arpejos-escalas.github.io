@@ -396,6 +396,41 @@ function clearProgress() {
 }
 // ===================================================
 
+// =============== CHECKLIST PERSISTENCE ===============
+// Armazena quais itens dos checklists foram marcados
+let checklistProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
+
+// Inicializa o progresso dos checklists
+function initializeChecklists() {
+  const stored = localStorage.getItem('app_checklistProgress');
+  if (stored) {
+    try {
+      checklistProgress = JSON.parse(stored);
+    } catch (e) {
+      console.error('Erro ao carregar checklists:', e);
+      checklistProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
+    }
+  }
+  // Garantir que cada fase tem um array com o tamanho correto
+  const checklistLengths = { f1: 5, f1b: 5, f2: 5, f3: 5, f4: 5 };
+  Object.keys(checklistLengths).forEach(phase => {
+    if (!Array.isArray(checklistProgress[phase])) {
+      checklistProgress[phase] = [];
+    }
+    while (checklistProgress[phase].length < checklistLengths[phase]) {
+      checklistProgress[phase].push(false);
+    }
+  });
+}
+
+// Salva um item do checklist
+function saveChecklistItem(phase, itemIndex, completed) {
+  if (!checklistProgress[phase]) checklistProgress[phase] = [];
+  checklistProgress[phase][itemIndex] = completed;
+  localStorage.setItem('app_checklistProgress', JSON.stringify(checklistProgress));
+}
+// ======================================================
+
 let ans = {}, rev = {};
 
 function buildQuiz(k) {
@@ -496,29 +531,36 @@ function buildChecks() {
   div.innerHTML = `
     <h2 class="section-title">Checklists de prontidão</h2>
     <p class="section-sub">Marque cada item apenas quando conseguir fazer sem consultar o livro e sem errar.</p>
-    ${Object.entries(CHECKS).map(([k, ph]) => `
+    ${Object.entries(CHECKS).map(([k, ph]) => {
+      const itemsDone = checklistProgress[k] ? checklistProgress[k].filter(v => v).length : 0;
+      const total = ph.items.length;
+      return `
       <div class="card">
         <div class="card-header">
           <span class="card-title">${ph.label}</span>
           <span class="badge ${ph.badge}">Pronto para avançar quando...</span>
         </div>
-        <div>${ph.items.map((it, i) => `
+        <div>${ph.items.map((it, i) => {
+          const isDone = checklistProgress[k] && checklistProgress[k][i];
+          return `
           <div class="checklist-item">
-            <div class="chk" id="chk-${k}-${i}" onclick="toggleChk('${k}',${i})">✓</div>
+            <div class="chk ${isDone ? 'done' : ''}" id="chk-${k}-${i}" onclick="toggleChk('${k}',${i})">✓</div>
             <div>
               <div class="chk-text">${it[0]}</div>
               <div class="chk-desc">${it[1]}</div>
             </div>
-          </div>`).join('')}
+          </div>`;
+        }).join('')}
         </div>
         <div class="prog-wrap">
-          <div class="prog-bar"><div class="prog-fill" id="pbar-${k}"></div></div>
-          <span class="prog-cnt" id="pcnt-${k}">0 de ${ph.items.length}</span>
+          <div class="prog-bar"><div class="prog-fill" id="pbar-${k}" style="width: ${Math.round(itemsDone / total * 100)}%;"></div></div>
+          <span class="prog-cnt" id="pcnt-${k}">${itemsDone} de ${total}</span>
         </div>
         ${ph.warn ? `<div class="warn-box">${ph.warn}</div>` : ''}
-        <div class="ok-box" id="okbox-${k}">${ph.ok}</div>
+        <div class="ok-box" id="okbox-${k}" style="display: ${itemsDone >= (k === 'f4' ? total : total - 1) ? 'block' : 'none'};">${ph.ok}</div>
       </div>
-    `).join('')}
+    `;
+    }).join('')}
   `;
 }
 
@@ -561,6 +603,11 @@ function rst(k) {
 function toggleChk(ph, i) {
   const el = document.getElementById(`chk-${ph}-${i}`);
   el.classList.toggle('done');
+
+  // Salvar estado em localStorage
+  const isChecked = el.classList.contains('done');
+  saveChecklistItem(ph, i, isChecked);
+
   const total = CHECKS[ph].items.length;
   const done = CHECKS[ph].items.filter((_, j) => document.getElementById(`chk-${ph}-${j}`)?.classList.contains('done')).length;
   document.getElementById(`pbar-${ph}`).style.width = Math.round(done / total * 100) + '%';
@@ -600,6 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Carrega progresso do localStorage
   initializeProgress();
+  initializeChecklists();
 
   // Inicializa as semanas e checklists
   ['f1', 'f1b', 'f2', 'f3', 'f4'].forEach(k => buildWeek(k));
