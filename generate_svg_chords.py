@@ -306,6 +306,29 @@ def create_chord_svg(chord_name, fingers, start_fret=0):
 '''
 
     # Adicionar posições dos dedos
+    # Primeiro, detectar barras (múltiplas cordas no mesmo fret)
+    fret_groups = {}
+    for string_num, fret in fingers:
+        if fret not in ('x', 0, '0'):  # Apenas frets numerados
+            if fret not in fret_groups:
+                fret_groups[fret] = []
+            fret_groups[fret].append(string_num)
+
+    # Desenhar barras (linhas contínuas quando múltiplas cordas no mesmo fret)
+    for fret, string_nums in fret_groups.items():
+        if len(string_nums) > 1:  # Barra (pestana)
+            sorted_strings = sorted(string_nums)
+            min_string = sorted_strings[0]
+            max_string = sorted_strings[-1]
+
+            y_min = START_Y + (min_string - 1) * STRING_SPACING
+            y_max = START_Y + (max_string - 1) * STRING_SPACING
+            x = START_X + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
+
+            # Desenhar barra preta contínua
+            svg += f'    <line x1="{x}" y1="{y_min}" x2="{x}" y2="{y_max}" stroke="black" stroke-width="12" stroke-linecap="round"/>\n'
+
+    # Depois, adicionar marcadores individuais (para cordas soltas, mudas, ou notas isoladas)
     for string_num, fret in fingers:
         string_index = string_num - 1
         y = START_Y + string_index * STRING_SPACING
@@ -319,9 +342,15 @@ def create_chord_svg(chord_name, fingers, start_fret=0):
             # O para corda aberta (no topo-esquerda)
             svg += f'    <circle cx="{START_X - 10}" cy="{y}" r="6" fill="none" stroke="black" stroke-width="2"/>\n'
         else:
-            # Ponto para posição do dedo
-            x = START_X + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
-            svg += f'    <circle cx="{x}" cy="{y}" r="10" fill="black" stroke="black" stroke-width="2"/>\n'
+            # Para notas individuais (não parte de uma barra), desenhar círculo
+            # Se faz parte de uma barra, não desenhar círculo (a barra já representa)
+            if fret in fret_groups and len(fret_groups[fret]) > 1:
+                # Parte de uma barra, não desenhar círculo
+                pass
+            else:
+                # Nota isolada, desenhar círculo
+                x = START_X + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
+                svg += f'    <circle cx="{x}" cy="{y}" r="10" fill="black" stroke="black" stroke-width="2"/>\n'
 
     svg += '</svg>'
     return svg
