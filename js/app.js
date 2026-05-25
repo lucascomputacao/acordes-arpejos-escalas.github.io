@@ -295,13 +295,10 @@ function initializeProgress() {
   if (stored) {
     try {
       studentProgress = JSON.parse(stored);
-      console.log('✅ Progresso carregado do localStorage:', studentProgress);
     } catch (e) {
-      console.error('❌ Erro ao carregar progresso:', e);
+      console.error('Erro ao carregar progresso:', e);
       studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
     }
-  } else {
-    console.log('ℹ️ Nenhum progresso anterior encontrado');
   }
   // Garantir que cada fase tem um array com o tamanho correto
   const phaseLengths = { f1: 15, f1b: 10, f2: 20, f3: 20, f4: 24 };
@@ -314,7 +311,6 @@ function initializeProgress() {
       studentProgress[phase].push(false);
     }
   });
-  console.log('📊 Progresso após inicialização:', studentProgress);
 }
 
 // Salva um dia como estudado/não estudado
@@ -458,9 +454,6 @@ function buildDay(day, qk, dayIndex) {
 
   // Verificar se este dia foi marcado como estudado
   const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex];
-  if (dayIndex < 3 || dayIndex > 12) { // Log apenas alguns dias para evitar spam
-    console.log(`[${qk}] Dia ${dayIndex}: isDayComplete=${isDayComplete}, value=${studentProgress[qk]?.[dayIndex]}`);
-  }
 
   return `<div class="card">
     <div class="card-header">
