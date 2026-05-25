@@ -1052,7 +1052,7 @@ function navigateToDay(dayNum) {
         // Encontrou o dia! Navega para a fase e rola para o dia
         showTab(phaseKey);
         setTimeout(() => {
-          const dayId = day.n.toLowerCase().replace(/\s+/g, '-');
+          const dayId = 'day-' + day.n.toLowerCase().replace(/\s+/g, '-');
           const dayCard = document.getElementById(dayId);
           if (dayCard) {
             dayCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
