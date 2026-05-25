@@ -10,8 +10,7 @@ const WEEKS = {
         t: '45 min',
         warm: 'Cromática nas 4 primeiras cordas + tríade maior C-D-E-F-G em posições vizinhas',
         sess: [
-          ['Tríades', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15'],
-          ['Inversões de tríades maiores', 'Fundamental no baixo, 3ª no baixo, 5ª no baixo. Como identificar e tocar', 'p.16-17']
+          ['Tríades', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15']
         ],
         exemplos: [{ sessionIndex: 0, items: [{ label: 'C (Dó maior)', img: './public/images/dia-01/triade-C.png', notes: 'C-E-G' }, { label: 'Cm (Dó menor)', img: './public/images/dia-01/triade-C-menor.png', notes: 'C-Eb-G' }, { label: 'C#5 (Dó aumentado)', img: './public/images/dia-01/triade-C-aumentado.png', notes: 'C-E-G#' }, { label: 'Cº (Dó diminuto)', img: './public/images/dia-01/triade-C-diminuto.png', notes: 'C-Eb-Gb' }] }],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
