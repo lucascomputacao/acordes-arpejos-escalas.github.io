@@ -814,7 +814,7 @@ function buildDay(day, qk, dayIndex) {
     <div class="session-desc">${s[1]}</div>
     <div class="session-page">📖 ${s[2]}</div>
     ${exemplosHtml}
-    ${hasNotes ? `<div class="audio-controls">
+    ${hasNotes && sesExemplosFormacoes.length === 0 ? `<div class="audio-controls">
       <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', false)">
         ▶️ Play
       </button>
