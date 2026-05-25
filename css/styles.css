@@ -749,22 +749,23 @@ body {
 
 .examples-grid {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 12px;
-  padding: 8px;
+  padding: 12px;
   background: var(--surface2);
   border-radius: var(--radius-sm);
+  justify-content: flex-start;
 }
 
 .example-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
   text-align: center;
-  flex-shrink: 0;
-  min-width: 105px;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .example-label {
@@ -794,21 +795,23 @@ body {
 
 @media (max-width: 600px) {
   .examples-grid {
-    gap: 6px;
-    padding: 6px;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
   }
 
   .example-item {
-    min-width: 110px;
+    flex: 0 1 auto;
+    width: 100%;
   }
 
   .example-img {
-    width: 110px;
-    height: 110px;
+    width: 140px;
+    height: 140px;
   }
 
   .example-label {
-    font-size: 8px;
+    font-size: 10px;
   }
 }
 
