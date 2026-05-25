@@ -987,6 +987,27 @@ function showTab(id) {
   }
 }
 
+// Inicializar contexto de áudio do Tone.js (necessário para mobile)
+let audioContextInitialized = false;
+
+async function initializeAudioContext() {
+  if (audioContextInitialized) return;
+
+  try {
+    if (Tone.context.state === 'suspended') {
+      await Tone.start();
+    }
+    audioContextInitialized = true;
+    console.log('✓ Audio context initialized');
+  } catch (e) {
+    console.warn('Could not initialize audio context:', e);
+  }
+}
+
+// Iniciar áudio ao primeiro clique/toque
+document.addEventListener('click', initializeAudioContext, { once: true });
+document.addEventListener('touchstart', initializeAudioContext, { once: true });
+
 // Event listeners para as abas
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.tab').forEach(tab => {
