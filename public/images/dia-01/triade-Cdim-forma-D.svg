@@ -20,10 +20,10 @@
     <line x1="173" y1="50" x2="173" y2="260.0" stroke="black" stroke-width="1"/>
     <line x1="243" y1="50" x2="243" y2="260.0" stroke="black" stroke-width="1"/>
     <line x1="313" y1="50" x2="313" y2="260.0" stroke="black" stroke-width="1"/>
-    <text x="68.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">10</text>
-    <text x="138.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">11</text>
-    <text x="208.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">12</text>
-    <text x="278.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">13</text>
+    <text x="68.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">10</text>
+    <text x="138.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">11</text>
+    <text x="208.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">12</text>
+    <text x="278.0" y="280.0" text-anchor="middle" font-size="12" fill="gray">13</text>
 
     <!-- Posições dos dedos -->
     <line x1="68.0" y1="50.0" x2="68.0" y2="134.0" stroke="black" stroke-width="12" stroke-linecap="round"/>
