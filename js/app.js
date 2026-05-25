@@ -474,28 +474,42 @@ async function playChordFull(frequencies) {
   if (!frequencies || frequencies.length === 0) return;
 
   try {
-    // Timbre de guitarra: sawtooth com filtro + envelope realista
+    // Timbre de guitarra melhorado: sawtooth + efeitos de corpo
     const synth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'sawtooth' },
       envelope: {
-        attack: 0.008,    // Very quick attack (plectrum strike)
-        decay: 0.05,      // Quick decay to sustain
-        sustain: 0.35,    // Low sustain (guitar decay)
-        release: 0.8      // Long release (string resonance)
+        attack: 0.012,    // Quick plectrum strike
+        decay: 0.1,       // Decay to sustain
+        sustain: 0.25,    // Moderate sustain (natural guitar decay)
+        release: 1.2      // Long release for natural resonance
       }
-    }).toDestination();
+    });
 
-    // Aplicar filtro para suavizar o sawtooth (simular corpo da guitarra)
+    // Chain de efeitos para simular guitarra acústica
     const filter = new Tone.Filter({
       frequency: 2000,
-      type: 'lowpass'
+      type: 'lowpass',
+      rolloff: -24       // Steeper rolloff for more natural body
     });
+
+    const reverb = new Tone.Reverb({
+      decay: 2.5,        // Room resonance
+      preDelay: 0.01
+    }).toDestination();
+
+    const delay = new Tone.Delay({
+      time: 0.05,        // 50ms subtle delay
+      feedback: 0.1      // Very little feedback for natural tone
+    });
+
+    // Conectar chain: synth → filter → delay → reverb → out
     synth.connect(filter);
-    filter.toDestination();
+    filter.connect(delay);
+    delay.connect(reverb);
 
     const notes = frequencies.map(f => Tone.Frequency(f).toNote());
-    synth.triggerAttackRelease(notes, '2n'); // ~1.5s em 120 BPM
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    synth.triggerAttackRelease(notes, '2n');
+    await new Promise(resolve => setTimeout(resolve, 1600)); // Longer to hear reverb
   } catch (e) {
     console.error('Erro ao tocar acorde:', e);
   }
@@ -506,24 +520,38 @@ async function playArpeggio(frequencies) {
   if (!frequencies || frequencies.length === 0) return;
 
   try {
-    // Timbre de guitarra: sawtooth com filtro + envelope rápido
+    // Timbre de guitarra melhorado para arpegio
     const synth = new Tone.Synth({
       oscillator: { type: 'sawtooth' },
       envelope: {
-        attack: 0.01,     // Quick plectrum attack
-        decay: 0.08,      // Decay to sustain
-        sustain: 0.15,    // Very low sustain (arpegio decays quickly)
-        release: 0.2      // Short release for clean separation
+        attack: 0.015,    // Quick plectrum strike
+        decay: 0.12,      // Decay naturally
+        sustain: 0.1,     // Low sustain for clarity
+        release: 0.4      // Medium release for separation
       }
+    });
+
+    // Chain de efeitos otimizado para arpegio
+    const filter = new Tone.Filter({
+      frequency: 2100,
+      type: 'lowpass',
+      rolloff: -24
+    });
+
+    const reverb = new Tone.Reverb({
+      decay: 1.8,        // Shorter reverb for cleaner arpegio
+      preDelay: 0.008
     }).toDestination();
 
-    // Filtro para suavizar
-    const filter = new Tone.Filter({
-      frequency: 2200,
-      type: 'lowpass'
+    const delay = new Tone.Delay({
+      time: 0.03,        // 30ms subtle delay
+      feedback: 0.05
     });
+
+    // Conectar chain
     synth.connect(filter);
-    filter.toDestination();
+    filter.connect(delay);
+    delay.connect(reverb);
 
     const stepDuration = 0.25; // segundos por nota
 
@@ -571,13 +599,7 @@ async function playExampleSequence(notes) {
   buttons.forEach(btn => btn.disabled = true);
 
   try {
-    // 1. Toca arpegio (notas em sequência)
-    await playArpeggio(frequencies);
-
-    // 2. Pausa de 200ms
-    await new Promise(resolve => setTimeout(resolve, 200));
-
-    // 3. Toca acorde (notas simultâneas)
+    // Toca apenas o acorde (notas simultâneas)
     await playChordFull(frequencies);
   } finally {
     // Re-enable botões
