@@ -992,14 +992,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // =============== URL ROUTING ===============
 function handleDayRouting() {
-  // Parse pathname para dia (ex: /dia_1, /dia_2, etc)
-  const pathname = window.location.pathname;
-  const dayMatch = pathname.match(/\/dia[_-]?(\d+)/i);
+  // Parse hash para dia (ex: #dia_1, #dia_2, etc ou #/dia_1)
+  const hash = window.location.hash.replace(/^#\/?/, '');
+  const dayMatch = hash.match(/dia[_-]?(\d+)/i);
 
   if (dayMatch) {
     const dayNum = parseInt(dayMatch[1]);
     navigateToDay(dayNum);
   }
+
+  // Também listen para mudanças de hash
+  window.addEventListener('hashchange', () => {
+    const newHash = window.location.hash.replace(/^#\/?/, '');
+    const newDayMatch = newHash.match(/dia[_-]?(\d+)/i);
+    if (newDayMatch) {
+      const dayNum = parseInt(newDayMatch[1]);
+      navigateToDay(dayNum);
+    }
+  });
 }
 
 function navigateToDay(dayNum) {
