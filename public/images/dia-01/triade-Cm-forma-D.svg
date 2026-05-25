@@ -2,7 +2,7 @@
     <rect width="700" height="300" fill="white"/>
 
     <!-- Título -->
-    <text x="20" y="20" text-anchor="start" font-size="14" font-weight="bold">C Minor - Forma D (barra 10ª)</text>
+    <text x="20" y="20" text-anchor="start" font-size="14" font-weight="bold">C Minor - Forma D (casa 10ª)</text>
 
     <!-- Nut (capo) - linha vertical no topo -->
     <rect x="25" y="50" width="8" height="210.0" fill="black" stroke="black" stroke-width="2"/>

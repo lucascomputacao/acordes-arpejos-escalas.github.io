@@ -10,7 +10,7 @@ from pathlib import Path
 # Definição dos acordes com múltiplas posições (formas clássicas)
 CHORDS = {
     # ========== C MAJOR ==========
-    'C Major - Forma C (barra 3ª)': {
+    'C Major - Forma C (casa 3ª)': {
         'filename': 'triade-C-forma-C.svg',
         'start_fret': 3,
         'fingers': [
@@ -58,7 +58,7 @@ CHORDS = {
             (6, 'x'),
         ]
     },
-    'C Major - Forma D (barra 10ª)': {
+    'C Major - Forma D (casa 10ª)': {
         'filename': 'triade-C-forma-D.svg',
         'start_fret': 10,
         'fingers': [
@@ -72,7 +72,7 @@ CHORDS = {
     },
 
     # ========== C MINOR ==========
-    'C Minor - Forma C (barra 3ª)': {
+    'C Minor - Forma C (casa 3ª)': {
         'filename': 'triade-Cm-forma-C.svg',
         'start_fret': 3,
         'fingers': [
@@ -120,7 +120,7 @@ CHORDS = {
             (6, 'x'),
         ]
     },
-    'C Minor - Forma D (barra 10ª)': {
+    'C Minor - Forma D (casa 10ª)': {
         'filename': 'triade-Cm-forma-D.svg',
         'start_fret': 10,
         'fingers': [
@@ -134,7 +134,7 @@ CHORDS = {
     },
 
     # ========== C AUGMENTED ==========
-    'C Augmented - Forma C (barra 3ª)': {
+    'C Augmented - Forma C (casa 3ª)': {
         'filename': 'triade-Caug-forma-C.svg',
         'start_fret': 3,
         'fingers': [
@@ -182,7 +182,7 @@ CHORDS = {
             (6, 'x'),
         ]
     },
-    'C Augmented - Forma D (barra 10ª)': {
+    'C Augmented - Forma D (casa 10ª)': {
         'filename': 'triade-Caug-forma-D.svg',
         'start_fret': 10,
         'fingers': [
@@ -196,7 +196,7 @@ CHORDS = {
     },
 
     # ========== C DIMINISHED ==========
-    'C Diminished - Forma C (barra 3ª)': {
+    'C Diminished - Forma C (casa 3ª)': {
         'filename': 'triade-Cdim-forma-C.svg',
         'start_fret': 3,
         'fingers': [
@@ -244,7 +244,7 @@ CHORDS = {
             (6, 'x'),
         ]
     },
-    'C Diminished - Forma D (barra 10ª)': {
+    'C Diminished - Forma D (casa 10ª)': {
         'filename': 'triade-Cdim-forma-D.svg',
         'start_fret': 10,
         'fingers': [
