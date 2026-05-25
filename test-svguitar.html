@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVGuitar Test - Tríades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .chord-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .chord-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .chord-item h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .chord-diagram {
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 40px 0 20px 0;
+            padding: 10px 0;
+            border-bottom: 2px solid #333;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎸 Diagramas de Tríades com SVGuitar</h1>
+    <p style="text-align: center; color: #666;">Orientação: Horizontal (cordas de esquerda para direita)</p>
+
+    <!-- C MAJOR -->
+    <div class="section-title">C Major (Dó Maior)</div>
+    <div class="chord-grid">
+        <div class="chord-item">
+            <h3>Forma C (3ª casa)</h3>
+            <div class="chord-diagram" id="chord-cmaj-c"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma A (5ª corda)</h3>
+            <div class="chord-diagram" id="chord-cmaj-a"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma G (4ª corda)</h3>
+            <div class="chord-diagram" id="chord-cmaj-g"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma E (6ª corda)</h3>
+            <div class="chord-diagram" id="chord-cmaj-e"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma D (10ª casa)</h3>
+            <div class="chord-diagram" id="chord-cmaj-d"></div>
+        </div>
+    </div>
+
+    <!-- C MINOR -->
+    <div class="section-title">C Minor (Dó Menor)</div>
+    <div class="chord-grid">
+        <div class="chord-item">
+            <h3>Forma C (3ª casa)</h3>
+            <div class="chord-diagram" id="chord-cm-c"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma A (5ª corda)</h3>
+            <div class="chord-diagram" id="chord-cm-a"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma G (4ª corda)</h3>
+            <div class="chord-diagram" id="chord-cm-g"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma E (6ª corda)</h3>
+            <div class="chord-diagram" id="chord-cm-e"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma D (10ª casa)</h3>
+            <div class="chord-diagram" id="chord-cm-d"></div>
+        </div>
+    </div>
+
+    <!-- C AUGMENTED -->
+    <div class="section-title">C Augmented (Dó Aumentado)</div>
+    <div class="chord-grid">
+        <div class="chord-item">
+            <h3>Forma C (3ª casa)</h3>
+            <div class="chord-diagram" id="chord-caug-c"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma A (5ª corda)</h3>
+            <div class="chord-diagram" id="chord-caug-a"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma G (4ª corda)</h3>
+            <div class="chord-diagram" id="chord-caug-g"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma E (6ª corda)</h3>
+            <div class="chord-diagram" id="chord-caug-e"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma D (10ª casa)</h3>
+            <div class="chord-diagram" id="chord-caug-d"></div>
+        </div>
+    </div>
+
+    <!-- C DIMINISHED -->
+    <div class="section-title">C Diminished (Dó Diminuto)</div>
+    <div class="chord-grid">
+        <div class="chord-item">
+            <h3>Forma C (3ª casa)</h3>
+            <div class="chord-diagram" id="chord-cdim-c"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma A (5ª corda)</h3>
+            <div class="chord-diagram" id="chord-cdim-a"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma G (4ª corda)</h3>
+            <div class="chord-diagram" id="chord-cdim-g"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma E (6ª corda)</h3>
+            <div class="chord-diagram" id="chord-cdim-e"></div>
+        </div>
+        <div class="chord-item">
+            <h3>Forma D (10ª casa)</h3>
+            <div class="chord-diagram" id="chord-cdim-d"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- SVGuitar -->
+<script src="https://unpkg.com/svguitar/dist/svguitar.umd.js"></script>
+<!-- Chord Diagrams -->
+<script src="js/chord-diagrams.js"></script>
+
+<script>
+    // Renderizar todos os diagramas
+    const chords = [
+        // C Major
+        { id: 'chord-cmaj-c', name: 'C Major - Forma C' },
+        { id: 'chord-cmaj-a', name: 'C Major - Forma A' },
+        { id: 'chord-cmaj-g', name: 'C Major - Forma G' },
+        { id: 'chord-cmaj-e', name: 'C Major - Forma E' },
+        { id: 'chord-cmaj-d', name: 'C Major - Forma D' },
+        // C Minor
+        { id: 'chord-cm-c', name: 'C Minor - Forma C' },
+        { id: 'chord-cm-a', name: 'C Minor - Forma A' },
+        { id: 'chord-cm-g', name: 'C Minor - Forma G' },
+        { id: 'chord-cm-e', name: 'C Minor - Forma E' },
+        { id: 'chord-cm-d', name: 'C Minor - Forma D' },
+        // C Augmented
+        { id: 'chord-caug-c', name: 'C Augmented - Forma C' },
+        { id: 'chord-caug-a', name: 'C Augmented - Forma A' },
+        { id: 'chord-caug-g', name: 'C Augmented - Forma G' },
+        { id: 'chord-caug-e', name: 'C Augmented - Forma E' },
+        { id: 'chord-caug-d', name: 'C Augmented - Forma D' },
+        // C Diminished
+        { id: 'chord-cdim-c', name: 'C Diminished - Forma C' },
+        { id: 'chord-cdim-a', name: 'C Diminished - Forma A' },
+        { id: 'chord-cdim-g', name: 'C Diminished - Forma G' },
+        { id: 'chord-cdim-e', name: 'C Diminished - Forma E' },
+        { id: 'chord-cdim-d', name: 'C Diminished - Forma D' },
+    ];
+
+    chords.forEach(chord => {
+        renderChordDiagram(chord.id, chord.name, {
+            width: 180,
+            height: 220,
+            strings: 6,
+            frets: 4,
+        });
+    });
+</script>
+
+</body>
+</html>
