@@ -749,7 +749,7 @@ body {
 
 .examples-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   gap: 12px;
   margin-top: 12px;
   padding: 12px;
@@ -782,14 +782,29 @@ body {
   padding: 4px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .examples-grid {
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
   }
 
   .example-img {
     max-width: 90px;
+  }
+}
+
+@media (max-width: 600px) {
+  .examples-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .example-img {
+    max-width: 70px;
+  }
+
+  .example-label {
+    font-size: 9px;
   }
 }
 
