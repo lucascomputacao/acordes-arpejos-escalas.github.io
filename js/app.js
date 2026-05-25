@@ -19,13 +19,13 @@ const WEEKS = {
             sessionIndex: 2,
             title: 'Formação 1-7-3-5 (fundamental na 6ª corda)',
             items: [
-              { label: '7M - Pos 1', img: '/images/dia-01/formacao-4-1-7m.png', notes: 'C-E-G-B' },
-              { label: 'm7 - Pos 1', img: '/images/dia-01/formacao-4-1-m7.png', notes: 'C-Eb-G-Bb' },
-              { label: 'm7(b5) - Pos 1', img: '/images/dia-01/formacao-4-1-m7b5.png', notes: 'C-Eb-Gb-Bb' },
-              { label: '7 - Pos 1', img: '/images/dia-01/formacao-4-1-7.png', notes: 'C-E-G-Bb' },
-              { label: '7M(♯5) - Pos 1', img: '/images/dia-01/formacao-4-1-7d5.png', notes: 'C-E-G#-B' },
-              { label: 'm7M - Pos 1', img: '/images/dia-01/formacao-4-1-m7m.png', notes: 'C-Eb-G-B' },
-              { label: '° - Pos 1', img: '/images/dia-01/formacao-4-1-diminuto.png', notes: 'C-Eb-Gb-Bbb' }
+              { label: '7M', img: '/images/dia-01/formacao-4-1-7m.png', notes: 'C-E-G-B' },
+              { label: 'm7', img: '/images/dia-01/formacao-4-1-m7.png', notes: 'C-Eb-G-Bb' },
+              { label: 'm7(b5)', img: '/images/dia-01/formacao-4-1-m7b5.png', notes: 'C-Eb-Gb-Bb' },
+              { label: '7', img: '/images/dia-01/formacao-4-1-7.png', notes: 'C-E-G-Bb' },
+              { label: '7M(♯5)', img: '/images/dia-01/formacao-4-1-7d5.png', notes: 'C-E-G#-B' },
+              { label: 'm7M', img: '/images/dia-01/formacao-4-1-m7m.png', notes: 'C-Eb-G-B' },
+              { label: '°', img: '/images/dia-01/formacao-4-1-diminuto.png', notes: 'C-Eb-Gb-Bbb' }
             ]
           }
         ],
