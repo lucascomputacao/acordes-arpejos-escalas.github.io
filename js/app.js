@@ -30,7 +30,7 @@ const WEEKS = {
           },
           {
             sessionIndex: 2,
-            title: 'Formación 1-5-7-3 (fundamental na 4ª corda)',
+            title: 'Formação 1-5-7-3 (fundamental na 4ª corda)',
             items: [
               { label: '7M', img: './public/images/dia-01/formacao-4-2-7m.png', notes: 'C-E-G-B' },
               { label: 'm7', img: './public/images/dia-01/formacao-4-2-m7.png', notes: 'C-Eb-G-Bb' },
