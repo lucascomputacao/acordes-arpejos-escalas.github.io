@@ -297,9 +297,15 @@ def create_chord_svg(chord_name, fingers, start_fret=0):
         x = START_X + NUT_HEIGHT + f * FRET_HEIGHT
         svg += f'    <line x1="{x}" y1="{START_Y}" x2="{x}" y2="{START_Y + STRING_SPACING * 5}" stroke="black" stroke-width="1"/>\n'
 
-        # Números dos trastes (embaixo) - com offset baseado no start_fret
+    # Adicionar números das casas no meio de cada casa
+    for f in range(1, FRET_COUNT + 1):
+        # Número da casa (começa no start_fret)
         fret_number = start_fret + f - 1
-        svg += f'    <text x="{x}" y="{START_Y + STRING_SPACING * 5 + 20}" text-anchor="middle" font-size="12" fill="gray">{fret_number}</text>\n'
+        # Posição X no meio da casa (entre o traste anterior e o atual)
+        x = START_X + NUT_HEIGHT + (f - 0.5) * FRET_HEIGHT
+        # Posição Y no meio das cordas
+        y = START_Y + (STRING_SPACING * 5) / 2
+        svg += f'    <text x="{x}" y="{y}" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">{fret_number}</text>\n'
 
     svg += '''
     <!-- Posições dos dedos -->

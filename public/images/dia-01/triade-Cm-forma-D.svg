@@ -17,13 +17,13 @@
 
     <!-- Trastes (linhas verticais) -->
     <line x1="103" y1="50" x2="103" y2="260.0" stroke="black" stroke-width="1"/>
-    <text x="103" y="280.0" text-anchor="middle" font-size="12" fill="gray">10</text>
     <line x1="173" y1="50" x2="173" y2="260.0" stroke="black" stroke-width="1"/>
-    <text x="173" y="280.0" text-anchor="middle" font-size="12" fill="gray">11</text>
     <line x1="243" y1="50" x2="243" y2="260.0" stroke="black" stroke-width="1"/>
-    <text x="243" y="280.0" text-anchor="middle" font-size="12" fill="gray">12</text>
     <line x1="313" y1="50" x2="313" y2="260.0" stroke="black" stroke-width="1"/>
-    <text x="313" y="280.0" text-anchor="middle" font-size="12" fill="gray">13</text>
+    <text x="68.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">10</text>
+    <text x="138.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">11</text>
+    <text x="208.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">12</text>
+    <text x="278.0" y="155.0" text-anchor="middle" font-size="12" fill="gray" dominant-baseline="middle">13</text>
 
     <!-- Posições dos dedos -->
     <circle cx="15" cy="50.0" r="6" fill="none" stroke="black" stroke-width="2"/>
