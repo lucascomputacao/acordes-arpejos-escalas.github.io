@@ -818,9 +818,6 @@ function buildDay(day, qk, dayIndex) {
       <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', false)">
         ▶️ Play
       </button>
-      <button class="audio-btn" onclick="playNotesFromDescription('${s[1].replace(/'/g, "\\'")}', true)">
-        ↗️ Arpegio
-      </button>
     </div>` : ''}
   </div>`;
   }).join('');
