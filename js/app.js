@@ -11,8 +11,7 @@ const WEEKS = {
         warm: 'Cromática nas 4 primeiras cordas + tríade maior C-D-E-F-G em posições vizinhas',
         sess: [
           ['Tríades maiores', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15'],
-          ['Inversões de tríades maiores', 'Fundamental no baixo, 3ª no baixo, 5ª no baixo. Como identificar e tocar', 'p.16-17'],
-          ['Introdução às tétrades', 'Adicionando a 7ª aos acordes. Visão das 4 posições básicas', 'p.33-36']
+          ['Inversões de tríades maiores', 'Fundamental no baixo, 3ª no baixo, 5ª no baixo. Como identificar e tocar', 'p.16-17']
         ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
