@@ -910,6 +910,48 @@ body {
   background-color: var(--surface2);
 }
 
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text);
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.modal-nav:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.modal-nav-left {
+  left: 20px;
+}
+
+.modal-nav-right {
+  right: 20px;
+}
+
+.modal-hint {
+  font-size: 0.85rem;
+  color: var(--text2);
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
 @media (max-width: 600px) {
   .chord-modal {
     padding: 1rem;

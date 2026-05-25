@@ -12,7 +12,12 @@ const WEEKS = {
         sess: [
           ['Tríades', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15']
         ],
-        exemplos: [{ sessionIndex: 0, items: [{ label: 'C (Dó maior)', img: './public/images/dia-01/triade-C.svg', notes: 'C-E-G' }, { label: 'Cm (Dó menor)', img: './public/images/dia-01/triade-C-menor.svg', notes: 'C-Eb-G' }, { label: 'C#5 (Dó aumentado)', img: './public/images/dia-01/triade-C-aumentado.svg', notes: 'C-E-G#' }, { label: 'Cº (Dó diminuto)', img: './public/images/dia-01/triade-C-diminuto.svg', notes: 'C-Eb-Gb' }] }],
+        exemplos: [
+          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-C-forma-C.svg', notes: 'C-E-G' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-C-forma-A.svg', notes: 'C-E-G' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-C-forma-G.svg', notes: 'C-E-G' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-C-forma-E.svg', notes: 'C-E-G' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-C-forma-D.svg', notes: 'C-E-G' }] },
+          { sessionIndex: 0, title: 'Cm (Dó menor)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-Cm-forma-C.svg', notes: 'C-Eb-G' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-Cm-forma-A.svg', notes: 'C-Eb-G' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-Cm-forma-G.svg', notes: 'C-Eb-G' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-Cm-forma-E.svg', notes: 'C-Eb-G' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-Cm-forma-D.svg', notes: 'C-Eb-G' }] },
+          { sessionIndex: 0, title: 'C#5 (Dó aumentado)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-Caug-forma-C.svg', notes: 'C-E-G#' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-Caug-forma-A.svg', notes: 'C-E-G#' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-Caug-forma-G.svg', notes: 'C-E-G#' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-Caug-forma-E.svg', notes: 'C-E-G#' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-Caug-forma-D.svg', notes: 'C-E-G#' }] },
+          { sessionIndex: 0, title: 'Cº (Dó diminuto)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-Cdim-forma-C.svg', notes: 'C-Eb-Gb' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-Cdim-forma-A.svg', notes: 'C-Eb-Gb' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-Cdim-forma-G.svg', notes: 'C-Eb-Gb' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-Cdim-forma-E.svg', notes: 'C-Eb-Gb' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-Cdim-forma-D.svg', notes: 'C-Eb-Gb' }] }
+        ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
       { n: 'Dia 2', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Sequência I-IV-V em C maior com tríades apenas (C-F-G)', sess: [['Tríades menores', 'Diferença pro maior: 3ª menor (♭3). Fórmula: 1-♭3-5', 'p.19-20'], ['Inversões de tríades menores', 'Mesma lógica das maiores: fundamental, 1ª inversão, 2ª inversão', 'p.20-21'], ['Ditado de tríades', 'Ouça acordes de músicas conhecidas e identifique maior ou menor', 'p.22']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Progressão 2: Em7 → A7 → D7M', img: './public/images/dia-01/page-17-ref.jpg', notes: 'E-G-B-D; A-C#-E-G; D-F#-A-C#' }] }], tip: 'Ouça sons de violão ou piano tocando tríades. Tente identificar de ouvido se é maior ou menor antes de ver a cifra.' },
@@ -593,6 +598,10 @@ async function playExampleSequence(notes) {
 }
 
 // =============== CHORD MODAL ===============
+// Array global para rastrear acordes para navegação
+let allChordImages = [];
+let currentChordIndex = -1;
+
 function openChordModal(imgSrc, title) {
   const modal = document.getElementById('chord-modal');
   const modalImg = document.getElementById('modal-img');
@@ -602,12 +611,43 @@ function openChordModal(imgSrc, title) {
   modalImg.alt = title;
   modalTitle.textContent = title;
 
+  // Encontrar índice do acorde atual no array
+  currentChordIndex = allChordImages.findIndex(chord => chord.img === imgSrc);
+
+  // Se não encontrou, adicionar ao array (fallback)
+  if (currentChordIndex === -1) {
+    allChordImages.push({ img: imgSrc, title: title });
+    currentChordIndex = allChordImages.length - 1;
+  }
+
   modal.classList.add('active');
 }
 
 function closeChordModal() {
   const modal = document.getElementById('chord-modal');
   modal.classList.remove('active');
+}
+
+// Navegar para próximo/anterior acorde
+function navigateChord(direction) {
+  if (allChordImages.length === 0) return;
+
+  currentChordIndex += direction;
+
+  // Circular navigation
+  if (currentChordIndex >= allChordImages.length) {
+    currentChordIndex = 0;
+  } else if (currentChordIndex < 0) {
+    currentChordIndex = allChordImages.length - 1;
+  }
+
+  const chord = allChordImages[currentChordIndex];
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+
+  modalImg.src = chord.img;
+  modalImg.alt = chord.title;
+  modalTitle.textContent = chord.title;
 }
 
 // Close modal when clicking outside the modal content
@@ -622,6 +662,24 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  // Keyboard navigation for chord modal
+  document.addEventListener('keydown', function(event) {
+    const modal = document.getElementById('chord-modal');
+
+    // Only navigate if modal is open
+    if (!modal.classList.contains('active')) return;
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      navigateChord(1);
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      navigateChord(-1);
+    } else if (event.key === 'Escape') {
+      closeChordModal();
+    }
+  });
 });
 
 // =============== PROGRESS TRACKING ===============
@@ -830,13 +888,20 @@ function buildDay(day, qk, dayIndex) {
     const exemplosHtml = sesExemplosFormacoes.length > 0 ? sesExemplosFormacoes.map(formacao => `
       ${formacao.title ? `<div class="formacao-title">${formacao.title}</div>` : ''}
       <div class="examples-grid">
-        ${formacao.items.map(ex => `
+        ${formacao.items.map(ex => {
+          // Adicionar ao array global para navegação com setas
+          const existingIndex = allChordImages.findIndex(chord => chord.img === ex.img);
+          if (existingIndex === -1) {
+            allChordImages.push({ img: ex.img, title: ex.label });
+          }
+          return `
           <div class="example-item">
             <div class="example-label">${ex.label}</div>
             <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}');" onerror="this.style.display='none'">
             <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
           </div>
-        `).join('')}
+        `;
+        }).join('')}
       </div>
     `).join('') : '';
 

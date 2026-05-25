@@ -2228,8 +2228,11 @@ Modo = escala com contexto/tônica.</div>
 <div id="chord-modal" class="chord-modal">
   <div class="modal-content">
     <button class="modal-close" id="modal-close-btn" onclick="closeChordModal()">✕</button>
+    <button class="modal-nav modal-nav-left" onclick="navigateChord(-1)" title="Anterior (←)">‹</button>
+    <button class="modal-nav modal-nav-right" onclick="navigateChord(1)" title="Próximo (→)">›</button>
     <div class="modal-title" id="modal-title"></div>
     <img src="" alt="" class="modal-img" id="modal-img">
+    <div class="modal-hint">Use ← → ou clique nos botões para navegar</div>
   </div>
 </div>
 
