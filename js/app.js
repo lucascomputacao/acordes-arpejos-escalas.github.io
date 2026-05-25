@@ -592,6 +592,38 @@ async function playExampleSequence(notes) {
   }
 }
 
+// =============== CHORD MODAL ===============
+function openChordModal(imgSrc, title) {
+  const modal = document.getElementById('chord-modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+
+  modalImg.src = imgSrc;
+  modalImg.alt = title;
+  modalTitle.textContent = title;
+
+  modal.classList.add('active');
+}
+
+function closeChordModal() {
+  const modal = document.getElementById('chord-modal');
+  modal.classList.remove('active');
+}
+
+// Close modal when clicking outside the modal content
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('chord-modal');
+
+  if (modal) {
+    modal.addEventListener('click', function(event) {
+      // Only close if clicking on the modal background, not the content
+      if (event.target === modal) {
+        closeChordModal();
+      }
+    });
+  }
+});
+
 // =============== PROGRESS TRACKING ===============
 // Armazena qual dias foram estudados por fase
 let studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
@@ -801,7 +833,7 @@ function buildDay(day, qk, dayIndex) {
         ${formacao.items.map(ex => `
           <div class="example-item">
             <div class="example-label">${ex.label}</div>
-            <img src="${ex.img}" alt="${ex.label}" class="example-img" onerror="this.style.display='none'">
+            <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}');" onerror="this.style.display='none'">
             <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
           </div>
         `).join('')}
