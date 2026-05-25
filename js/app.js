@@ -7,22 +7,60 @@ const WEEKS = {
         n: 'Dia 1',
         b: 'ba',
         bl: 'Acordes',
-        t: '30 min',
+        t: '45 min',
         warm: 'Cromática nas 4 primeiras cordas + tríade maior C-D-E-F-G em posições vizinhas',
         sess: [
           ['Tríades maiores', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15'],
           ['Inversões de tríades maiores', 'Fundamental no baixo, 3ª no baixo, 5ª no baixo. Como identificar e tocar', 'p.16-17'],
-          ['Digitações em cordas adjacentes', 'Formas nas cordas 6-5-4, 5-4-3, 4-3-2, 3-2-1', 'p.18']
+          ['Introdução às tétrades', 'Adicionando a 7ª aos acordes. Visão das 4 posições básicas', 'p.33-36']
         ],
         exemplos: [
           {
-            sessionIndex: 0,
+            sessionIndex: 2,
             items: [
-              { label: 'Progressão 1: Dm7 → G7 → C7M', img: '/images/dia-01/page-17-ref.jpg', notes: 'D-F-A-C; G-B-D-F; C-E-G-B' }
+              { label: '7M - Pos 1', img: '/images/dia-01/formacao-4-1-7m.png', notes: 'C-E-G-B' },
+              { label: 'm7 - Pos 1', img: '/images/dia-01/formacao-4-1-m7.png', notes: 'C-Eb-G-Bb' },
+              { label: 'm7(b5) - Pos 1', img: '/images/dia-01/formacao-4-1-m7b5.png', notes: 'C-Eb-Gb-Bb' },
+              { label: '7 - Pos 1', img: '/images/dia-01/formacao-4-1-7.png', notes: 'C-E-G-Bb' },
+              { label: '7M(♯5) - Pos 1', img: '/images/dia-01/formacao-4-1-7d5.png', notes: 'C-E-G#-B' },
+              { label: 'm7M - Pos 1', img: '/images/dia-01/formacao-4-1-m7m.png', notes: 'C-Eb-G-B' }
+            ]
+          },
+          {
+            sessionIndex: 2,
+            items: [
+              { label: '7M - Pos 2', img: '/images/dia-01/formacao-4-2-7m.png', notes: 'C-E-G-B' },
+              { label: 'm7 - Pos 2', img: '/images/dia-01/formacao-4-2-m7.png', notes: 'C-Eb-G-Bb' },
+              { label: 'm7(b5) - Pos 2', img: '/images/dia-01/formacao-4-2-m7b5.png', notes: 'C-Eb-Gb-Bb' },
+              { label: '7 - Pos 2', img: '/images/dia-01/formacao-4-2-7.png', notes: 'C-E-G-Bb' },
+              { label: '7M(♯5) - Pos 2', img: '/images/dia-01/formacao-4-2-7d5.png', notes: 'C-E-G#-B' },
+              { label: 'm7M - Pos 2', img: '/images/dia-01/formacao-4-2-m7m.png', notes: 'C-Eb-G-B' }
+            ]
+          },
+          {
+            sessionIndex: 2,
+            items: [
+              { label: '7M - Pos 3', img: '/images/dia-01/formacao-4-3-7m.png', notes: 'C-E-G-B' },
+              { label: 'm7 - Pos 3', img: '/images/dia-01/formacao-4-3-m7.png', notes: 'C-Eb-G-Bb' },
+              { label: 'm7(b5) - Pos 3', img: '/images/dia-01/formacao-4-3-m7b5.png', notes: 'C-Eb-Gb-Bb' },
+              { label: '7 - Pos 3', img: '/images/dia-01/formacao-4-3-7.png', notes: 'C-E-G-Bb' },
+              { label: '7M(♯5) - Pos 3', img: '/images/dia-01/formacao-4-3-7d5.png', notes: 'C-E-G#-B' },
+              { label: 'm7M - Pos 3', img: '/images/dia-01/formacao-4-3-m7m.png', notes: 'C-Eb-G-B' }
+            ]
+          },
+          {
+            sessionIndex: 2,
+            items: [
+              { label: '7M - Pos 4', img: '/images/dia-01/formacao-4-4-7m.png', notes: 'C-E-G-B' },
+              { label: 'm7 - Pos 4', img: '/images/dia-01/formacao-4-4-m7.png', notes: 'C-Eb-G-Bb' },
+              { label: 'm7(b5) - Pos 4', img: '/images/dia-01/formacao-4-4-m7b5.png', notes: 'C-Eb-Gb-Bb' },
+              { label: '7 - Pos 4', img: '/images/dia-01/formacao-4-4-7.png', notes: 'C-E-G-Bb' },
+              { label: '7M(♯5) - Pos 4', img: '/images/dia-01/formacao-4-4-7d5.png', notes: 'C-E-G#-B' },
+              { label: 'm7M - Pos 4', img: '/images/dia-01/formacao-4-4-m7m.png', notes: 'C-Eb-G-B' }
             ]
           }
         ],
-        tip: 'Use um diapasão em branco para marcar as notas de cada tríade. Enxergue o "triângulo" do acorde no braço.'
+        tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
       { n: 'Dia 2', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Sequência I-IV-V em C maior com tríades apenas (C-F-G)', sess: [['Tríades menores', 'Diferença pro maior: 3ª menor (♭3). Fórmula: 1-♭3-5', 'p.19-20'], ['Inversões de tríades menores', 'Mesma lógica das maiores: fundamental, 1ª inversão, 2ª inversão', 'p.20-21'], ['Ditado de tríades', 'Ouça acordes de músicas conhecidas e identifique maior ou menor', 'p.22']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Progressão 2: Em7 → A7 → D7M', img: '/images/dia-01/page-17-ref.jpg', notes: 'E-G-B-D; A-C#-E-G; D-F#-A-C#' }] }], tip: 'Ouça sons de violão ou piano tocando tríades. Tente identificar de ouvido se é maior ou menor antes de ver a cifra.' },
       { n: 'Dia 3', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Toque as 3 inversões de C, Dm, Em, F, G, Am em sequência', sess: [['Tríades diminutas e aumentadas', 'Diminuta: 1-♭3-♭5. Aumentada: 1-3-♯5', 'p.23-24'], ['Campo harmônico em tríades', 'Construir as tríades dos 7 graus da escala maior', 'p.25-26'], ['Progressões diatônicas', 'I-vi-IV-V, I-IV-V, ii-V-I em tríades', 'p.27']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Progressão 3: Am7 → D7 → G7M', img: '/images/dia-01/page-18-ref.jpg', notes: 'A-C-E-G; D-F#-A-C; G-B-D-F#' }] }], tip: 'Decore o padrão do campo harmônico maior: M m m M M m dim. Você vai usar isso pra sempre.' },
