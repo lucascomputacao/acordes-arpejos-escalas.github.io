@@ -985,4 +985,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Atualiza barra de progresso
   updateProgressBar();
+
+  // Handle URL routing para acessar dias direto (ex: /dia_1)
+  handleDayRouting();
 });
+
+// =============== URL ROUTING ===============
+function handleDayRouting() {
+  // Parse pathname para dia (ex: /dia_1, /dia_2, etc)
+  const pathname = window.location.pathname;
+  const dayMatch = pathname.match(/\/dia[_-]?(\d+)/i);
+
+  if (dayMatch) {
+    const dayNum = parseInt(dayMatch[1]);
+    navigateToDay(dayNum);
+  }
+}
+
+function navigateToDay(dayNum) {
+  // Encontra em qual fase e índice está o dia
+  for (const [phaseKey, phaseData] of Object.entries(WEEKS)) {
+    for (let dayIndex = 0; dayIndex < phaseData.days.length; dayIndex++) {
+      const day = phaseData.days[dayIndex];
+      // Extrai número do dia do label (ex: "Dia 1" → 1)
+      const dayNumberMatch = day.n.match(/\d+/);
+      if (dayNumberMatch && parseInt(dayNumberMatch[0]) === dayNum) {
+        // Encontrou o dia! Navega para a fase e rola para o dia
+        showTab(phaseKey);
+        setTimeout(() => {
+          const dayCard = document.querySelector(
+            `#tab-${phaseKey} .card:nth-of-type(${dayIndex + 1})`
+          );
+          if (dayCard) {
+            dayCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+        return;
+      }
+    }
+  }
+}
