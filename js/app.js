@@ -295,10 +295,13 @@ function initializeProgress() {
   if (stored) {
     try {
       studentProgress = JSON.parse(stored);
+      console.log('✅ Progresso carregado do localStorage:', studentProgress);
     } catch (e) {
-      console.error('Erro ao carregar progresso:', e);
+      console.error('❌ Erro ao carregar progresso:', e);
       studentProgress = { f1: [], f1b: [], f2: [], f3: [], f4: [] };
     }
+  } else {
+    console.log('ℹ️ Nenhum progresso anterior encontrado');
   }
   // Garantir que cada fase tem um array com o tamanho correto
   const phaseLengths = { f1: 15, f1b: 10, f2: 20, f3: 20, f4: 24 };
@@ -311,6 +314,7 @@ function initializeProgress() {
       studentProgress[phase].push(false);
     }
   });
+  console.log('📊 Progresso após inicialização:', studentProgress);
 }
 
 // Salva um dia como estudado/não estudado
@@ -453,7 +457,10 @@ function buildDay(day, qk, dayIndex) {
   </div>`).join('');
 
   // Verificar se este dia foi marcado como estudado
-  const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex] ? 'checked' : '';
+  const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex];
+  if (dayIndex < 3 || dayIndex > 12) { // Log apenas alguns dias para evitar spam
+    console.log(`[${qk}] Dia ${dayIndex}: isDayComplete=${isDayComplete}, value=${studentProgress[qk]?.[dayIndex]}`);
+  }
 
   return `<div class="card">
     <div class="card-header">
@@ -464,7 +471,7 @@ function buildDay(day, qk, dayIndex) {
         <input type="checkbox" class="day-complete"
                id="complete-${qk}-${dayIndex}"
                onchange="markDayComplete('${qk}', ${dayIndex})"
-               ${isDayComplete}
+               ${isDayComplete ? 'checked="checked"' : ''}
                style="cursor: pointer; margin: 0;">
         <label for="complete-${qk}-${dayIndex}" style="cursor: pointer; font-size: 11px; margin: 0 0 0 4px;">
           Estudado
