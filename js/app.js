@@ -40,6 +40,19 @@ const WEEKS = {
               { label: 'm7M', img: './public/images/dia-01/formacao-4-2-m7m.png', notes: 'C-Eb-G-B' },
               { label: '°', img: './public/images/dia-01/formacao-4-2-diminuto.png', notes: 'C-Eb-Gb-Bbb' }
             ]
+          },
+          {
+            sessionIndex: 2,
+            title: 'Formação 1-3-5-7 (fundamental na 5ª corda)',
+            items: [
+              { label: '7M', img: './public/images/dia-01/formacao-4-3-7m.png', notes: 'C-E-G-B' },
+              { label: 'm7', img: './public/images/dia-01/formacao-4-3-m7.png', notes: 'C-Eb-G-Bb' },
+              { label: 'm7(b5)', img: './public/images/dia-01/formacao-4-3-m7b5.png', notes: 'C-Eb-Gb-Bb' },
+              { label: '7', img: './public/images/dia-01/formacao-4-3-7.png', notes: 'C-E-G-Bb' },
+              { label: '7M(♯5)', img: './public/images/dia-01/formacao-4-3-7d5.png', notes: 'C-E-G#-B' },
+              { label: 'm7M', img: './public/images/dia-01/formacao-4-3-m7m.png', notes: 'C-Eb-G-B' },
+              { label: '°', img: './public/images/dia-01/formacao-4-3-diminuto.png', notes: 'C-Eb-Gb-Bbb' }
+            ]
           }
         ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
