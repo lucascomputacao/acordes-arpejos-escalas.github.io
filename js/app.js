@@ -17,6 +17,7 @@ const WEEKS = {
         exemplos: [
           {
             sessionIndex: 2,
+            title: 'Formação 1-7-3-5 (fundamental na 6ª corda)',
             items: [
               { label: '7M - Pos 1', img: '/images/dia-01/formacao-4-1-7m.png', notes: 'C-E-G-B' },
               { label: 'm7 - Pos 1', img: '/images/dia-01/formacao-4-1-m7.png', notes: 'C-Eb-G-Bb' },
@@ -816,12 +817,13 @@ function buildDay(day, qk, dayIndex) {
     // Verificar se consegue extrair notas dessa descrição
     const hasNotes = extractNotesFromDescription(s[1]) !== null;
 
-    // Buscar exemplos para esta sessão
-    const sesExemplos = day.exemplos?.find(ex => ex.sessionIndex === sesIndex)?.items || [];
+    // Buscar todas as formações para esta sessão
+    const sesExemplosFormacoes = day.exemplos?.filter(ex => ex.sessionIndex === sesIndex) || [];
 
-    const exemplosHtml = sesExemplos.length > 0 ? `
+    const exemplosHtml = sesExemplosFormacoes.length > 0 ? sesExemplosFormacoes.map(formacao => `
+      ${formacao.title ? `<div class="formacao-title">${formacao.title}</div>` : ''}
       <div class="examples-grid">
-        ${sesExemplos.map(ex => `
+        ${formacao.items.map(ex => `
           <div class="example-item">
             <div class="example-label">${ex.label}</div>
             <img src="${ex.img}" alt="${ex.label}" class="example-img" onerror="this.style.display='none'">
@@ -829,7 +831,7 @@ function buildDay(day, qk, dayIndex) {
           </div>
         `).join('')}
       </div>
-    ` : '';
+    `).join('') : '';
 
     return `<div class="session">
     <div class="session-title">${s[0]}</div>

@@ -735,6 +735,18 @@ body {
 }
 
 /* Examples Grid for Chord Diagrams */
+.formacao-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding-left: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-left: 3px solid var(--blue600);
+}
+
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
