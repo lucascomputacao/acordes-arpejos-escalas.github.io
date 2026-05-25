@@ -27,39 +27,6 @@ const WEEKS = {
               { label: 'm7M - Pos 1', img: '/images/dia-01/formacao-4-1-m7m.png', notes: 'C-Eb-G-B' },
               { label: '° - Pos 1', img: '/images/dia-01/formacao-4-1-diminuto.png', notes: 'C-Eb-Gb-Bbb' }
             ]
-          },
-          {
-            sessionIndex: 2,
-            items: [
-              { label: '7M - Pos 2', img: '/images/dia-01/formacao-4-2-7m.png', notes: 'C-E-G-B' },
-              { label: 'm7 - Pos 2', img: '/images/dia-01/formacao-4-2-m7.png', notes: 'C-Eb-G-Bb' },
-              { label: 'm7(b5) - Pos 2', img: '/images/dia-01/formacao-4-2-m7b5.png', notes: 'C-Eb-Gb-Bb' },
-              { label: '7 - Pos 2', img: '/images/dia-01/formacao-4-2-7.png', notes: 'C-E-G-Bb' },
-              { label: '7M(♯5) - Pos 2', img: '/images/dia-01/formacao-4-2-7d5.png', notes: 'C-E-G#-B' },
-              { label: 'm7M - Pos 2', img: '/images/dia-01/formacao-4-2-m7m.png', notes: 'C-Eb-G-B' }
-            ]
-          },
-          {
-            sessionIndex: 2,
-            items: [
-              { label: '7M - Pos 3', img: '/images/dia-01/formacao-4-3-7m.png', notes: 'C-E-G-B' },
-              { label: 'm7 - Pos 3', img: '/images/dia-01/formacao-4-3-m7.png', notes: 'C-Eb-G-Bb' },
-              { label: 'm7(b5) - Pos 3', img: '/images/dia-01/formacao-4-3-m7b5.png', notes: 'C-Eb-Gb-Bb' },
-              { label: '7 - Pos 3', img: '/images/dia-01/formacao-4-3-7.png', notes: 'C-E-G-Bb' },
-              { label: '7M(♯5) - Pos 3', img: '/images/dia-01/formacao-4-3-7d5.png', notes: 'C-E-G#-B' },
-              { label: 'm7M - Pos 3', img: '/images/dia-01/formacao-4-3-m7m.png', notes: 'C-Eb-G-B' }
-            ]
-          },
-          {
-            sessionIndex: 2,
-            items: [
-              { label: '7M - Pos 4', img: '/images/dia-01/formacao-4-4-7m.png', notes: 'C-E-G-B' },
-              { label: 'm7 - Pos 4', img: '/images/dia-01/formacao-4-4-m7.png', notes: 'C-Eb-G-Bb' },
-              { label: 'm7(b5) - Pos 4', img: '/images/dia-01/formacao-4-4-m7b5.png', notes: 'C-Eb-Gb-Bb' },
-              { label: '7 - Pos 4', img: '/images/dia-01/formacao-4-4-7.png', notes: 'C-E-G-Bb' },
-              { label: '7M(♯5) - Pos 4', img: '/images/dia-01/formacao-4-4-7d5.png', notes: 'C-E-G#-B' },
-              { label: 'm7M - Pos 4', img: '/images/dia-01/formacao-4-4-m7m.png', notes: 'C-Eb-G-B' }
-            ]
           }
         ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
