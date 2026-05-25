@@ -26,8 +26,8 @@
     <text x="313" y="280.0" text-anchor="middle" font-size="12" fill="gray">13</text>
 
     <!-- Posições dos dedos -->
-    <circle cx="15" cy="50.0" r="6" fill="none" stroke="black" stroke-width="2"/>
-    <circle cx="15" cy="92.0" r="6" fill="none" stroke="black" stroke-width="2"/>
+    <circle cx="68.0" cy="50.0" r="10" fill="black" stroke="black" stroke-width="2"/>
+    <circle cx="68.0" cy="92.0" r="10" fill="black" stroke="black" stroke-width="2"/>
     <circle cx="68.0" cy="134.0" r="10" fill="black" stroke="black" stroke-width="2"/>
     <line x1="10" y1="168.0" x2="20" y2="184.0" stroke="black" stroke-width="2"/>
     <line x1="20" y1="168.0" x2="10" y2="184.0" stroke="black" stroke-width="2"/>

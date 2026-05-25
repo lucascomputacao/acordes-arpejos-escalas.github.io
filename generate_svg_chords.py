@@ -248,8 +248,8 @@ CHORDS = {
         'filename': 'triade-Cdim-forma-D.svg',
         'start_fret': 10,
         'fingers': [
-            (1, 0),
-            (2, 0),
+            (1, 1),
+            (2, 1),
             (3, 1),
             (4, 'x'),
             (5, 'x'),
