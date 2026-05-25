@@ -300,8 +300,7 @@ def create_chord_svg(chord_name, fingers):
         else:
             # Ponto para posição do dedo
             x = START_X + NUT_HEIGHT + (fret - 0.5) * FRET_HEIGHT
-            svg += f'    <circle cx="{x}" cy="{y}" r="10" fill="#2196F3" stroke="black" stroke-width="2"/>\n'
-            svg += f'    <text x="{x}" y="{y}" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold" fill="white">{fret}</text>\n'
+            svg += f'    <circle cx="{x}" cy="{y}" r="10" fill="black" stroke="black" stroke-width="2"/>\n'
 
     svg += '</svg>'
     return svg
