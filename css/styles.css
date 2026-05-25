@@ -750,12 +750,11 @@ body {
 .examples-grid {
   display: flex;
   flex-wrap: nowrap;
-  gap: 12px;
+  gap: 8px;
   margin-top: 12px;
-  padding: 12px;
+  padding: 8px;
   background: var(--surface2);
   border-radius: var(--radius-sm);
-  overflow-x: auto;
 }
 
 .example-item {
@@ -765,7 +764,7 @@ body {
   align-items: center;
   text-align: center;
   flex-shrink: 0;
-  min-width: 210px;
+  min-width: 105px;
 }
 
 .example-label {
@@ -777,8 +776,8 @@ body {
 }
 
 .example-img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: white;
@@ -795,21 +794,21 @@ body {
 
 @media (max-width: 600px) {
   .examples-grid {
-    gap: 8px;
-    padding: 8px;
+    gap: 6px;
+    padding: 6px;
   }
 
   .example-item {
-    min-width: 145px;
+    min-width: 110px;
   }
 
   .example-img {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
   }
 
   .example-label {
-    font-size: 9px;
+    font-size: 8px;
   }
 }
 
