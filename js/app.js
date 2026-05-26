@@ -13,8 +13,8 @@ const WEEKS = {
           ['Tríades', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15']
         ],
         exemplos: [
-          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [{ label: 'Posição 1', img: './public/images/triades-maiores/triade-C-pos1.svg', notes: 'C-E-G' }, { label: 'Posição 2', img: './public/images/triades-maiores/triade-C-pos2.svg', notes: 'C-E-G' }, { label: 'Posição 3', img: './public/images/triades-maiores/triade-C-pos3.svg', notes: 'C-E-G' }, { label: 'Posição 4', img: './public/images/triades-maiores/triade-C-pos4.svg', notes: 'C-E-G' }] }
-          // TODO: Adicionar Cm, Caug, Cdim quando os SVGs estiverem prontos
+          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [{ label: 'Posição 1', img: './public/images/triades-maiores/triade-C-pos1.png', notes: 'C-E-G' }, { label: 'Posição 2', img: './public/images/triades-maiores/triade-C-pos2.png', notes: 'C-E-G' }, { label: 'Posição 3', img: './public/images/triades-maiores/triade-C-pos3.png', notes: 'C-E-G' }, { label: 'Posição 4', img: './public/images/triades-maiores/triade-C-pos4.png', notes: 'C-E-G' }] }
+          // TODO: Adicionar Cm, Caug, Cdim quando os prints estiverem prontos
         ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
