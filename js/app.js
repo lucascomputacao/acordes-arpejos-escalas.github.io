@@ -13,10 +13,8 @@ const WEEKS = {
           ['Tríades', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15']
         ],
         exemplos: [
-          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-C-forma-C.svg', notes: 'C-E-G' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-C-forma-A.svg', notes: 'C-E-G' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-C-forma-G.svg', notes: 'C-E-G' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-C-forma-E.svg', notes: 'C-E-G' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-C-forma-D.svg', notes: 'C-E-G' }] },
-          { sessionIndex: 0, title: 'Cm (Dó menor)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-Cm-forma-C.svg', notes: 'C-Eb-G' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-Cm-forma-A.svg', notes: 'C-Eb-G' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-Cm-forma-G.svg', notes: 'C-Eb-G' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-Cm-forma-E.svg', notes: 'C-Eb-G' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-Cm-forma-D.svg', notes: 'C-Eb-G' }] },
-          { sessionIndex: 0, title: 'C#5 (Dó aumentado)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-Caug-forma-C.svg', notes: 'C-E-G#' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-Caug-forma-A.svg', notes: 'C-E-G#' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-Caug-forma-G.svg', notes: 'C-E-G#' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-Caug-forma-E.svg', notes: 'C-E-G#' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-Caug-forma-D.svg', notes: 'C-E-G#' }] },
-          { sessionIndex: 0, title: 'Cº (Dó diminuto)', items: [{ label: 'Forma C (barra 3ª)', img: './public/images/dia-01/triade-Cdim-forma-C.svg', notes: 'C-Eb-Gb' }, { label: 'Forma A (5ª corda)', img: './public/images/dia-01/triade-Cdim-forma-A.svg', notes: 'C-Eb-Gb' }, { label: 'Forma G (4ª corda)', img: './public/images/dia-01/triade-Cdim-forma-G.svg', notes: 'C-Eb-Gb' }, { label: 'Forma E (6ª corda)', img: './public/images/dia-01/triade-Cdim-forma-E.svg', notes: 'C-Eb-Gb' }, { label: 'Forma D (barra 10ª)', img: './public/images/dia-01/triade-Cdim-forma-D.svg', notes: 'C-Eb-Gb' }] }
+          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [{ label: 'Posição 1', img: './public/images/triades-maiores/triade-C-pos1.svg', notes: 'C-E-G' }, { label: 'Posição 2', img: './public/images/triades-maiores/triade-C-pos2.svg', notes: 'C-E-G' }, { label: 'Posição 3', img: './public/images/triades-maiores/triade-C-pos3.svg', notes: 'C-E-G' }, { label: 'Posição 4', img: './public/images/triades-maiores/triade-C-pos4.svg', notes: 'C-E-G' }] }
+          // TODO: Adicionar Cm, Caug, Cdim quando os SVGs estiverem prontos
         ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
@@ -885,25 +883,41 @@ function buildDay(day, qk, dayIndex) {
     // Buscar todas as formações para esta sessão
     const sesExemplosFormacoes = day.exemplos?.filter(ex => ex.sessionIndex === sesIndex) || [];
 
-    const exemplosHtml = sesExemplosFormacoes.length > 0 ? sesExemplosFormacoes.map(formacao => `
+    const exemplosHtml = sesExemplosFormacoes.length > 0 ? sesExemplosFormacoes.map((formacao, formacaoIdx) => {
+      const formacaoId = `formacao-${sesIndex}-${formacaoIdx}`;
+      return `
       ${formacao.title ? `<div class="formacao-title">${formacao.title}</div>` : ''}
       <div class="examples-grid">
-        ${formacao.items.map(ex => {
-          // Adicionar ao array global para navegação com setas
-          const existingIndex = allChordImages.findIndex(chord => chord.img === ex.img);
-          if (existingIndex === -1) {
-            allChordImages.push({ img: ex.img, title: ex.label });
+        ${formacao.items.map((ex, itemIdx) => {
+          const itemId = `${formacaoId}-${itemIdx}`;
+
+          // Verificar se é SVGuitar ou imagem antiga
+          if (ex.chordName) {
+            // SVGuitar: renderizar diagram de acorde
+            return `
+            <div class="example-item">
+              <div class="example-label">${ex.label}</div>
+              <div class="chord-diagram-container" id="chord-${itemId}"></div>
+              <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
+            </div>
+            `;
+          } else {
+            // Imagem antiga: usar img tag
+            const existingIndex = allChordImages.findIndex(chord => chord.img === ex.img);
+            if (existingIndex === -1) {
+              allChordImages.push({ img: ex.img, title: ex.label });
+            }
+            return `
+            <div class="example-item">
+              <div class="example-label">${ex.label}</div>
+              <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}');" onerror="this.style.display='none'">
+              <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
+            </div>
+          `;
           }
-          return `
-          <div class="example-item">
-            <div class="example-label">${ex.label}</div>
-            <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}');" onerror="this.style.display='none'">
-            <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
-          </div>
-        `;
         }).join('')}
       </div>
-    `).join('') : '';
+    `}).join('') : '';
 
     return `<div class="session">
     <div class="session-title">${s[0]}</div>
@@ -955,6 +969,44 @@ function buildWeek(k) {
     <p class="section-sub" style="margin-bottom:1.5rem">${w.sub}</p>
     ${w.days.map((d, dayIndex) => buildDay(d, k, dayIndex)).join('')}
   `;
+
+  // Renderizar diagramas SVGuitar após o HTML ser inserido
+  renderSVGuitarDiagrams();
+}
+
+function renderSVGuitarDiagrams() {
+  // Encontrar todos os containers de diagramas SVGuitar e renderizá-los
+  const chordContainers = document.querySelectorAll('[id^="chord-formacao-"]');
+  chordContainers.forEach(container => {
+    const containerId = container.id;
+    // Extrair informações do ID: chord-formacao-{sesIndex}-{formacaoIdx}-{itemIdx}
+    const parts = containerId.replace('chord-formacao-', '').split('-');
+    const sesIndex = parseInt(parts[0]);
+    const formacaoIdx = parseInt(parts[1]);
+    const itemIdx = parseInt(parts[2]);
+
+    // Buscar o dado do acorde correspondente
+    // Precisamos iterar pelos dias e sessões para encontrar o acorde correto
+    for (const k in WEEKS) {
+      for (const day of WEEKS[k].days) {
+        if (day.exemplos && day.exemplos[formacaoIdx]) {
+          const formacao = day.exemplos[formacaoIdx];
+          if (formacao.sessionIndex === sesIndex && formacao.items[itemIdx]) {
+            const ex = formacao.items[itemIdx];
+            if (ex.chordName) {
+              // Renderizar o diagrama SVGuitar
+              renderChordDiagram(containerId, ex.chordName, {
+                width: 150,
+                height: 180,
+                strings: 6,
+                frets: 4
+              });
+            }
+          }
+        }
+      }
+    }
+  });
 }
 
 function buildChecks() {

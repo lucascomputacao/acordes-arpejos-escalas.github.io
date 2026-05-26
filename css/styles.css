@@ -793,6 +793,23 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.chord-diagram-container {
+  width: 150px;
+  height: 150px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.chord-diagram-container svg {
+  width: 100%;
+  height: 100%;
+}
+
 @media (max-width: 600px) {
   .examples-grid {
     flex-direction: column;
