@@ -599,8 +599,9 @@ async function playExampleSequence(notes) {
 // Array global para rastrear acordes para navegação
 let allChordImages = [];
 let currentChordIndex = -1;
+let currentExemploImages = []; // Imagens do exemplo/dia atual para navegação limitada
 
-function openChordModal(imgSrc, title) {
+function openChordModal(imgSrc, title, exampleImages = null) {
   const modal = document.getElementById('chord-modal');
   const modalImg = document.getElementById('modal-img');
   const modalTitle = document.getElementById('modal-title');
@@ -609,13 +610,21 @@ function openChordModal(imgSrc, title) {
   modalImg.alt = title;
   modalTitle.textContent = title;
 
-  // Encontrar índice do acorde atual no array
-  currentChordIndex = allChordImages.findIndex(chord => chord.img === imgSrc);
+  // Se exampleImages foi fornecido, usar apenas essas imagens para navegação
+  if (exampleImages && Array.isArray(exampleImages) && exampleImages.length > 0) {
+    currentExemploImages = exampleImages;
+    currentChordIndex = exampleImages.findIndex(chord => chord.img === imgSrc);
+  } else {
+    // Fallback: usar array global (para compatibilidade)
+    currentExemploImages = allChordImages;
+    currentChordIndex = allChordImages.findIndex(chord => chord.img === imgSrc);
 
-  // Se não encontrou, adicionar ao array (fallback)
-  if (currentChordIndex === -1) {
-    allChordImages.push({ img: imgSrc, title: title });
-    currentChordIndex = allChordImages.length - 1;
+    // Se não encontrou, adicionar ao array (fallback)
+    if (currentChordIndex === -1) {
+      allChordImages.push({ img: imgSrc, title: title });
+      currentExemploImages = allChordImages;
+      currentChordIndex = allChordImages.length - 1;
+    }
   }
 
   modal.classList.add('active');
@@ -626,20 +635,20 @@ function closeChordModal() {
   modal.classList.remove('active');
 }
 
-// Navegar para próximo/anterior acorde
+// Navegar para próximo/anterior acorde (apenas dentro do exemplo atual)
 function navigateChord(direction) {
-  if (allChordImages.length === 0) return;
+  if (currentExemploImages.length === 0) return;
 
   currentChordIndex += direction;
 
-  // Circular navigation
-  if (currentChordIndex >= allChordImages.length) {
+  // Circular navigation (apenas dentro das imagens do exemplo atual)
+  if (currentChordIndex >= currentExemploImages.length) {
     currentChordIndex = 0;
   } else if (currentChordIndex < 0) {
-    currentChordIndex = allChordImages.length - 1;
+    currentChordIndex = currentExemploImages.length - 1;
   }
 
-  const chord = allChordImages[currentChordIndex];
+  const chord = currentExemploImages[currentChordIndex];
   const modalImg = document.getElementById('modal-img');
   const modalTitle = document.getElementById('modal-title');
 
@@ -907,10 +916,17 @@ function buildDay(day, qk, dayIndex) {
             if (existingIndex === -1) {
               allChordImages.push({ img: ex.img, title: ex.label });
             }
+
+            // Preparar array de imagens da formação atual para navegação limitada
+            const formacaoImagesJson = JSON.stringify(formacao.items.filter(item => !item.chordName).map(item => ({
+              img: item.img,
+              title: item.label
+            })));
+
             return `
             <div class="example-item">
               <div class="example-label">${ex.label}</div>
-              <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}');" onerror="this.style.display='none'">
+              <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}', ${formacaoImagesJson});" onerror="this.style.display='none'">
               <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
             </div>
           `;
