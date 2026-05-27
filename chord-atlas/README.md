@@ -11,3 +11,12 @@ Implemented first:
 Open `index.html` in a browser.
 
 - Added book-style Arpejo tétrade maior 7M with five regional horizontal positions.
+
+## Deep links
+
+The app now supports GitHub Pages friendly hash URLs, for example:
+
+- `#/arpeggios/arpejo-tetrade-menor-7?root=C&minFret=0&maxFret=24&lang=en`
+- `#/chords/tetrade-maior-7m?root=F&minFret=5&maxFret=12&lang=pt`
+
+These links preserve the selected tab, structure, key, fret range, and language.
