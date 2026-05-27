@@ -197,6 +197,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:6, fret:3, interval:'T'},
         {string:5, fret:2, interval:'3'},
         {string:4, fret:0, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
         {string:3, fret:0, interval:'T'},
         {string:2, fret:0, interval:'3'},
         {string:2, fret:3, interval:'5'},
@@ -369,6 +370,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:6, fret:3, interval:'T'},
         {string:5, fret:1, interval:'b3'},
         {string:4, fret:0, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
         {string:3, fret:0, interval:'T'},
         {string:3, fret:3, interval:'b3'},
         {string:2, fret:3, interval:'5'},
@@ -446,13 +448,38 @@ const BOOK_ARPEGGIO_PATTERNS = {
     {
       name: 'Position 2',
       baseForC: 5,
-      // Minor seventh arpeggio - position 2 (frets 5-8).
-      // Formula: T-b3-5-b7
+      // Minor seventh arpeggio - book-style position 2.
+      // Added from the supplied reference diagram. Formula: T-b3-5-b7.
       offsets: [
-        {string:5, fret:0, interval:'b3'},
-        {string:3, fret:0, interval:'5'},
-        {string:2, fret:2, interval:'b7'},
+        {string:6, fret:1, interval:'b7'},
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:2, fret:3, interval:'5'},
+        {string:1, fret:1, interval:'b7'},
         {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 5,
+      // Minor seventh arpeggio - book-style position 3.
+      // User correction: A-string fifth stays at fret 10; removed the extra right-edge note.
+      // Formula: T-b3-5-b7.
+      offsets: [
+        {string:6, fret:3, interval:'T'},
+        {string:6, fret:6, interval:'b3'},
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:4, fret:5, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:2, fret:3, interval:'5'},
+        {string:2, fret:6, interval:'b7'},
+        {string:1, fret:3, interval:'T'},
+        {string:1, fret:6, interval:'b3'}
       ]
     }
   ],

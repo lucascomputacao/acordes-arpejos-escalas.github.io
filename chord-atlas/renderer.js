@@ -81,7 +81,7 @@ function svgHorizontalArpeggio(item){
   const start=Math.max(0, minPos===0 ? 0 : minPos-1);
   const end=Math.min(24, Math.max(maxPos, start+4));
   const frets=end-start;
-  const cell=48, x0=72, y0=38, rowGap=30, h=224, w=x0+(frets*cell)+44;
+  const cell=28, x0=48, y0=26, rowGap=20, h=148, w=x0+(frets*cell)+30;
   const strings=[1,2,3,4,5,6];
   const byPos=new Map(positions.map(p=>[`${p.string}:${p.fret}`,p]));
   let s=`<svg class="horizontal-arpeggio" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
@@ -94,14 +94,14 @@ function svgHorizontalArpeggio(item){
     s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+rowGap*5}" stroke="${isNut?'#0f172a':'#94a3b8'}" stroke-width="${isNut?5:2}"/>`;
     if(f<end){
       const label=f+1;
-      s+=`<text x="${x+cell/2}" y="${y0+rowGap*5+24}" text-anchor="middle" font-size="12" font-weight="700" fill="#64748b">${label}</text>`;
+      s+=`<text x="${x+cell/2}" y="${y0+rowGap*5+24}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#64748b">${label}</text>`;
     }
   }
 
   strings.forEach((str,row)=>{
     const y=y0+row*rowGap;
     s+=`<line x1="${x0}" y1="${y}" x2="${x0+frets*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.4:1.8}"/>`;
-    s+=`<text x="${x0-36}" y="${y+5}" text-anchor="middle" font-size="12" font-weight="800" fill="#334155">${STRING_TUNING[str]}</text>`;
+    s+=`<text x="${x0-28}" y="${y+5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#334155">${STRING_TUNING[str]}</text>`;
   });
 
   for(const p of positions){
@@ -110,7 +110,7 @@ function svgHorizontalArpeggio(item){
     let x;
     if(p.fret===0){
       if(start!==0) continue;
-      x=x0-24;
+      x=x0-18;
     }else{
       if(p.fret<=start || p.fret>end) continue;
       x=x0+(p.fret-start-0.5)*cell;
@@ -120,8 +120,8 @@ function svgHorizontalArpeggio(item){
     const fill=root?'#ffffff':'#0f172a';
     const stroke=root?'#0f172a':'#0f172a';
     const text=root?'#0f172a':'#ffffff';
-    s+=`<circle cx="${x}" cy="${y}" r="11.5" fill="${fill}" stroke="${stroke}" stroke-width="2.4"/>`;
-    s+=`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="9.5" font-weight="900" fill="${text}">${p.label}</text>`;
+    s+=`<circle cx="${x}" cy="${y}" r="8.2" fill="${fill}" stroke="${stroke}" stroke-width="1.9"/>`;
+    s+=`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="7.5" font-weight="900" fill="${text}">${p.label}</text>`;
   }
   return s+'</svg>';
 }
@@ -187,7 +187,7 @@ function render(){
 }
 
 function exportCSS(){return `
-*{box-sizing:border-box} body{margin:0;background:white;color:#111;font-family:Arial,Helvetica,sans-serif}.export-page{width:1400px;background:white;color:#111;padding:28px 34px}.section{margin-top:28px;border-top:2px solid #111;padding-top:14px;break-inside:avoid}.section h2{text-align:center;margin:0 0 14px;font-size:20px;text-transform:uppercase;letter-spacing:.03em}.voicing-label{text-transform:none!important}.grid{display:grid;grid-template-columns:repeat(6,145px);gap:18px 22px;align-items:start;justify-content:start}.fretboard-grid{display:block}.card{text-align:center;width:145px;break-inside:avoid}.horizontal-card{width:100%;overflow:visible}.title{font-size:18px;font-weight:bold;margin-bottom:4px}.meta{font-size:12px;color:#666;min-height:15px;margin-bottom:10px}svg.diagram{width:142px!important;height:160px!important;display:block;overflow:visible}svg.horizontal-arpeggio{width:100%!important;max-width:1050px!important;height:auto!important;display:block;margin:0 auto;overflow:visible}svg text{font-family:Arial,Helvetica,sans-serif}.empty{text-align:center;padding:30px;border:1px dashed #111;color:#666}
+*{box-sizing:border-box} body{margin:0;background:white;color:#111;font-family:Arial,Helvetica,sans-serif}.export-page{width:1400px;background:white;color:#111;padding:28px 34px}.section{margin-top:28px;border-top:2px solid #111;padding-top:14px;break-inside:avoid}.section h2{text-align:center;margin:0 0 14px;font-size:20px;text-transform:uppercase;letter-spacing:.03em}.voicing-label{text-transform:none!important}.grid{display:grid;grid-template-columns:repeat(6,145px);gap:18px 22px;align-items:start;justify-content:start}.fretboard-grid{display:block}.card{text-align:center;width:145px;break-inside:avoid}.horizontal-card{width:100%;overflow:visible}.title{font-size:18px;font-weight:bold;margin-bottom:4px}.meta{font-size:12px;color:#666;min-height:15px;margin-bottom:10px}svg.diagram{width:142px!important;height:160px!important;display:block;overflow:visible}svg.horizontal-arpeggio{width:100%!important;max-width:720px!important;height:auto!important;display:block;margin:0 auto;overflow:visible}svg text{font-family:Arial,Helvetica,sans-serif}.empty{text-align:center;padding:30px;border:1px dashed #111;color:#666}
 `;}
 function exportMarkup(){const clone=document.getElementById('output').cloneNode(true);return `<div xmlns="http://www.w3.org/1999/xhtml" class="export-page"><style>${exportCSS()}</style>${clone.innerHTML}</div>`;}
 function exportSVG(){const w=1400;const h=Math.max(900,document.getElementById('output').scrollHeight+120);const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="white"/><foreignObject x="0" y="0" width="${w}" height="${h}">${exportMarkup()}</foreignObject></svg>`;downloadFile('gerador-harmonico.svg','image/svg+xml;charset=utf-8',svg);}
