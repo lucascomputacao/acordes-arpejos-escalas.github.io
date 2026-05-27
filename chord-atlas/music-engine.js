@@ -422,6 +422,28 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     }
   ],
+  'Arpejo tétrade menor 7': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Minor seventh arpeggio - book-style position 1.
+      // Formula: T-b3-5-b7. Added on top of the current known-good project base.
+      // This is the corrected first position from the user's markup: removed the
+      // left-edge A-string b7 and D-string b3; added the right-edge b7/b3/b7 tones.
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:6, fret:6, interval:'b7'},
+        {string:5, fret:3, interval:'T'},
+        {string:5, fret:6, interval:'b3'},
+        {string:4, fret:5, interval:'5'},
+        {string:3, fret:3, interval:'b7'},
+        {string:3, fret:5, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:3, interval:'5'},
+        {string:1, fret:6, interval:'b7'}
+      ]
+    }
+  ],
   'Arpejo tríade aumentada': [
     {
       name: 'Position 1',
