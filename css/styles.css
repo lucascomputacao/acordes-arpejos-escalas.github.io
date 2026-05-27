@@ -734,6 +734,45 @@ body {
   cursor: not-allowed;
 }
 
+.chord-atlas-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  width: 100%;
+  max-width: 120px;
+  padding: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+  color: white;
+  border: 2px solid #1e3a8a;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: normal;
+}
+
+.chord-atlas-button:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.chord-atlas-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .chord-atlas-button {
+    max-width: 90px;
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
 /* Examples Grid for Chord Diagrams */
 .formacao-title {
   font-size: 13px;

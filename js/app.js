@@ -13,7 +13,12 @@ const WEEKS = {
           ['Tríades', 'Construção a partir da escala maior. Fórmula: 1-3-5. Tríade de Dó maior = C-E-G', 'p.14-15']
         ],
         exemplos: [
-          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [{ label: 'Posição 1', img: './public/images/triades-maiores/triade-C-pos1.png', notes: 'C-E-G' }, { label: 'Posição 2', img: './public/images/triades-maiores/triade-C-pos2.png', notes: 'C-E-G' }, { label: 'Posição 3', img: './public/images/triades-maiores/triade-C-pos3.png', notes: 'C-E-G' }, { label: 'Posição 4', img: './public/images/triades-maiores/triade-C-pos4.png', notes: 'C-E-G' }] }
+          { sessionIndex: 0, title: 'C Major (Dó maior)', items: [
+            { label: 'Posição 1', notes: 'C-E-G', chordAtlas: { structure: 'Tríade maior', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } },
+            { label: 'Posição 2', notes: 'C-E-G', chordAtlas: { structure: 'Tríade maior', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } },
+            { label: 'Posição 3', notes: 'C-E-G', chordAtlas: { structure: 'Tríade maior', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } },
+            { label: 'Posição 4', notes: 'C-E-G', chordAtlas: { structure: 'Tríade maior', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }
+          ] }
           // TODO: Adicionar Cm, Caug, Cdim quando os prints estiverem prontos
         ],
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
@@ -882,6 +887,28 @@ function buildQuiz(k) {
   </div>`;
 }
 
+// Generate ChordAtlas URL from example data
+function generateChordAtlasUrl(example, category = 'Acordes') {
+  // Slugify: "Tríade maior" → "triade-maior"
+  const slugify = (str) => str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '') // Remove acentos
+    .replace(/\s+/g, '-');
+
+  const categorySlug = slugify(category);
+  const structureSlug = slugify(example.structure || '');
+
+  const params = new URLSearchParams({
+    root: example.root || 'C',
+    minFret: example.minFret || '0',
+    maxFret: example.maxFret || '24',
+    lang: currentLang || 'pt'
+  });
+
+  return `chord-atlas/#/${categorySlug}/${structureSlug}?${params.toString()}`;
+}
+
 function buildDay(day, qk, dayIndex) {
   if (day.off) return `<div class="off-day">🌙 ${day.n} — dia livre</div>`;
 
@@ -900,8 +927,20 @@ function buildDay(day, qk, dayIndex) {
         ${formacao.items.map((ex, itemIdx) => {
           const itemId = `${formacaoId}-${itemIdx}`;
 
-          // Verificar se é SVGuitar ou imagem antiga
-          if (ex.chordName) {
+          // Verificar se é ChordAtlas, SVGuitar ou imagem antiga
+          if (ex.chordAtlas && typeof ex.chordAtlas === 'object') {
+            // ChordAtlas: renderizar botão dinâmico
+            const chordAtlasUrl = generateChordAtlasUrl(ex.chordAtlas, ex.chordAtlas.category);
+            return `
+            <div class="example-item">
+              <div class="example-label">${ex.label}</div>
+              <a href="${chordAtlasUrl}" target="_blank" class="chord-atlas-button">
+                📊 ChordAtlas
+              </a>
+              <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
+            </div>
+            `;
+          } else if (ex.chordName) {
             // SVGuitar: renderizar diagram de acorde
             return `
             <div class="example-item">
