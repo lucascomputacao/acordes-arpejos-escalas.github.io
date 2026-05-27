@@ -79,6 +79,30 @@ function applyRouteFromHash(){
   return true;
 }
 
+
+function initMobileDrawer(){
+  const openBtn=document.getElementById('mobileMenuButton');
+  const closeBtn=document.getElementById('mobileCloseButton');
+  const overlay=document.getElementById('sidebarOverlay');
+  const sidebar=document.getElementById('sidebar');
+  if(!openBtn||!closeBtn||!overlay||!sidebar) return;
+  const setOpen=(open)=>{
+    document.body.classList.toggle('sidebar-open',open);
+    openBtn.setAttribute('aria-expanded',String(open));
+    overlay.setAttribute('aria-hidden',String(!open));
+  };
+  openBtn.addEventListener('click',()=>setOpen(true));
+  closeBtn.addEventListener('click',()=>setOpen(false));
+  overlay.addEventListener('click',()=>setOpen(false));
+  document.addEventListener('keydown',(event)=>{if(event.key==='Escape')setOpen(false);});
+  sidebar.addEventListener('click',(event)=>{
+    const target=event.target;
+    if(window.matchMedia('(max-width: 980px)').matches && target && target.matches('button:not(#mobileCloseButton), select')){
+      // Keep drawer open for controls; close only when users trigger render/export/navigation is not required.
+    }
+  });
+}
+
 function tensionKey(){let name=suggestionKey(); return name;}
 function renderTensions(){const box=document.getElementById('availableTensions'); if(!box)return; const data=(currentCategory==='Acordes'||currentCategory==='Arpejos')?TENSION_DATA[tensionKey()]:null; if(!data){box.innerHTML=`<div class="status">${tr('noTensions')}</div>`;return} const block=(title,arr)=>arr&&arr.length?`<div class="tension-title">${title}</div><div class="tension-grid">${arr.map(x=>`<span class="tension-chip">${x}</span>`).join('')}</div>`:''; box.innerHTML=block(tr('stableTensions'),data.stable)+block(tr('contextTensions'),data.context)+block(tr('avoidTensions'),data.avoid)+`<div class="tension-note">${currentLang==='pt'?data.pt:data.en}</div>`;}
 
@@ -133,4 +157,4 @@ function renderVoiceLeading(){
 }
 
 function applyLang(){document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.innerHTML=tr(el.dataset.i18n));document.getElementById('lang-pt').classList.toggle('active',currentLang==='pt');document.getElementById('lang-en').classList.toggle('active',currentLang==='en');populateTabs();populateStructures();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords();populateVoiceLeadingControls();render();renderVoiceLeading();writeRoute()}
-function init(){currentLang='en';document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',renderVoiceLeading));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();
+function init(){currentLang='en';initMobileDrawer();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',renderVoiceLeading));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();

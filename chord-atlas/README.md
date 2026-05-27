@@ -20,3 +20,5 @@ The app now supports GitHub Pages friendly hash URLs, for example:
 - `#/chords/tetrade-maior-7m?root=F&minFret=5&maxFret=12&lang=pt`
 
 These links preserve the selected tab, structure, key, fret range, and language.
+
+- Mobile drawer for controls on small screens.
