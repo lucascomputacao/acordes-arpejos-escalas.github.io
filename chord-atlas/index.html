@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chord Atlas - Chord Scale Arpegios Modes Compatibility</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="panel">
+    <h3 data-i18n="controls">Controles</h3>
+    <div class="field"><label for="root" data-i18n="root">Tonalidade</label><select id="root"></select></div>
+    <div class="field"><label for="structure" data-i18n="structure">Estrutura</label><select id="structure"></select></div>
+    <div class="field"><label data-i18n="region">Fretboard region</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><label for="minFret" data-i18n="minFret">Start fret</label><input id="minFret" type="number" min="0" max="24" value="0"></div><div><label for="maxFret" data-i18n="maxFret">Final fret</label><input id="maxFret" type="number" min="1" max="24" value="24"></div></div><div class="quick"><button class="secondary" onclick="setRegion(0,12)">0-12</button><button class="secondary" onclick="setRegion(0,24)">0-24</button><button class="secondary" onclick="setRegion(5,12)">5-12</button></div></div>
+  </div>
+  <div class="panel">
+    <h3 data-i18n="stringGroups">String groups</h3>
+    <div id="stringGroups" class="checkgrid"></div>
+    <div class="small-actions"><button class="secondary" onclick="toggleAll('#stringGroups input',true)">Todos</button><button class="secondary" onclick="toggleAll('#stringGroups input',false)">Limpar</button></div>
+  </div>
+  <div class="panel">
+    <h3 data-i18n="voicings">Voicings</h3>
+    <div id="voicings"></div>
+    <div class="small-actions"><button class="secondary" onclick="toggleAll('#voicings input',true)">Todos</button><button class="secondary" onclick="toggleAll('#voicings input',false)">Limpar</button></div>
+  </div>
+  <div class="panel" id="scaleSuggestionsPanel">
+    <h3 data-i18n="scaleSuggestions">Scale suggestions</h3>
+    <div id="scaleSuggestions" class="suggestion-list"></div>
+  </div>
+  <div class="panel" id="tensionsPanel">
+    <h3 data-i18n="availableTensions">Available tensions</h3>
+    <div id="availableTensions"></div>
+  </div>
+  <div class="panel" id="compatibilityPanel">
+    <h3 data-i18n="compatibleChords">Compatible chords</h3>
+    <div id="compatibleChords"></div>
+  </div>
+  <div class="panel" id="voiceLeadingPanel">
+    <h3 data-i18n="voiceLeading">Voice leading</h3>
+    <div class="vl-controls">
+      <label data-i18n="fromChord">From chord</label>
+      <div class="vl-row"><select id="vlRootA"></select><select id="vlStructA"></select></div>
+      <label data-i18n="toChord">To chord</label>
+      <div class="vl-row"><select id="vlRootB"></select><select id="vlStructB"></select></div>
+      <button class="secondary" type="button" onclick="renderVoiceLeading()" data-i18n="findClosest">Find closest voicings</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Render</h3>
+    <div class="export-row"><button onclick="exportSVG()">SVG</button><button onclick="exportPNG()">PNG</button></div>
+    <div class="quick"><button class="secondary" onclick="window.print()" data-i18n="print">Print</button></div>
+    <div id="status" class="status"></div>
+  </div>
+</aside>
+<main class="main">
+<header>
+  <div class="lang-switch"><button id="lang-pt" type="button">🇧🇷 PT</button><button id="lang-en" class="active" type="button">🇺🇸 EN</button></div>
+  <h1 data-i18n="title">Chord Atlas</h1>
+  <div class="subtitle" data-i18n="subtitle">Chords, arpeggios, scales, modes, drop 2 and shell voicings</div>
+</header>
+<div class="tabs" id="tabs"></div>
+<div class="legend" data-i18n="legend"><b>T</b> = tonic/root &nbsp;&nbsp; <b>b3/3</b> = third &nbsp;&nbsp; <b>5</b> = fifth &nbsp;&nbsp; <b>6/7/b7</b> = sixth/seventh &nbsp;&nbsp; <b>O</b> = open string &nbsp;&nbsp; <b>X</b> = do not play</div>
+<div id="output"></div>
+<div id="voiceLeadingOutput"></div>
+</main>
+</div>
+<script src="i18n.js"></script>
+<script src="music-engine.js"></script>
+<script src="renderer.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
