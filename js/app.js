@@ -601,12 +601,16 @@ async function playExampleSequence(notes) {
 }
 
 // =============== CHORD MODAL ===============
-// Array global para rastrear acordes para navegação
-let allChordImages = [];
+// Mapa para armazenar imagens de cada formação
+let formacaoImagesMap = {};
+let currentFormacaoId = null;
 let currentChordIndex = -1;
-let currentExemploImages = []; // Imagens do exemplo/dia atual para navegação limitada
 
-function openChordModal(imgSrc, title, exampleImages = null) {
+function registerFormacaoImages(formacaoId, images) {
+  formacaoImagesMap[formacaoId] = images;
+}
+
+function openChordModal(imgSrc, title, formacaoId) {
   const modal = document.getElementById('chord-modal');
   const modalImg = document.getElementById('modal-img');
   const modalTitle = document.getElementById('modal-title');
@@ -615,21 +619,14 @@ function openChordModal(imgSrc, title, exampleImages = null) {
   modalImg.alt = title;
   modalTitle.textContent = title;
 
-  // Se exampleImages foi fornecido, usar apenas essas imagens para navegação
-  if (exampleImages && Array.isArray(exampleImages) && exampleImages.length > 0) {
-    currentExemploImages = exampleImages;
-    currentChordIndex = exampleImages.findIndex(chord => chord.img === imgSrc);
-  } else {
-    // Fallback: usar array global (para compatibilidade)
-    currentExemploImages = allChordImages;
-    currentChordIndex = allChordImages.findIndex(chord => chord.img === imgSrc);
+  // Armazenar qual formação está aberta
+  currentFormacaoId = formacaoId;
 
-    // Se não encontrou, adicionar ao array (fallback)
-    if (currentChordIndex === -1) {
-      allChordImages.push({ img: imgSrc, title: title });
-      currentExemploImages = allChordImages;
-      currentChordIndex = allChordImages.length - 1;
-    }
+  // Encontrar o índice da imagem atual
+  if (formacaoImagesMap[formacaoId]) {
+    currentChordIndex = formacaoImagesMap[formacaoId].findIndex(chord => chord.img === imgSrc);
+  } else {
+    currentChordIndex = 0;
   }
 
   modal.classList.add('active');
@@ -638,22 +635,29 @@ function openChordModal(imgSrc, title, exampleImages = null) {
 function closeChordModal() {
   const modal = document.getElementById('chord-modal');
   modal.classList.remove('active');
+
+  // Resetar estado
+  currentFormacaoId = null;
+  currentChordIndex = -1;
 }
 
-// Navegar para próximo/anterior acorde (apenas dentro do exemplo atual)
+// Navegar para próximo/anterior acorde (apenas dentro da formação atual)
 function navigateChord(direction) {
-  if (currentExemploImages.length === 0) return;
+  if (!currentFormacaoId || !formacaoImagesMap[currentFormacaoId]) return;
+
+  const images = formacaoImagesMap[currentFormacaoId];
+  if (images.length === 0) return;
 
   currentChordIndex += direction;
 
-  // Circular navigation (apenas dentro das imagens do exemplo atual)
-  if (currentChordIndex >= currentExemploImages.length) {
+  // Circular navigation (apenas dentro das imagens da formação atual)
+  if (currentChordIndex >= images.length) {
     currentChordIndex = 0;
   } else if (currentChordIndex < 0) {
-    currentChordIndex = currentExemploImages.length - 1;
+    currentChordIndex = images.length - 1;
   }
 
-  const chord = currentExemploImages[currentChordIndex];
+  const chord = images[currentChordIndex];
   const modalImg = document.getElementById('modal-img');
   const modalTitle = document.getElementById('modal-title');
 
@@ -661,6 +665,221 @@ function navigateChord(direction) {
   modalImg.alt = chord.title;
   modalTitle.textContent = chord.title;
 }
+
+// =============== CHORDATLAS MODAL (iframe) ===============
+let currentChordAtlasUrl = null;
+
+function openChordAtlasModal(url, title) {
+  console.log('🎯 openChordAtlasModal called with:', { url, title });
+
+  const modal = document.getElementById('chordatlas-modal');
+  const iframe = document.getElementById('chordatlas-iframe');
+  const titleEl = document.getElementById('chordatlas-modal-title');
+
+  if (!modal) {
+    console.error('❌ Modal element not found!');
+    return;
+  }
+
+  if (!iframe) {
+    console.error('❌ Iframe element not found!');
+    return;
+  }
+
+  iframe.src = url;
+  titleEl.textContent = title || 'ChordAtlas';
+  currentChordAtlasUrl = url;
+
+  modal.classList.add('active');
+
+  // Força os estilos via JavaScript para garantir que funcione
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  modal.style.zIndex = '1000';
+  modal.style.position = 'fixed';
+  modal.style.left = '0';
+  modal.style.top = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+
+  // Força tamanho do modal-content (responsivo)
+  const modalContent = modal.querySelector('.chordatlas-modal-content');
+  const isMobile = window.innerWidth <= 768;
+
+  if (modalContent) {
+    // Mobile: ocupar quase toda a tela
+    // Desktop: ocupar 90% da tela
+    const width = isMobile ? '98vw' : '90vw';
+    const height = isMobile ? '95vh' : '90vh';
+
+    modalContent.style.width = width;
+    modalContent.style.height = height;
+    modalContent.style.maxWidth = width;
+    modalContent.style.maxHeight = height;
+    modalContent.style.display = 'flex';
+    modalContent.style.flexDirection = 'column';
+    modalContent.style.borderRadius = isMobile ? '8px' : '12px';
+  }
+
+  // Força tamanho do iframe-container
+  const iframeContainer = modal.querySelector('.chordatlas-iframe-container');
+  if (iframeContainer) {
+    iframeContainer.style.flex = '1';
+    iframeContainer.style.overflow = 'hidden';
+    iframeContainer.style.width = '100%';
+    iframeContainer.style.height = '100%';
+  }
+
+  // Ajusta padding e tamanhos para mobile
+  const chordAtlasTitleEl = modal.querySelector('.chordatlas-modal-title');
+  if (chordAtlasTitleEl) {
+    if (isMobile) {
+      chordAtlasTitleEl.style.padding = '1rem 1rem';
+      chordAtlasTitleEl.style.fontSize = '1.1rem';
+    } else {
+      chordAtlasTitleEl.style.padding = '1.5rem 2rem';
+      chordAtlasTitleEl.style.fontSize = '1.3rem';
+    }
+  }
+
+  const buttonsEl = modal.querySelector('.chordatlas-modal-buttons');
+  if (buttonsEl) {
+    if (isMobile) {
+      buttonsEl.style.padding = '0.75rem 1rem';
+      buttonsEl.style.gap = '0.5rem';
+    } else {
+      buttonsEl.style.padding = '1.5rem 2rem';
+      buttonsEl.style.gap = '1rem';
+    }
+  }
+
+  const closeBtn = modal.querySelector('.chordatlas-modal-close');
+  if (closeBtn) {
+    if (isMobile) {
+      closeBtn.style.width = '36px';
+      closeBtn.style.height = '36px';
+      closeBtn.style.fontSize = '1.5rem';
+    } else {
+      closeBtn.style.width = '40px';
+      closeBtn.style.height = '40px';
+      closeBtn.style.fontSize = '2rem';
+    }
+  }
+
+  console.log('✅ Modal opened, iframe src set to:', url);
+  console.log('✅ Inline styles applied:', window.getComputedStyle(modal).display);
+}
+
+function closeChordAtlasModal() {
+  const modal = document.getElementById('chordatlas-modal');
+  modal.classList.remove('active');
+
+  // Remove estilos inline do modal
+  modal.style.display = '';
+  modal.style.alignItems = '';
+  modal.style.justifyContent = '';
+  modal.style.zIndex = '';
+  modal.style.position = '';
+  modal.style.left = '';
+  modal.style.top = '';
+  modal.style.width = '';
+  modal.style.height = '';
+  modal.style.backgroundColor = '';
+
+  // Remove estilos inline do modal-content
+  const modalContent = modal.querySelector('.chordatlas-modal-content');
+  if (modalContent) {
+    modalContent.style.width = '';
+    modalContent.style.height = '';
+    modalContent.style.maxWidth = '';
+    modalContent.style.maxHeight = '';
+    modalContent.style.display = '';
+    modalContent.style.flexDirection = '';
+    modalContent.style.borderRadius = '';
+  }
+
+  // Remove estilos inline do iframe-container
+  const iframeContainer = modal.querySelector('.chordatlas-iframe-container');
+  if (iframeContainer) {
+    iframeContainer.style.flex = '';
+    iframeContainer.style.overflow = '';
+    iframeContainer.style.width = '';
+    iframeContainer.style.height = '';
+  }
+
+  // Remove estilos inline do title
+  const chordAtlasTitleEl = modal.querySelector('.chordatlas-modal-title');
+  if (chordAtlasTitleEl) {
+    chordAtlasTitleEl.style.padding = '';
+    chordAtlasTitleEl.style.fontSize = '';
+  }
+
+  // Remove estilos inline dos buttons
+  const buttonsEl = modal.querySelector('.chordatlas-modal-buttons');
+  if (buttonsEl) {
+    buttonsEl.style.padding = '';
+    buttonsEl.style.gap = '';
+  }
+
+  // Remove estilos inline do close button
+  const closeBtn = modal.querySelector('.chordatlas-modal-close');
+  if (closeBtn) {
+    closeBtn.style.width = '';
+    closeBtn.style.height = '';
+    closeBtn.style.fontSize = '';
+  }
+
+  // Limpar iframe para parar de carregar
+  const iframe = document.getElementById('chordatlas-iframe');
+  iframe.src = '';
+
+  console.log('✅ Modal closed');
+}
+
+function openChordAtlasNewTab() {
+  if (currentChordAtlasUrl) {
+    window.open(currentChordAtlasUrl, '_blank');
+  }
+}
+
+// Close ChordAtlas modal when clicking outside the modal content
+document.addEventListener('DOMContentLoaded', function() {
+  const chordatlasModal = document.getElementById('chordatlas-modal');
+
+  if (chordatlasModal) {
+    chordatlasModal.addEventListener('click', function(event) {
+      // Only close if clicking on the modal background, not the content
+      if (event.target === chordatlasModal) {
+        closeChordAtlasModal();
+      }
+    });
+  }
+
+  // Event delegation for ChordAtlas button clicks
+  document.addEventListener('click', function(event) {
+    // Se clicou em um botão com data-chord-atlas-url, abre o modal
+    const button = event.target.closest('button.chord-atlas-button[data-chord-atlas-url]');
+    if (button) {
+      event.preventDefault();
+      event.stopPropagation();
+      const url = button.getAttribute('data-chord-atlas-url');
+      const title = button.getAttribute('data-chord-atlas-title');
+      console.log('🔘 ChordAtlas button clicked:', { url, title });
+      openChordAtlasModal(url, title);
+    }
+  });
+
+  // Keyboard: ESC to close ChordAtlas modal
+  document.addEventListener('keydown', function(event) {
+    const modal = document.getElementById('chordatlas-modal');
+
+    if (modal && modal.classList.contains('active') && event.key === 'Escape') {
+      closeChordAtlasModal();
+    }
+  });
+});
 
 // Close modal when clicking outside the modal content
 document.addEventListener('DOMContentLoaded', function() {
@@ -690,6 +909,20 @@ document.addEventListener('DOMContentLoaded', function() {
       navigateChord(-1);
     } else if (event.key === 'Escape') {
       closeChordModal();
+    }
+  });
+
+  // Event delegation: clicar em imagens com data-formacao-id
+  document.addEventListener('click', function(event) {
+    const img = event.target.closest('img.example-img[data-formacao-id]');
+    if (img) {
+      const formacaoId = img.getAttribute('data-formacao-id');
+      const imgSrc = img.getAttribute('data-img-src');
+      const imgTitle = img.getAttribute('data-img-title') || img.getAttribute('alt');
+
+      if (formacaoId && imgSrc) {
+        openChordModal(imgSrc, imgTitle, formacaoId);
+      }
     }
   });
 });
@@ -903,10 +1136,15 @@ function generateChordAtlasUrl(example, category = 'Acordes') {
     root: example.root || 'C',
     minFret: example.minFret || '0',
     maxFret: example.maxFret || '24',
-    lang: currentLang || 'pt'
+    lang: 'pt'
   });
 
-  return `chord-atlas/#/${categorySlug}/${structureSlug}?${params.toString()}`;
+  const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+  const fullUrl = `${baseUrl}chord-atlas/#/${categorySlug}/${structureSlug}?${params.toString()}`;
+
+  console.log('🔗 generateChordAtlasUrl:', { example, category, categorySlug, structureSlug, fullUrl });
+
+  return fullUrl;
 }
 
 function buildDay(day, qk, dayIndex) {
@@ -921,52 +1159,59 @@ function buildDay(day, qk, dayIndex) {
 
     const exemplosHtml = sesExemplosFormacoes.length > 0 ? sesExemplosFormacoes.map((formacao, formacaoIdx) => {
       const formacaoId = `formacao-${sesIndex}-${formacaoIdx}`;
+
+      // Verificar se tem ChordAtlas para adicionar botões
+      const hasChordAtlas = formacao.items && formacao.items.some(item => item.chordAtlas);
+      let chordAtlasUrl = null;
+      if (hasChordAtlas) {
+        const firstChordAtlas = formacao.items.find(item => item.chordAtlas);
+        if (firstChordAtlas) {
+          chordAtlasUrl = generateChordAtlasUrl(firstChordAtlas.chordAtlas, firstChordAtlas.chordAtlas.category);
+        }
+      }
+
       return `
       ${formacao.title ? `<div class="formacao-title">${formacao.title}</div>` : ''}
+      ${hasChordAtlas && chordAtlasUrl ? `
+      <div class="chordatlas-buttons-group" style="margin-bottom: 1.5rem;">
+        <button class="chord-atlas-button" data-chord-atlas-url="${chordAtlasUrl}" data-chord-atlas-title="${formacao.title || 'ChordAtlas'}">
+          📥 Carregar exemplos
+        </button>
+        <a href="${chordAtlasUrl}" target="_blank" class="chord-atlas-button-secondary">
+          🔗 Abrir ChordAtlas
+        </a>
+      </div>
+      ` : ''}
       <div class="examples-grid">
         ${formacao.items.map((ex, itemIdx) => {
           const itemId = `${formacaoId}-${itemIdx}`;
 
           // Verificar se é ChordAtlas, SVGuitar ou imagem antiga
           if (ex.chordAtlas && typeof ex.chordAtlas === 'object') {
-            // ChordAtlas: renderizar botão dinâmico
-            const chordAtlasUrl = generateChordAtlasUrl(ex.chordAtlas, ex.chordAtlas.category);
-            return `
-            <div class="example-item">
-              <div class="example-label">${ex.label}</div>
-              <a href="${chordAtlasUrl}" target="_blank" class="chord-atlas-button">
-                📊 ChordAtlas
-              </a>
-              <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
-            </div>
-            `;
+            // ChordAtlas: botões já estão acima, não renderizar nada aqui
+            return '';
           } else if (ex.chordName) {
             // SVGuitar: renderizar diagram de acorde
             return `
             <div class="example-item">
-              <div class="example-label">${ex.label}</div>
               <div class="chord-diagram-container" id="chord-${itemId}"></div>
-              <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
             </div>
             `;
           } else {
             // Imagem antiga: usar img tag
-            const existingIndex = allChordImages.findIndex(chord => chord.img === ex.img);
-            if (existingIndex === -1) {
-              allChordImages.push({ img: ex.img, title: ex.label });
+            // Registrar as imagens desta formação (apenas uma vez)
+            // Fazer isso aqui é seguro porque buildDay é chamado uma única vez na inicialização
+            if (!formacaoImagesMap[formacaoId]) {
+              const formacaoImages = formacao.items.filter(item => !item.chordName).map(item => ({
+                img: item.img,
+                title: item.label
+              }));
+              registerFormacaoImages(formacaoId, formacaoImages);
             }
-
-            // Preparar array de imagens da formação atual para navegação limitada
-            const formacaoImagesJson = JSON.stringify(formacao.items.filter(item => !item.chordName).map(item => ({
-              img: item.img,
-              title: item.label
-            })));
 
             return `
             <div class="example-item">
-              <div class="example-label">${ex.label}</div>
-              <img src="${ex.img}" alt="${ex.label}" class="example-img" onclick="openChordModal('${ex.img}', '${ex.label.replace(/'/g, "\\'")}', ${formacaoImagesJson});" onerror="this.style.display='none'">
-              <button class="audio-btn" onclick="playExampleSequence('${ex.notes.replace(/'/g, "\\'")}')">▶️ Play</button>
+              <img src="${ex.img}" alt="${ex.label}" class="example-img" data-formacao-id="${formacaoId}" data-img-src="${ex.img}" data-img-title="${ex.label.replace(/"/g, '&quot;')}" onerror="this.style.display='none'">
             </div>
           `;
           }

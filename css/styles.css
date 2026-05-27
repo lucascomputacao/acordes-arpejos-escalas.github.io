@@ -773,6 +773,58 @@ body {
   }
 }
 
+/* ChordAtlas Buttons Group */
+.chordatlas-buttons-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.chord-atlas-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  padding: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: 2px solid #5a67d8;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: normal;
+  max-width: 120px;
+}
+
+.chord-atlas-button-secondary:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+.chord-atlas-button-secondary:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .chordatlas-buttons-group {
+    gap: 6px;
+  }
+
+  .chord-atlas-button-secondary {
+    max-width: 90px;
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
 /* Examples Grid for Chord Diagrams */
 .formacao-title {
   font-size: 13px;
@@ -1021,6 +1073,142 @@ body {
     max-width: 95vw;
     max-height: 85vh;
   }
+
+/* =============== ChordAtlas Modal =============== */
+.chordatlas-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  animation: fadeIn 0.3s ease;
+}
+
+.chordatlas-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: visible;
+  opacity: 1;
+}
+
+.chordatlas-modal-content {
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  max-width: 95vw;
+  max-height: 95vh;
+  width: 95vw;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.chordatlas-modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.chordatlas-iframe-container {
+  flex: 1;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.chordatlas-iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.chordatlas-modal-buttons {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.chordatlas-modal-button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.chordatlas-modal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.chordatlas-modal-button:active {
+  transform: translateY(0);
+}
+
+.chordatlas-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  z-index: 1001;
+}
+
+.chordatlas-modal-close:hover {
+  background-color: var(--surface2);
+}
+
+@media (max-width: 768px) {
+  .chordatlas-modal-content {
+    max-width: 98vw;
+    max-height: 90vh;
+    width: 98vw;
+    height: 90vh;
+  }
+
+  .chordatlas-modal-title {
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .chordatlas-modal-buttons {
+    padding: 1rem 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .chordatlas-modal-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
 
   .modal-img {
     max-height: 60vh;
