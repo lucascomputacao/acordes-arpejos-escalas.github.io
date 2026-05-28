@@ -4,6 +4,7 @@
 //   #/chords/tetrade-maior-7m?root=F&minFret=5&maxFret=12&lang=pt
 let routeIsApplying = false;
 let routeHasInitialized = false;
+let voiceLeadingRequested = false;
 const CATEGORY_TO_SLUG = { 'Acordes':'chords', 'Arpejos':'arpeggios', 'Escalas':'scales', 'Modos':'modes', 'Intervalos':'intervals', 'Campos Harmônicos':'harmonic-fields' };
 const SLUG_TO_CATEGORY = Object.fromEntries(Object.entries(CATEGORY_TO_SLUG).map(([k,v]) => [v,k]));
 function slugify(value){
@@ -50,14 +51,17 @@ function routeState(){
   params.set('stringGroups', stringGroups.join('|'));
   params.set('voicings', voicings.join('|'));
 
-  const vlRootA = document.getElementById('vlRootA')?.value;
-  const vlStructA = document.getElementById('vlStructA')?.value;
-  const vlRootB = document.getElementById('vlRootB')?.value;
-  const vlStructB = document.getElementById('vlStructB')?.value;
-  if(vlRootA) params.set('vlRootA', vlRootA);
-  if(vlStructA) params.set('vlStructA', vlStructA);
-  if(vlRootB) params.set('vlRootB', vlRootB);
-  if(vlStructB) params.set('vlStructB', vlStructB);
+  if(voiceLeadingRequested){
+    const vlRootA = document.getElementById('vlRootA')?.value;
+    const vlStructA = document.getElementById('vlStructA')?.value;
+    const vlRootB = document.getElementById('vlRootB')?.value;
+    const vlStructB = document.getElementById('vlStructB')?.value;
+    params.set('voiceLeading', '1');
+    if(vlRootA) params.set('vlRootA', vlRootA);
+    if(vlStructA) params.set('vlStructA', vlStructA);
+    if(vlRootB) params.set('vlRootB', vlRootB);
+    if(vlStructB) params.set('vlStructB', vlStructB);
+  }
 
   return `#/${CATEGORY_TO_SLUG[currentCategory] || slugify(currentCategory)}/${slugify(structure)}?${params.toString()}`;
 }
@@ -86,7 +90,8 @@ function readRoute(){
     vlRootA: params.get('vlRootA'),
     vlStructA: params.get('vlStructA'),
     vlRootB: params.get('vlRootB'),
-    vlStructB: params.get('vlStructB')
+    vlStructB: params.get('vlStructB'),
+    voiceLeading: params.get('voiceLeading') === '1'
   };
 }
 function applyRouteFromHash(){
@@ -117,6 +122,7 @@ function applyRouteFromHash(){
   if(route.vlRootB && NOTES.includes(route.vlRootB)) document.getElementById('vlRootB').value = route.vlRootB;
   if(route.vlStructA && LIBRARY['Acordes'][route.vlStructA]) document.getElementById('vlStructA').value = route.vlStructA;
   if(route.vlStructB && LIBRARY['Acordes'][route.vlStructB]) document.getElementById('vlStructB').value = route.vlStructB;
+  voiceLeadingRequested = !!route.voiceLeading;
   render();
   renderVoiceLeading();
   routeIsApplying = false;
@@ -185,15 +191,21 @@ function pairScore(a,b){
   score+=Math.abs(a.baseFret-b.baseFret)*0.5;
   return Math.round(score*10)/10;
 }
+function requestVoiceLeading(){
+  voiceLeadingRequested = true;
+  renderVoiceLeading();
+  writeRoute();
+}
 function renderVoiceLeading(){
   const out=document.getElementById('voiceLeadingOutput'); if(!out)return;
+  if(!voiceLeadingRequested){out.innerHTML='';return;}
   const ra=document.getElementById('vlRootA').value, rb=document.getElementById('vlRootB').value, sa=document.getElementById('vlStructA').value, sb=document.getElementById('vlStructB').value;
   const A=generateAllChordVoicings(ra,sa), B=generateAllChordVoicings(rb,sb);
   const pairs=[];
   A.forEach(a=>B.forEach(b=>{ if(a.positions.length===b.positions.length) pairs.push({a,b,score:pairScore(a,b)}); }));
   pairs.sort((x,y)=>x.score-y.score||x.a.baseFret-y.a.baseFret||x.b.baseFret-y.b.baseFret);
   const top=pairs.slice(0,8);
-  if(!top.length){out.innerHTML=`<section class="section"><h2>${tr('voiceLeading')}</h2><div class="empty">${tr('noVoiceLeading')}</div></section>`;return}
+  if(!top.length){out.innerHTML='';return}
   const sec=document.createElement('section'); sec.className='section'; sec.innerHTML=`<h2>${tr('closestMoves')}: ${ra} ${dn(sa)} → ${rb} ${dn(sb)}</h2>`;
   const grid=document.createElement('div'); grid.className='vl-grid';
   top.forEach(p=>{const el=document.createElement('div'); el.className='vl-pair'; el.innerHTML=`<div class="vl-pair-head">${p.a.voice} → ${p.b.voice}</div><div class="vl-diagrams"><div class="card"><div class="title">${ra}</div><div class="meta">${dn(sa)} · ${tr('fret')} ${p.a.baseFret}</div>${svgDiagram(p.a,false)}</div><div class="card"><div class="title">${rb}</div><div class="meta">${dn(sb)} · ${tr('fret')} ${p.b.baseFret}</div>${svgDiagram(p.b,false)}</div></div><div class="vl-score">${tr('movement')}: ${p.score}</div>`; grid.appendChild(el);});
