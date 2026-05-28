@@ -24,7 +24,7 @@ const WEEKS = {
         tip: 'Estude as 4 posições do braço para cada tipo de acorde. Toque o arpejo primeiro (notas separadas) e depois o acorde completo (notas juntas).'
       },
       { n: 'Dia 2', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Sequência I-IV-V em C maior com tríades apenas (C-F-G)', sess: [['Tríades menores', 'Diferença pro maior: 3ª menor (♭3). Fórmula: 1-♭3-5', 'p.19-20'], ['Inversões de tríades menores', 'Mesma lógica das maiores: fundamental, 1ª inversão, 2ª inversão', 'p.20-21'], ['Ditado de tríades', 'Ouça acordes de músicas conhecidas e identifique maior ou menor', 'p.22']], exemplos: [{ sessionIndex: 0, title: 'C Minor (Dó menor)', items: [{ notes: 'C-Eb-G', chordAtlas: { structure: 'Tríade menor', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }] }, { sessionIndex: 1, title: 'C Minor Inversions', items: [{ notes: 'C-Eb-G', chordAtlas: { structure: 'Tríade menor', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }] }], tip: 'Ouça sons de violão ou piano tocando tríades. Tente identificar de ouvido se é maior ou menor antes de ver a cifra.' },
-      { n: 'Dia 3', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Toque as 3 inversões de C, Dm, Em, F, G, Am em sequência', sess: [['Tríades diminutas e aumentadas', 'Diminuta: 1-♭3-♭5. Aumentada: 1-3-♯5', 'p.23-24'], ['Campo harmônico em tríades', 'Construir as tríades dos 7 graus da escala maior', 'p.25-26'], ['Progressões diatônicas', 'I-vi-IV-V, I-IV-V, ii-V-I em tríades', 'p.27']], exemplos: [{ sessionIndex: 0, title: 'C Diminished', items: [{ notes: 'C-Eb-Gb', chordAtlas: { structure: 'Tríade diminuta', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }] }, { sessionIndex: 0, title: 'C Augmented', items: [{ notes: 'C-E-G#', chordAtlas: { structure: 'Tríade aumentada', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }] }], tip: 'Decore o padrão do campo harmônico maior: M m m M M m dim. Você vai usar isso pra sempre.' },
+      { n: 'Dia 3', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Toque as 3 inversões de C, Dm, Em, F, G, Am em sequência', sess: [['Tríades diminutas e aumentadas', 'Diminuta: 1-♭3-♭5. Aumentada: 1-3-♯5', 'p.23-24'], ['Campo harmônico em tríades', 'Construir as tríades dos 7 graus da escala maior', 'p.25-26'], ['Progressões diatônicas', 'I-vi-IV-V, I-IV-V, ii-V-I em tríades', 'p.27']], exemplos: [{ sessionIndex: 0, title: 'C Diminished', items: [{ notes: 'C-Eb-Gb', chordAtlas: { structure: 'Tríade diminuta', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }] }, { sessionIndex: 0, title: 'C Augmented', items: [{ notes: 'C-E-G#', chordAtlas: { structure: 'Tríade aumentada', category: 'Acordes', minFret: 0, maxFret: 24, root: 'C' } }] }, { sessionIndex: 1, title: 'Campo harmônico em tríades', items: [{ chordAtlasUrl: './chord-atlas/#/harmonic-fields/campo-maior-jonico?root=C&minFret=0&maxFret=24&lang=pt&stringGroups=6-5-4-3-2-1&voicings=Mapa+do+campo+no+bra%C3%A7o&vlRootA=C&vlStructA=T%C3%A9trade+maior+7M&vlRootB=F&vlStructB=T%C3%A9trade+menor+7' }] }], tip: 'Decore o padrão do campo harmônico maior: M m m M M m dim. Você vai usar isso pra sempre.' },
       { n: 'Dia 4', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Campo harmônico de C maior em tríades, todas as inversões, subindo o braço', sess: [['Encadeamentos de inversões', 'Movimentação suave entre acordes usando inversões', 'p.28-29'], ['Prática: progressão em todas as tonalidades', 'I-IV-V em C, G, D, A, E, F, B♭', 'p.30'], ['Análise de música real', 'Pegue uma música simples e identifique as tríades', 'p.31']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Progressão 4: Dm7 → Em7(11) → G7(♯5) → C7M(9)', img: './public/images/dia-01/page-18-ref.jpg', notes: 'D-F-A-C; E-G-B-D-A; G-B-D#-F; C-E-G-B-D' }] }], tip: 'Escolha uma música que você goste e que tenha poucos acordes. Tente tocar só com tríades e inversões.' },
       { n: 'Dia 5', b: 'ba', bl: 'Acordes', t: '30 min', warm: 'Revisão livre: toque tríades em diferentes regiões do braço sem olhar cifras', sess: [['Consolidação das inversões', 'Refazer todos os exemplos das páginas anteriores sem consultar', 'p.14-31'], ['Teste de prontidão', 'Consegue tocar qualquer tríade em qualquer inversão sem pensar?', 'p.31'], ['Preparação para tétrades', 'Compreender que vamos adicionar a 7ª agora', 'p.32']], exemplos: [{ sessionIndex: 0, items: [{ label: 'Progressão 5: Dm7(b5) → G7 → Cm7', img: './public/images/dia-01/page-18-ref.jpg', notes: 'D-F-A-C; G-B-D-F; C-Eb-G-Bb' }] }], tip: 'Se não conseguir tocar de cor, volte atrás. Melhor consolidar pouco do que avançar com lacunas.', quiz: true },
       { n: 'Sábado', off: true },
@@ -1166,12 +1166,18 @@ function buildDay(day, qk, dayIndex) {
       const formacaoId = `formacao-${sesIndex}-${formacaoIdx}`;
 
       // Verificar se tem ChordAtlas para adicionar botões
-      const hasChordAtlas = formacao.items && formacao.items.some(item => item.chordAtlas);
+      const hasChordAtlas = formacao.items && formacao.items.some(item => item.chordAtlas || item.chordAtlasUrl);
       let chordAtlasUrl = null;
       if (hasChordAtlas) {
-        const firstChordAtlas = formacao.items.find(item => item.chordAtlas);
-        if (firstChordAtlas) {
-          chordAtlasUrl = generateChordAtlasUrl(firstChordAtlas.chordAtlas, firstChordAtlas.chordAtlas.category);
+        // Preferir URL customizada se disponível
+        const itemWithUrl = formacao.items.find(item => item.chordAtlasUrl);
+        if (itemWithUrl && itemWithUrl.chordAtlasUrl) {
+          chordAtlasUrl = itemWithUrl.chordAtlasUrl;
+        } else {
+          const firstChordAtlas = formacao.items.find(item => item.chordAtlas);
+          if (firstChordAtlas) {
+            chordAtlasUrl = generateChordAtlasUrl(firstChordAtlas.chordAtlas, firstChordAtlas.chordAtlas.category);
+          }
         }
       }
 
