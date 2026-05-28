@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "local-server",
+      "name": "dev",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "9000"],
-      "port": 9000
+      "runtimeArgs": ["-m", "http.server", "8000"],
+      "port": 8000
     }
   ]
 }
