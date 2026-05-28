@@ -1373,6 +1373,48 @@ function toggleChk(ph, i) {
 
 const TAB_IDS = ['mapa', 'f1', 'f1b', 'f2', 'f3', 'f4', 'check'];
 
+// ===== ROUTING HELPER FUNCTIONS =====
+
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '') // Remove acentos
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, ''); // Remove caracteres especiais
+}
+
+function phaseKeyFromSlug(slug) {
+  // "fase-1-acordes" → "f1", "fase-2-escalas" → "f2", etc.
+  const phaseMap = {
+    'fase-1-acordes': 'f1',
+    'fase-1b-progressoes': 'f1b',
+    'fase-2-escalas': 'f2',
+    'fase-3-tensoes': 'f3',
+    'fase-4-aplicacoes': 'f4'
+  };
+  return phaseMap[slug] || null;
+}
+
+function slugFromPhaseKey(key) {
+  // Reverso do acima
+  const slugMap = {
+    'f1': 'fase-1-acordes',
+    'f1b': 'fase-1b-progressoes',
+    'f2': 'fase-2-escalas',
+    'f3': 'fase-3-tensoes',
+    'f4': 'fase-4-aplicacoes'
+  };
+  return slugMap[key] || null;
+}
+
+function writeRoute(target) {
+  // target pode ser 'dia-N' ou 'fase-X'
+  window.location.hash = '#/' + target;
+}
+
+// ===== END ROUTING HELPER FUNCTIONS =====
+
 function showTab(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1418,6 +1460,11 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const tabId = this.getAttribute('data-tab');
       showTab(tabId);
+      // Write route when tab is clicked
+      const slug = slugFromPhaseKey(tabId);
+      if (slug) {
+        writeRoute(slug);
+      }
     });
   });
 
@@ -1437,25 +1484,38 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =============== URL ROUTING ===============
-function handleDayRouting() {
-  // Parse hash para dia (ex: #dia_1, #dia_2, etc ou #/dia_1)
-  const hash = window.location.hash.replace(/^#\/?/, '');
-  const dayMatch = hash.match(/dia[_-]?(\d+)/i);
 
-  if (dayMatch) {
-    const dayNum = parseInt(dayMatch[1]);
-    navigateToDay(dayNum);
+function applyRouteFromHash() {
+  const hash = window.location.hash.slice(2); // Remove '#/'
+
+  if (!hash) {
+    // Sem hash: padrão é dia 1
+    writeRoute('dia-1');
+    return;
   }
 
-  // Também listen para mudanças de hash
-  window.addEventListener('hashchange', () => {
-    const newHash = window.location.hash.replace(/^#\/?/, '');
-    const newDayMatch = newHash.match(/dia[_-]?(\d+)/i);
-    if (newDayMatch) {
-      const dayNum = parseInt(newDayMatch[1]);
-      navigateToDay(dayNum);
-    }
-  });
+  // Suportar "fase-X-nome" (ex: fase-2-escalas)
+  const phaseKey = phaseKeyFromSlug(hash);
+  if (phaseKey) {
+    showTab(phaseKey);
+    return;
+  }
+
+  // Suportar "dia-N" ou "dia_N" (ex: dia-1, dia_1)
+  const dayMatch = hash.match(/^dia[_-](\d+)$/);
+  if (dayMatch) {
+    const dayNum = parseInt(dayMatch[1], 10);
+    navigateToDay(dayNum);
+    return;
+  }
+}
+
+function handleDayRouting() {
+  // Apply route on initial load
+  applyRouteFromHash();
+
+  // Listen for hash changes
+  window.addEventListener('hashchange', applyRouteFromHash);
 }
 
 function navigateToDay(dayNum) {
