@@ -307,7 +307,7 @@ function intervalMap(root,f){let m={};f.forEach(iv=>m[iv]=noteFor(root,iv));retu
 const BOOK_ARPEGGIO_PATTERNS = {
   'Arpejo tríade maior': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Major triad arpeggio - book-style position 1.
       // This pattern has been checked against the horizontal fretboard version.
@@ -322,7 +322,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Major triad arpeggio - book-style position 2.
       // Removed the extra G-string note at the final column.
@@ -338,7 +338,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 8,
       // Major triad arpeggio - book-style position 3.
       // The A-string third at fret 7 stays fixed.
@@ -354,7 +354,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 10,
       // Major triad arpeggio - book-style position 4.
       // Removed the D-string third at fret 14 and added the G-string third at fret 9.
@@ -369,7 +369,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Major triad arpeggio - book-style position 5.
       // Removed the B-string note at fret 5.
@@ -389,7 +389,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tétrade maior 7M': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Major 7 arpeggio - book-style regional position 1.
       // Formula: T-3-5-7M. Root notes are white; all other chord tones are black.
@@ -406,7 +406,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Major 7 arpeggio - Position 2 corrected from user markup.
       // Removed the right-edge G-string 3 and D-string 7M; added left-side 7M and 3.
@@ -424,7 +424,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 8,
       // Major 7 arpeggio - Position 3 corrected from user markup.
       // Removed the right-edge notes and added the left-side tones from the book pattern.
@@ -442,7 +442,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 8,
       // Major 7 arpeggio - book-style regional position 4.
       // Rebuilt from the reference diagram: no open-position notes; region is 8-13 in C.
@@ -459,7 +459,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Major 7 arpeggio - Position 5 corrected from user markup.
       // Removed the G-string 7M at fret 4 and added the open B-string 7M.
@@ -479,7 +479,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tríade menor': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Minor triad arpeggio inferred from the corrected major-triad position 1.
       // T and 5 stay in the same places; every 3 is lowered one fret and relabeled b3.
@@ -496,7 +496,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Minor triad arpeggio inferred from corrected major-triad position 2.
       offsets: [
@@ -511,7 +511,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 8,
       // Minor triad arpeggio - Position 3 corrected from the supplied reference.
       // Removed the A-string b3 below the region and added the two b3 notes on both E strings.
@@ -527,7 +527,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 10,
       // Minor triad arpeggio - Position 4 corrected from the supplied markup.
       // Removed the low G-string b3 and added the D-string b3 at the right edge of the region.
@@ -542,7 +542,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Minor triad arpeggio - Position 5 corrected from the supplied markup.
       // Removed the b3 notes on both E strings at the left edge and added the B-string b3 on the right edge.
@@ -559,7 +559,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tétrade menor 7': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Minor seventh arpeggio - book-style position 1.
       // Formula: T-b3-5-b7. Added on top of the current known-good project base.
@@ -579,7 +579,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Minor seventh arpeggio - book-style position 2.
       // Added from the supplied reference diagram. Formula: T-b3-5-b7.
@@ -597,7 +597,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 5,
       // Minor seventh arpeggio - book-style position 3.
       // User correction: A-string fifth stays at fret 10; removed the extra right-edge note.
@@ -616,7 +616,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 10,
       // Minor seventh arpeggio - book-style position 4.
       // Formula: T-b3-5-b7. Added from the supplied reference diagram.
@@ -633,7 +633,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Minor seventh arpeggio - book-style position 5.
       // Formula: T-b3-5-b7. Based on Position 5 of the minor triad with added b7.
@@ -652,7 +652,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo dominante 7': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Dominant seventh arpeggio - book-style position 1.
       // Formula: T-3-5-b7. Corrected from the user's markup:
@@ -672,7 +672,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Dominant seventh arpeggio - book-style position 2.
       // Formula: T-3-5-b7. Corrected from the user's markup:
@@ -692,7 +692,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 5,
       // Dominant seventh arpeggio - book-style position 3.
       // Formula: T-3-5-b7. Corrected from the user's markup:
@@ -710,7 +710,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 10,
       // Dominant seventh arpeggio - book-style position 4.
       // Formula: T-3-5-b7. Corrected from the user's markup:
@@ -728,7 +728,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Dominant seventh arpeggio - book-style position 5.
       // Formula: T-3-5-b7. Corrected from the user's markup:
@@ -750,7 +750,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo meio-diminuto': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Half-diminished (m7b5) arpeggio - book-style position 1.
       // Formula: T-b3-b5-b7. Derived from the minor 7 position 1 by lowering every
@@ -769,7 +769,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Half-diminished (m7b5) arpeggio - book-style position 2.
       // Formula: T-b3-b5-b7. Corrected from the user's markup:
@@ -788,7 +788,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 5,
       // Half-diminished (m7b5) arpeggio - book-style position 3.
       // Formula: T-b3-b5-b7. Corrected from the user's markup:
@@ -807,7 +807,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 10,
       // Half-diminished (m7b5) arpeggio - book-style position 4.
       // Formula: T-b3-b5-b7. Corrected from the user's markup:
@@ -826,7 +826,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Half-diminished (m7b5) arpeggio - book-style position 5.
       // Formula: T-b3-b5-b7. Corrected from the user's markup:
@@ -846,7 +846,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tétrade aumentada': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Augmented major 7 arpeggio (maj7#5) - book-style position 1.
       // Formula: T-3-#5-7M. Corrected from the user's markup:
@@ -864,7 +864,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Augmented major 7 arpeggio (maj7#5) - book-style position 2.
       // Formula: T-3-#5-7M. Corrected from the user's markup: removed the top-E T
@@ -882,7 +882,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 8,
       // Augmented major 7 arpeggio (maj7#5) - book-style position 3.
       // Formula: T-3-#5-7M. Corrected from the user's markup: removed the A-string #5
@@ -901,7 +901,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 8,
       // Augmented major 7 arpeggio (maj7#5) - book-style position 4.
       // Formula: T-3-#5-7M. Corrected from the user's markup: removed the B-string T
@@ -921,7 +921,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Augmented major 7 arpeggio (maj7#5) - book-style position 5.
       // Formula: T-3-#5-7M. Major 7 position 5 with each 5 raised to #5.
@@ -941,7 +941,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo menor com sétima maior': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Minor-major 7 arpeggio m(maj7) - book-style position 1.
       // Formula: T-b3-5-7M. Corrected from the user's markup: removed the D-string b3
@@ -960,7 +960,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 5,
       // Minor-major 7 arpeggio m(maj7) - book-style position 2.
       // Formula: T-b3-5-7M. Corrected from the user's markup: removed the B-string b3
@@ -979,7 +979,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 8,
       // Minor-major 7 arpeggio m(maj7) - book-style position 3.
       // Formula: T-b3-5-7M. Corrected from the user's markup: removed the low-E 7M at
@@ -997,7 +997,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 4',
+      name: 'Posição 4',
       baseForC: 8,
       // Minor-major 7 arpeggio m(maj7) - book-style position 4.
       // Formula: T-b3-5-7M. Corrected from the user's markup: removed the G-string b3
@@ -1015,7 +1015,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 5',
+      name: 'Posição 5',
       baseForC: 0,
       // Minor-major 7 arpeggio m(maj7) - book-style position 5 (open region).
       // Formula: T-b3-5-7M. Corrected from the user's markup: the B-string 7M/T belong
@@ -1038,7 +1038,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo diminuto': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Dim7 (T-b3-b5-bb7). C: casas 1-5 / D: casas 3-7. Confirmed by user.
       offsets: [
@@ -1054,7 +1054,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 3,
       // Dim7 — P1 shifted +3 semitones. Label cycle: b5→bb7, bb7→T, T→b3, b3→b5.
       // C: casas 4-8 / D: casas 6-10.
@@ -1071,7 +1071,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 3',
+      name: 'Posição 3',
       baseForC: 0,
       // Dim7 — book-style diagonal sweep, 2 notes per string. C: casas 2-11 / D: casas 4-13.
       // Each string pair: b5+bb7 (strings 6/4/2) or T+b3 (strings 5/3/1).
@@ -1093,7 +1093,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tríade aumentada': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Augmented triad arpeggio from the book-style single movable shape.
       // Formula: T-3-#5. This is symmetrical, so one shape covers the cycle.
@@ -1111,7 +1111,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tríade diminuta': [
     {
-      name: 'Position 1',
+      name: 'Posição 1',
       baseForC: 0,
       // Diminished triad arpeggio - Position 1 corrected from user markup.
       // Removed the marked B-string and D-string notes.
@@ -1130,7 +1130,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Position 2',
+      name: 'Posição 2',
       baseForC: 4,
       // Diminished triad arpeggio from the book diagram, position 2.
       // Same T-b3-b5 material in the next region of the neck.
