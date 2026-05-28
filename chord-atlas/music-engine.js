@@ -1,5 +1,5 @@
 const INTERVALS={'T':0,'1':0,'b2':1,'2':2,'#2':3,'b3':3,'3':4,'4':5,'#4':6,'b5':6,'5':7,'#5':8,'b6':8,'6':9,'bb7':9,'b7':10,'7':11,'7M':11};
-const LIBRARY={'Acordes':{'Tríade maior':['T','3','5'],'Tríade menor':['T','b3','5'],'Tríade aumentada':['T','3','#5'],'Tríade diminuta':['T','b3','b5'],'Tétrade maior 7M':['T','3','5','7M'],'Tétrade menor 7':['T','b3','5','b7'],'Tétrade dominante 7':['T','3','5','b7'],'Tétrade meio-diminuta m7(b5)':['T','b3','b5','b7'],'Tétrade diminuta dim7':['T','b3','b5','bb7'],'Menor com sétima maior m(7M)':['T','b3','5','7M'],'Maior com sexta 6':['T','3','5','6'],'Menor com sexta m6':['T','b3','5','6'],'Suspenso sus4':['T','4','5']},'Arpejos':{'Arpejo tríade maior':['T','3','5'],'Arpejo tríade menor':['T','b3','5'],'Arpejo tríade aumentada':['T','3','#5'],'Arpejo tríade diminuta':['T','b3','b5'],'Arpejo tétrade maior 7M':['T','3','5','7M'],'Arpejo tétrade menor 7':['T','b3','5','b7'],'Arpejo dominante 7':['T','3','5','b7'],'Arpejo meio-diminuto':['T','b3','b5','b7'],'Arpejo diminuto':['T','b3','b5','bb7']},'Escalas':{'Escala maior':['T','2','3','4','5','6','7'],'Escala menor natural':['T','2','b3','4','5','b6','b7'],'Escala menor harmônica':['T','2','b3','4','5','b6','7'],'Escala menor melódica':['T','2','b3','4','5','6','7'],'Pentatonic/root maior':['T','2','3','5','6'],'Pentatonic/root menor':['T','b3','4','5','b7'],'Blues maior':['T','2','b3','3','5','6'],'Blues menor':['T','b3','4','b5','5','b7'],'Escala diminuta':['T','2','b3','4','b5','b6','6','7'],'Diminuta dominante':['T','b2','b3','3','b5','5','6','b7'],'Tons inteiros':['T','2','3','#4','#5','b7']},'Modos':{'Modo jônico':['T','2','3','4','5','6','7'],'Modo dórico':['T','2','b3','4','5','6','b7'],'Modo frígio':['T','b2','b3','4','5','b6','b7'],'Modo lídio':['T','2','3','#4','5','6','7'],'Modo mixolídio':['T','2','3','4','5','6','b7'],'Modo eólio':['T','2','b3','4','5','b6','b7'],'Modo lócrio':['T','b2','b3','4','b5','b6','b7'],'Superlócrio / alterada':['T','b2','#2','3','b5','#5','b7']}};
+const LIBRARY={'Acordes':{'Tríade maior':['T','3','5'],'Tríade menor':['T','b3','5'],'Tríade aumentada':['T','3','#5'],'Tríade diminuta':['T','b3','b5'],'Tétrade maior 7M':['T','3','5','7M'],'Tétrade menor 7':['T','b3','5','b7'],'Tétrade dominante 7':['T','3','5','b7'],'Tétrade meio-diminuta m7(b5)':['T','b3','b5','b7'],'Tétrade diminuta dim7':['T','b3','b5','bb7'],'Menor com sétima maior m(7M)':['T','b3','5','7M'],'Maior com sexta 6':['T','3','5','6'],'Menor com sexta m6':['T','b3','5','6'],'Suspenso sus4':['T','4','5']},'Arpejos':{'Arpejo tríade maior':['T','3','5'],'Arpejo tríade menor':['T','b3','5'],'Arpejo tríade aumentada':['T','3','#5'],'Arpejo tríade diminuta':['T','b3','b5'],'Arpejo tétrade maior 7M':['T','3','5','7M'],'Arpejo tétrade menor 7':['T','b3','5','b7'],'Arpejo dominante 7':['T','3','5','b7'],'Arpejo meio-diminuto':['T','b3','b5','b7'],'Arpejo diminuto':['T','b3','b5','bb7']},'Escalas':{'Escala maior':['T','2','3','4','5','6','7'],'Escala menor natural':['T','2','b3','4','5','b6','b7'],'Escala menor harmônica':['T','2','b3','4','5','b6','7'],'Escala menor melódica':['T','2','b3','4','5','6','7'],'Pentatonic/root maior':['T','2','3','5','6'],'Pentatonic/root menor':['T','b3','4','5','b7'],'Blues maior':['T','2','b3','3','5','6'],'Blues menor':['T','b3','4','b5','5','b7'],'Escala diminuta':['T','2','b3','4','b5','b6','6','7'],'Diminuta dominante':['T','b2','b3','3','b5','5','6','b7'],'Tons inteiros':['T','2','3','#4','#5','b7']},'Modos':{'Modo jônico':['T','2','3','4','5','6','7'],'Modo dórico':['T','2','b3','4','5','6','b7'],'Modo frígio':['T','b2','b3','4','5','b6','b7'],'Modo lídio':['T','2','3','#4','5','6','7'],'Modo mixolídio':['T','2','3','4','5','6','b7'],'Modo eólio':['T','2','b3','4','5','b6','b7'],'Modo lócrio':['T','b2','b3','4','b5','b6','b7'],'Superlócrio / alterada':['T','b2','#2','3','b5','#5','b7']},'Campos Harmônicos':{'Campo maior (jônico)':['T','2','3','4','5','6','7'],'Campo menor natural (eólio)':['T','2','b3','4','5','b6','b7']}};
 
 const SCALE_SUGGESTIONS={
   'Tríade maior':[
@@ -163,6 +163,36 @@ const TENSION_DATA={
   'Menor com sexta m6':{stable:['9','11'],context:['7M'],avoid:['b9'],pt:'m6 normalmente aponta para menor melódica ou dórico. 9 e 11 são boas extensões.',en:'m6 often points to melodic minor or Dorian. 9 and 11 are good extensions.'},
   'Suspenso sus4':{stable:['9','b7'],context:['13'],avoid:['3 natural'],pt:'Em sus4, a third fica suspensa. 9, b7 e 13 são cores frequentes.',en:'In sus4, the third is suspended. 9, b7 and 13 are common colors.'}
 };
+
+
+const HARMONIC_FIELDS={
+  'Campo maior (jônico)':{
+    scale:'Escala maior', mode:'Modo jônico', formula:['T','2','3','4','5','6','7'],
+    degrees:['I','ii','iii','IV','V','vi','vii°'],
+    functions:['T','S','S','S','D','S','D'],
+    qualities:['maj7','m7','m7','maj7','7','m7','m7(b5)'],
+    chordFormulas:[['T','3','5','7M'],['T','b3','5','b7'],['T','b3','5','b7'],['T','3','5','7M'],['T','3','5','b7'],['T','b3','5','b7'],['T','b3','b5','b7']]
+  },
+  'Campo menor natural (eólio)':{
+    scale:'Escala menor natural', mode:'Modo eólio', formula:['T','2','b3','4','5','b6','b7'],
+    degrees:['i','ii°','bIII','iv','v','bVI','bVII'],
+    functions:['T','S','T','S','D','S','D'],
+    qualities:['m7','m7(b5)','maj7','m7','m7','maj7','7'],
+    chordFormulas:[['T','b3','5','b7'],['T','b3','b5','b7'],['T','3','5','7M'],['T','b3','5','b7'],['T','b3','5','b7'],['T','3','5','7M'],['T','3','5','b7']]
+  }
+};
+const FIELD_COLORS=['#2563eb','#0ea5a4','#16a34a','#8b5cf6','#f97316','#ca8a04','#ef4444'];
+function fieldData(root,fieldName){
+  const f=HARMONIC_FIELDS[fieldName]||HARMONIC_FIELDS['Campo maior (jônico)'];
+  const roots=f.formula.map(iv=>noteFor(root,iv));
+  return {...f, roots, chords:roots.map((r,i)=>({root:r, degree:f.degrees[i], function:f.functions[i], quality:f.qualities[i], formula:f.chordFormulas[i], notes:f.chordFormulas[i].map(iv=>noteFor(r,iv)), color:FIELD_COLORS[i%FIELD_COLORS.length]}))};
+}
+function fieldDegreeForNote(root,fieldName,note){
+  const data=fieldData(root,fieldName);
+  const idx=data.roots.indexOf(note);
+  return idx>=0?{index:idx, degree:data.degrees[idx], function:data.functions[idx], color:data.chords[idx].color}:null;
+}
+
 function pc(n){return NOTES.indexOf(n)} function noteFor(root,iv){return NOTES[(pc(root)+INTERVALS[iv])%12]} function noteAt(s,f){return NOTES[(pc(STRING_TUNING[s])+f)%12]} function rotate(a,n){return a.slice(n).concat(a.slice(0,n))} function uniq(a){return [...new Set(a)]}
 function getVoicingGroups(f){ if(currentCategory==='Escalas'||currentCategory==='Modos') return [{name:'pattern',items:['Desenho por região']}]; const groups=[]; if(f.length===3){const [t,a,b]=f;groups.push({name:'standard',items:uniq([[t,a,b],[t,b,a],[a,b,t],[a,t,b],[b,t,a],[b,a,t]].map(x=>x.join('-')))});} if(f.length===4){const [t,third,fifth,sev]=f;let std=[];[[t,sev,third,fifth],[t,fifth,sev,third],[t,third,fifth,sev],[t,fifth,third,sev]].forEach(x=>{for(let i=0;i<4;i++)std.push(rotate(x,i).join('-'))});groups.push({name:'standard',items:uniq(std)});let drop=[];[f,rotate(f,1),rotate(f,2),rotate(f,3)].forEach(closed=>{const d=[closed[2],closed[0],closed[1],closed[3]];drop.push(d.join('-'))});groups.push({name:'drop2',items:uniq(drop)});groups.push({name:'shell',items:uniq([[t,third,sev],[t,sev,third],[third,sev,t],[sev,third,t]].map(x=>x.join('-')))});} return groups; }
 function stringSetsForSize(size){let sets=[]; for(let i=0;i<=STRINGS.length-size;i++)sets.push(STRINGS.slice(i,i+size)); return sets;}

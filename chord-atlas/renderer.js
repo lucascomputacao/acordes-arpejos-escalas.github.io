@@ -126,6 +126,79 @@ function svgHorizontalArpeggio(item){
   return s+'</svg>';
 }
 
+
+function functionName(code){
+  if(code==='T') return currentLang==='pt' ? 'Tônica' : 'Tonic';
+  if(code==='S') return currentLang==='pt' ? 'Subdominante' : 'Subdominant';
+  if(code==='D') return currentLang==='pt' ? 'Dominante' : 'Dominant';
+  return code;
+}
+
+function svgHarmonicField(root,fieldName,minF,maxF){
+  const data=fieldData(root,fieldName);
+  const start=Math.max(0,minF), end=Math.min(24,maxF);
+  const fretCount=Math.max(1,end-start);
+  const cell=Math.max(18, Math.min(30, 650 / Math.max(1,fretCount)));
+  const x0=52, y0=28, rowGap=20, h=158, w=x0+fretCount*cell+38;
+  const strings=[1,2,3,4,5,6];
+  let s=`<svg class="field-map-svg" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<rect x="0" y="0" width="${w}" height="${h}" rx="16" fill="#fff"/>`;
+  s+=`<rect x="${x0}" y="${y0}" width="${fretCount*cell}" height="${rowGap*5}" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>`;
+  for(let f=start; f<=end; f++){
+    const x=x0+(f-start)*cell;
+    const isNut=f===0;
+    s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+rowGap*5}" stroke="${isNut?'#0f172a':'#94a3b8'}" stroke-width="${isNut?4:1.5}"/>`;
+    if(f<end){ const lab=f+1; s+=`<text x="${x+cell/2}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${lab}</text>`; }
+  }
+  strings.forEach((str,row)=>{
+    const y=y0+row*rowGap;
+    s+=`<line x1="${x0}" y1="${y}" x2="${x0+fretCount*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.1:1.5}"/>`;
+    s+=`<text x="${x0-28}" y="${y+4}" text-anchor="middle" font-size="9" font-weight="900" fill="#334155">${STRING_TUNING[str]}</text>`;
+  });
+  for(let str of strings){
+    const row=strings.indexOf(str), y=y0+row*rowGap;
+    for(let fret=start; fret<=end; fret++){
+      const note=noteAt(str,fret), deg=fieldDegreeForNote(root,fieldName,note);
+      if(!deg) continue;
+      let x;
+      if(fret===0){ if(start!==0) continue; x=x0-16; }
+      else { if(fret<=start) continue; x=x0+(fret-start-0.5)*cell; }
+      const label=deg.degree.replace('°','º');
+      const isRoot=deg.index===0;
+      s+=`<circle cx="${x}" cy="${y}" r="7.2" fill="${isRoot?'#fff':deg.color}" stroke="${deg.color}" stroke-width="1.8"/>`;
+      s+=`<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.5" font-weight="900" fill="${isRoot?deg.color:'#fff'}">${label}</text>`;
+    }
+  }
+  return s+'</svg>';
+}
+
+function renderHarmonicField(root,name,minF,maxF,out){
+  const data=fieldData(root,name);
+  const section=document.createElement('section');
+  section.className='section harmonic-field-section';
+  section.innerHTML=`<h2>${root} — ${dn(name)}</h2><div class="field-info">${tr('fieldInfo')}</div>`;
+  const cards=document.createElement('div');
+  cards.className='field-degree-cards';
+  data.chords.forEach((c)=>{
+    const el=document.createElement('div');
+    el.className='field-degree-card';
+    el.style.setProperty('--degree-color',c.color);
+    el.innerHTML=`<div class="field-degree">${c.degree}</div><div class="field-chord">${c.root}${c.quality}</div><div class="field-function">${functionName(c.function)} (${c.function})</div><div class="field-notes">${c.notes.join(' - ')}</div>`;
+    cards.appendChild(el);
+  });
+  section.appendChild(cards);
+  const map=document.createElement('div');
+  map.className='field-map-card';
+  map.innerHTML=`<h3>${tr('fieldMap')} (${minF}-${maxF})</h3>${svgHarmonicField(root,name,minF,maxF)}`;
+  section.appendChild(map);
+  const table=document.createElement('div');
+  table.className='field-table-wrap';
+  table.innerHTML=`<h3>${tr('diatonicChords')}</h3><table class="field-table"><thead><tr><th>${tr('degree')}</th><th>${tr('chord')}</th><th>${tr('functionLabel')}</th><th>${tr('chordNotes')}</th><th>${tr('intervalFormula')}</th></tr></thead><tbody>${data.chords.map(c=>`<tr><td><span class="degree-pill" style="--degree-color:${c.color}">${c.degree}</span></td><td><strong>${c.root}${c.quality}</strong></td><td>${functionName(c.function)} (${c.function})</td><td>${c.notes.join(' - ')}</td><td>${c.formula.join(' - ')}</td></tr>`).join('')}</tbody></table>`;
+  section.appendChild(table);
+  out.appendChild(section);
+  document.getElementById('status').textContent=`7 ${tr('diagrams')}`;
+}
+
 function render(){
   let root=document.getElementById('root').value,
       name=selectedStructure(),
@@ -135,6 +208,11 @@ function render(){
       voices=[...document.querySelectorAll('#voicings input:checked')].map(x=>x.value),
       out=document.getElementById('output');
   out.innerHTML='';
+  if(currentCategory==='Campos Harmônicos'){
+    renderHarmonicField(root,name,minF,maxF,out);
+    renderVoiceLeading();
+    return;
+  }
   if(!voices.length||![...document.querySelectorAll('#stringGroups input:checked')].length){
     out.innerHTML=`<div class="empty">${tr('emptySelection')}</div>`;
     document.getElementById('status').textContent='0 '+tr('diagrams');
