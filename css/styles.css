@@ -738,16 +738,16 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
+  min-height: 60px;
   width: 100%;
-  max-width: 120px;
-  padding: 8px;
+  max-width: 90px;
+  padding: 6px;
   background: var(--blue600);
   color: white;
   border: 1px solid var(--blue800);
   border-radius: 8px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -765,13 +765,6 @@ body {
   transform: translateY(0);
 }
 
-@media (max-width: 600px) {
-  .chord-atlas-button {
-    max-width: 90px;
-    font-size: 12px;
-    padding: 6px;
-  }
-}
 
 /* ChordAtlas Buttons Group */
 .chordatlas-buttons-group {
@@ -787,20 +780,20 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
-  padding: 8px;
+  min-height: 60px;
+  padding: 6px;
   background: var(--teal600);
   color: white;
   border: 1px solid var(--teal800);
   border-radius: 8px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
   text-decoration: none;
   transition: all 0.2s ease;
   cursor: pointer;
   white-space: normal;
-  max-width: 120px;
+  max-width: 90px;
 }
 
 .chord-atlas-button-secondary:hover {
