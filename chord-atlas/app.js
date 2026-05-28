@@ -20,6 +20,23 @@ function structureFromSlug(category, slug){
   const keys = Object.keys(LIBRARY[category] || {});
   return keys.find(k => slugify(k) === slug) || keys[0];
 }
+function checkedValues(selector){
+  return [...document.querySelectorAll(selector)]
+    .filter(input => input.checked)
+    .map(input => input.value);
+}
+function setCheckedValues(selector, values){
+  if(!Array.isArray(values)) return;
+  const wanted = new Set(values);
+  document.querySelectorAll(selector).forEach(input => {
+    input.checked = wanted.has(input.value);
+  });
+}
+function splitRouteList(value){
+  if(value === null) return null;
+  if(value === '') return [];
+  return value.split('|').map(x => x.trim()).filter(Boolean);
+}
 function routeState(){
   const structure = selectedStructure();
   const params = new URLSearchParams();
@@ -27,6 +44,21 @@ function routeState(){
   params.set('minFret', document.getElementById('minFret')?.value || '0');
   params.set('maxFret', document.getElementById('maxFret')?.value || '24');
   params.set('lang', currentLang || 'en');
+
+  const stringGroups = checkedValues('#stringGroups input');
+  const voicings = checkedValues('#voicings input');
+  params.set('stringGroups', stringGroups.join('|'));
+  params.set('voicings', voicings.join('|'));
+
+  const vlRootA = document.getElementById('vlRootA')?.value;
+  const vlStructA = document.getElementById('vlStructA')?.value;
+  const vlRootB = document.getElementById('vlRootB')?.value;
+  const vlStructB = document.getElementById('vlStructB')?.value;
+  if(vlRootA) params.set('vlRootA', vlRootA);
+  if(vlStructA) params.set('vlStructA', vlStructA);
+  if(vlRootB) params.set('vlRootB', vlRootB);
+  if(vlStructB) params.set('vlStructB', vlStructB);
+
   return `#/${CATEGORY_TO_SLUG[currentCategory] || slugify(currentCategory)}/${slugify(structure)}?${params.toString()}`;
 }
 function writeRoute(){
@@ -48,7 +80,13 @@ function readRoute(){
     root: params.get('root') || 'C',
     minFret: params.get('minFret') || '0',
     maxFret: params.get('maxFret') || '24',
-    lang: params.get('lang') || 'en'
+    lang: params.get('lang') || 'en',
+    stringGroups: splitRouteList(params.get('stringGroups')),
+    voicings: splitRouteList(params.get('voicings')),
+    vlRootA: params.get('vlRootA'),
+    vlStructA: params.get('vlStructA'),
+    vlRootB: params.get('vlRootB'),
+    vlStructB: params.get('vlStructB')
   };
 }
 function applyRouteFromHash(){
@@ -68,11 +106,17 @@ function applyRouteFromHash(){
   document.getElementById('minFret').value = route.minFret;
   document.getElementById('maxFret').value = route.maxFret;
   populateStringGroups();
+  if(route.stringGroups !== null) setCheckedValues('#stringGroups input', route.stringGroups);
   populateVoicings();
+  if(route.voicings !== null) setCheckedValues('#voicings input', route.voicings);
   renderScaleSuggestions();
   renderTensions();
   renderCompatibleChords();
   populateVoiceLeadingControls();
+  if(route.vlRootA && NOTES.includes(route.vlRootA)) document.getElementById('vlRootA').value = route.vlRootA;
+  if(route.vlRootB && NOTES.includes(route.vlRootB)) document.getElementById('vlRootB').value = route.vlRootB;
+  if(route.vlStructA && LIBRARY['Acordes'][route.vlStructA]) document.getElementById('vlStructA').value = route.vlStructA;
+  if(route.vlStructB && LIBRARY['Acordes'][route.vlStructB]) document.getElementById('vlStructB').value = route.vlStructB;
   render();
   renderVoiceLeading();
   routeIsApplying = false;
@@ -157,4 +201,4 @@ function renderVoiceLeading(){
 }
 
 function applyLang(){document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.innerHTML=tr(el.dataset.i18n));document.getElementById('lang-pt').classList.toggle('active',currentLang==='pt');document.getElementById('lang-en').classList.toggle('active',currentLang==='en');populateTabs();populateStructures();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords();populateVoiceLeadingControls();render();renderVoiceLeading();writeRoute()}
-function init(){currentLang='en';initMobileDrawer();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',renderVoiceLeading));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();
+function init(){currentLang='en';initMobileDrawer();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{writeRoute();renderVoiceLeading()}));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();

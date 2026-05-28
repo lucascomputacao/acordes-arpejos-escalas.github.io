@@ -26,3 +26,19 @@ These links preserve the selected tab, structure, key, fret range, and language.
 - Added harmonic field options: Major, Natural Minor, Harmonic Minor and Melodic Minor.
 
 - Extended harmonic fields: Greek modes, melodic minor modes, symmetric fields, pentatonic/hexatonic/bebop/quartal study fields.
+
+## Shareable URL state
+
+The app now keeps the main controls in the hash URL for GitHub Pages compatibility:
+
+- category/tab
+- selected structure
+- root
+- start/end fret
+- language
+- selected string groups
+- selected voicings/patterns
+- voice-leading controls, when present
+
+Example:
+`#/arpeggios/arpejo-tetrade-menor-7?root=C&minFret=0&maxFret=24&lang=en&stringGroups=1-2-3-4-5-6&voicings=Position%201`
