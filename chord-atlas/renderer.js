@@ -196,7 +196,7 @@ function renderHarmonicField(root,name,minF,maxF,out){
   table.innerHTML=`<h3>${tr('diatonicChords')}</h3><table class="field-table"><thead><tr><th>${tr('degree')}</th><th>${tr('chord')}</th><th>${tr('functionLabel')}</th><th>${tr('chordNotes')}</th><th>${tr('intervalFormula')}</th></tr></thead><tbody>${data.chords.map(c=>`<tr><td><span class="degree-pill" style="--degree-color:${c.color}">${c.degree}</span></td><td><strong>${c.root}${c.quality}</strong></td><td>${functionName(c.function)} (${c.function})</td><td>${c.notes.join(' - ')}</td><td>${c.formula.join(' - ')}</td></tr>`).join('')}</tbody></table>`;
   section.appendChild(table);
   out.appendChild(section);
-  document.getElementById('status').textContent=`7 ${tr('diagrams')}`;
+  document.getElementById('status').textContent=`${data.chords.length} ${tr('diagrams')}`;
 }
 
 function render(){

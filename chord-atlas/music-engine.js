@@ -195,6 +195,95 @@ const HARMONIC_FIELDS={
     chordFormulas:[['T','b3','5','7M'],['T','b3','5','b7'],['T','3','#5','7M'],['T','3','5','b7'],['T','3','5','b7'],['T','b3','b5','b7'],['T','b3','b5','b7']]
   }
 };
+
+
+// Extended harmonic fields -------------------------------------------------
+// These additions keep the original field implementation intact and only
+// extend the registry used by the Campos Harmônicos tab.
+const FIELD_INTERVAL_BY_ROLE = {
+  third:{3:'b3',4:'3'},
+  fifth:{6:'b5',7:'5',8:'#5'},
+  seventh:{9:'bb7',10:'b7',11:'7M'},
+  generic:{0:'T',1:'b2',2:'2',3:'b3',4:'3',5:'4',6:'b5',7:'5',8:'#5',9:'6',10:'b7',11:'7M'}
+};
+function intervalFromSemitoneForRole(semi,role){
+  semi=((semi%12)+12)%12;
+  return (FIELD_INTERVAL_BY_ROLE[role]&&FIELD_INTERVAL_BY_ROLE[role][semi])||FIELD_INTERVAL_BY_ROLE.generic[semi]||String(semi);
+}
+function qualityFromChordFormula(f){
+  const sig=f.join('-');
+  const known={
+    'T-3-5-7M':'maj7','T-3-5-b7':'7','T-b3-5-b7':'m7','T-b3-b5-b7':'m7(b5)',
+    'T-b3-b5-bb7':'dim7','T-b3-5-7M':'m(7M)','T-3-#5-7M':'maj7(#5)',
+    'T-3-#5-b7':'7(#5)','T-b3-b5-7M':'m(7M,b5)','T-3-b5-b7':'7(b5)',
+    'T-b3-#5-b7':'m7(#5)','T-3-b5-7M':'maj7(b5)',
+    'T-3-5':'maj','T-b3-5':'m','T-b3-b5':'dim','T-3-#5':'aug',
+    'T-4-b7':'sus4','T-4-5':'sus4'
+  };
+  return known[sig]||sig.replace(/^T-/,'');
+}
+function makeTertianField({scale,mode,formula,degrees,functions,chordSize=4}){
+  const semis=formula.map(iv=>INTERVALS[iv]);
+  const chordFormulas=semis.map((rootSemi,i)=>{
+    const chord=[];
+    for(let k=0;k<chordSize;k++){
+      const degreeIndex=(i+k*2)%semis.length;
+      const semi=((semis[degreeIndex]-rootSemi)%12+12)%12;
+      if(k===0) chord.push('T');
+      else if(k===1) chord.push(intervalFromSemitoneForRole(semi,'third'));
+      else if(k===2) chord.push(intervalFromSemitoneForRole(semi,'fifth'));
+      else if(k===3) chord.push(intervalFromSemitoneForRole(semi,'seventh'));
+      else chord.push(intervalFromSemitoneForRole(semi,'generic'));
+    }
+    return chord;
+  });
+  return {scale,mode,formula,degrees,functions,qualities:chordFormulas.map(qualityFromChordFormula),chordFormulas};
+}
+function makeStepField({scale,mode,formula,degrees,functions,step=3,chordSize=3}){
+  const semis=formula.map(iv=>INTERVALS[iv]);
+  const chordFormulas=semis.map((rootSemi,i)=>{
+    const chord=['T'];
+    for(let k=1;k<chordSize;k++){
+      const degreeIndex=(i+k*step)%semis.length;
+      const semi=((semis[degreeIndex]-rootSemi)%12+12)%12;
+      chord.push(intervalFromSemitoneForRole(semi,'generic'));
+    }
+    return chord;
+  });
+  return {scale,mode,formula,degrees,functions,qualities:chordFormulas.map(qualityFromChordFormula),chordFormulas};
+}
+const EXTENDED_HARMONIC_FIELD_SPECS={
+  // Greek modes as independent modal fields.
+  'Campo dórico':makeTertianField({scale:'Modo dórico',mode:'Modo dórico',formula:['T','2','b3','4','5','6','b7'],degrees:['i','ii','bIII','IV','v','vi°','bVII'],functions:['T','S','T','S','D','S','D']}),
+  'Campo frígio':makeTertianField({scale:'Modo frígio',mode:'Modo frígio',formula:['T','b2','b3','4','5','b6','b7'],degrees:['i','bII','bIII','iv','v°','bVI','bvii'],functions:['T','S','T','S','D','S','D']}),
+  'Campo lídio':makeTertianField({scale:'Modo lídio',mode:'Modo lídio',formula:['T','2','3','#4','5','6','7'],degrees:['I','II','iii','#iv°','V','vi','vii'],functions:['T','S','S','D','D','S','D']}),
+  'Campo mixolídio':makeTertianField({scale:'Modo mixolídio',mode:'Modo mixolídio',formula:['T','2','3','4','5','6','b7'],degrees:['I','ii','iii°','IV','v','vi','bVII'],functions:['T','S','D','S','D','S','D']}),
+  'Campo lócrio':makeTertianField({scale:'Modo lócrio',mode:'Modo lócrio',formula:['T','b2','b3','4','b5','b6','b7'],degrees:['i°','bII','biii','iv','bV','bVI','bvii'],functions:['T','S','T','S','D','S','D']}),
+
+  // Melodic minor family.
+  'Campo dórico b2':makeTertianField({scale:'Menor melódica - modo 2',mode:'Dórico b2',formula:['T','b2','b3','4','5','6','b7'],degrees:['i','bII','bIII+','iv','v°','vi','bvii'],functions:['T','S','T','S','D','S','D']}),
+  'Campo lídio aumentado':makeTertianField({scale:'Menor melódica - modo 3',mode:'Lídio aumentado',formula:['T','2','3','#4','#5','6','7'],degrees:['I+','II','iii','iv°','V','vi','vii'],functions:['T','S','S','D','D','S','D']}),
+  'Campo lídio dominante':makeTertianField({scale:'Menor melódica - modo 4',mode:'Lídio dominante',formula:['T','2','3','#4','5','6','b7'],degrees:['I','II','iii°','#iv°','v','vi','bVII'],functions:['D','S','D','D','D','S','D']}),
+  'Campo mixolídio b6':makeTertianField({scale:'Menor melódica - modo 5',mode:'Mixolídio b6',formula:['T','2','3','4','5','b6','b7'],degrees:['I','ii°','iii°','iv','v','bVI+','bvii'],functions:['D','S','D','S','D','S','D']}),
+  'Campo lócrio 9':makeTertianField({scale:'Menor melódica - modo 6',mode:'Lócrio 9',formula:['T','2','b3','4','b5','b6','b7'],degrees:['i°','ii','bIII','iv','bV','bVI','bvii'],functions:['D','S','T','S','D','S','D']}),
+  'Campo alterado / superlócrio':makeTertianField({scale:'Menor melódica - modo 7',mode:'Alterado / Superlócrio',formula:['T','b2','#2','3','b5','#5','b7'],degrees:['Ialt','bII','bIII','bIV','bV','bVI','bVII'],functions:['D','S','T','S','D','S','D']}),
+
+  // Symmetric fields.
+  'Campo diminuto tom-semitom':makeTertianField({scale:'Escala diminuta tom-semitom',mode:'Diminuta T-ST',formula:['T','2','b3','4','b5','b6','6','7'],degrees:['I','II','bIII','IV','bV','bVI','VI','VII'],functions:['T','D','T','D','T','D','T','D']}),
+  'Campo diminuto semitom-tom':makeTertianField({scale:'Escala diminuta semitom-tom',mode:'Diminuta ST-T',formula:['T','b2','b3','3','b5','5','6','b7'],degrees:['I','bII','bIII','III','bV','V','VI','bVII'],functions:['D','T','D','T','D','T','D','T']}),
+  'Campo tons inteiros':makeTertianField({scale:'Tons inteiros',mode:'Tons inteiros',formula:['T','2','3','#4','#5','b7'],degrees:['I','II','III','#IV','#V','bVII'],functions:['D','D','D','D','D','D']}),
+
+  // Modern / non-tertian study fields.
+  'Campo pentatônico maior':makeTertianField({scale:'Pentatonic/root maior',mode:'Pentatônica maior',formula:['T','2','3','5','6'],degrees:['I','II','III','V','VI'],functions:['T','S','T','D','S'],chordSize:3}),
+  'Campo pentatônico menor':makeTertianField({scale:'Pentatonic/root menor',mode:'Pentatônica menor',formula:['T','b3','4','5','b7'],degrees:['i','bIII','IV','V','bVII'],functions:['T','T','S','D','D'],chordSize:3}),
+  'Campo hexatônico aumentado':makeTertianField({scale:'Hexatônica aumentada',mode:'Hexatônica aumentada',formula:['T','b3','3','5','#5','7'],degrees:['I','bIII','III','V','#V','VII'],functions:['T','T','D','D','D','T'],chordSize:3}),
+  'Campo bebop dominante':makeTertianField({scale:'Bebop dominante',mode:'Bebop dominante',formula:['T','2','3','4','5','6','b7','7'],degrees:['I','II','III','IV','V','VI','bVII','VII'],functions:['D','S','D','S','D','S','D','D']}),
+  'Campo bebop maior':makeTertianField({scale:'Bebop maior',mode:'Bebop maior',formula:['T','2','3','4','5','#5','6','7'],degrees:['I','II','III','IV','V','#V','VI','VII'],functions:['T','S','T','S','D','D','S','T']}),
+  'Campo quartal maior':makeStepField({scale:'Escala maior',mode:'Quartal maior',formula:['T','2','3','4','5','6','7'],degrees:['I','II','III','IV','V','VI','VII'],functions:['T','S','T','S','D','S','D'],step:3,chordSize:3})
+};
+Object.assign(HARMONIC_FIELDS, EXTENDED_HARMONIC_FIELD_SPECS);
+Object.assign(LIBRARY['Campos Harmônicos'], Object.fromEntries(Object.entries(EXTENDED_HARMONIC_FIELD_SPECS).map(([name,data])=>[name,data.formula])));
+
 const FIELD_COLORS=['#2563eb','#0ea5a4','#16a34a','#8b5cf6','#f97316','#ca8a04','#ef4444'];
 function fieldData(root,fieldName){
   const f=HARMONIC_FIELDS[fieldName]||HARMONIC_FIELDS['Campo maior (jônico)'];

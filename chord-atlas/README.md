@@ -24,3 +24,5 @@ These links preserve the selected tab, structure, key, fret range, and language.
 - Mobile drawer for controls on small screens.
 
 - Added harmonic field options: Major, Natural Minor, Harmonic Minor and Melodic Minor.
+
+- Extended harmonic fields: Greek modes, melodic minor modes, symmetric fields, pentatonic/hexatonic/bebop/quartal study fields.
