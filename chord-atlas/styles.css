@@ -203,7 +203,7 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
   max-width:360px;
   height:auto;
   display:block;
-  margin:0 auto;
+  margin:0 auto 0 clamp(8px,2vw,24px);
   overflow:visible;
   filter:drop-shadow(0 6px 14px rgba(15,23,42,.06));
 }
@@ -442,4 +442,18 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
   .field-degree-cards{display:flex;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory}
   .field-degree-card{min-width:138px;scroll-snap-align:start}
   .field-map-svg{min-width:560px}
+}
+
+
+/* Arpeggio horizontal diagrams: keep them closer to the left edge of the card */
+.arpeggio-section .horizontal-card{
+  text-align:left;
+}
+.arpeggio-section .horizontal-card .title,
+.arpeggio-section .horizontal-card .meta{
+  text-align:center;
+}
+.arpeggio-section .horizontal-arpeggio{
+  margin-left:clamp(8px,2vw,24px);
+  margin-right:auto;
 }
