@@ -1129,7 +1129,16 @@ function generateChordAtlasUrl(example, category = 'Acordes') {
     .replace(/[̀-ͯ]/g, '') // Remove acentos
     .replace(/\s+/g, '-');
 
-  const categorySlug = slugify(category);
+  // Mapeamento de categorias para slugs do ChordAtlas
+  const categoryMap = {
+    'Acordes': 'chords',
+    'Arpejos': 'arpeggios',
+    'Escalas': 'scales',
+    'Modos': 'modes',
+    'Campos Harmônicos': 'harmonic-fields'
+  };
+
+  const categorySlug = categoryMap[category] || slugify(category);
   const structureSlug = slugify(example.structure || '');
 
   const params = new URLSearchParams({
