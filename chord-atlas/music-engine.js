@@ -1,5 +1,5 @@
 const INTERVALS={'T':0,'1':0,'8':0,'b2':1,'2':2,'#2':3,'b3':3,'3':4,'4':5,'#4':6,'b5':6,'5':7,'#5':8,'b6':8,'6':9,'bb7':9,'b7':10,'7':11,'7M':11};
-const LIBRARY={'Acordes':{'Tríade maior':['T','3','5'],'Tríade menor':['T','b3','5'],'Tríade aumentada':['T','3','#5'],'Tríade diminuta':['T','b3','b5'],'Tétrade maior 7M':['T','3','5','7M'],'Tétrade menor 7':['T','b3','5','b7'],'Tétrade dominante 7':['T','3','5','b7'],'Tétrade meio-diminuta m7(b5)':['T','b3','b5','b7'],'Tétrade diminuta dim7':['T','b3','b5','bb7'],'Menor com sétima maior m(7M)':['T','b3','5','7M'],'Maior com sexta 6':['T','3','5','6'],'Menor com sexta m6':['T','b3','5','6'],'Suspenso sus4':['T','4','5']},'Arpejos':{'Arpejo tríade maior':['T','3','5'],'Arpejo tríade menor':['T','b3','5'],'Arpejo tríade aumentada':['T','3','#5'],'Arpejo tríade diminuta':['T','b3','b5'],'Arpejo tétrade maior 7M':['T','3','5','7M'],'Arpejo tétrade menor 7':['T','b3','5','b7'],'Arpejo dominante 7':['T','3','5','b7'],'Arpejo meio-diminuto':['T','b3','b5','b7'],'Arpejo diminuto':['T','b3','b5','bb7'],'Arpejo tétrade aumentada':['T','3','#5','7M']},'Escalas':{'Escala maior':['T','2','3','4','5','6','7'],'Escala menor natural':['T','2','b3','4','5','b6','b7'],'Escala menor harmônica':['T','2','b3','4','5','b6','7'],'Escala menor melódica':['T','2','b3','4','5','6','7'],'Pentatonic/root maior':['T','2','3','5','6'],'Pentatonic/root menor':['T','b3','4','5','b7'],'Blues maior':['T','2','b3','3','5','6'],'Blues menor':['T','b3','4','b5','5','b7'],'Escala diminuta':['T','2','b3','4','b5','b6','6','7'],'Diminuta dominante':['T','b2','b3','3','b5','5','6','b7'],'Tons inteiros':['T','2','3','#4','#5','b7']},'Modos':{'Modo jônico':['T','2','3','4','5','6','7'],'Modo dórico':['T','2','b3','4','5','6','b7'],'Modo frígio':['T','b2','b3','4','5','b6','b7'],'Modo lídio':['T','2','3','#4','5','6','7'],'Modo mixolídio':['T','2','3','4','5','6','b7'],'Modo eólio':['T','2','b3','4','5','b6','b7'],'Modo lócrio':['T','b2','b3','4','b5','b6','b7'],'Superlócrio / alterada':['T','b2','#2','3','b5','#5','b7']},'Intervalos':{'Todos os intervalos':['T','b2','2','b3','3','4','#4','5','b6','6','b7','7M','8'],'Uníssono / Tônica':['T'],'Segunda menor b2':['T','b2'],'Segunda maior 2':['T','2'],'Terça menor b3':['T','b3'],'Terça maior 3':['T','3'],'Quarta justa 4':['T','4'],'Trítono #4 / b5':['T','#4'],'Quinta justa 5':['T','5'],'Sexta menor b6':['T','b6'],'Sexta maior 6':['T','6'],'Sétima menor b7':['T','b7'],'Sétima maior 7M':['T','7M'],'Oitava':['T','8']},'Campos Harmônicos':{'Campo maior (jônico)':['T','2','3','4','5','6','7'],'Campo menor natural (eólio)':['T','2','b3','4','5','b6','b7'],'Campo menor harmônico':['T','2','b3','4','5','b6','7'],'Campo menor melódico':['T','2','b3','4','5','6','7']}};
+const LIBRARY={'Acordes':{'Tríade maior':['T','3','5'],'Tríade menor':['T','b3','5'],'Tríade aumentada':['T','3','#5'],'Tríade diminuta':['T','b3','b5'],'Tétrade maior 7M':['T','3','5','7M'],'Tétrade menor 7':['T','b3','5','b7'],'Tétrade dominante 7':['T','3','5','b7'],'Tétrade meio-diminuta m7(b5)':['T','b3','b5','b7'],'Tétrade diminuta dim7':['T','b3','b5','bb7'],'Menor com sétima maior m(7M)':['T','b3','5','7M'],'Maior com sexta 6':['T','3','5','6'],'Menor com sexta m6':['T','b3','5','6'],'Suspenso sus4':['T','4','5']},'Arpejos':{'Arpejo tríade maior':['T','3','5'],'Arpejo tríade menor':['T','b3','5'],'Arpejo tríade aumentada':['T','3','#5'],'Arpejo tríade diminuta':['T','b3','b5'],'Arpejo tétrade maior 7M':['T','3','5','7M'],'Arpejo tétrade menor 7':['T','b3','5','b7'],'Arpejo dominante 7':['T','3','5','b7'],'Arpejo meio-diminuto':['T','b3','b5','b7'],'Arpejo diminuto':['T','b3','b5','bb7'],'Arpejo tétrade aumentada':['T','3','#5','7M'],'Arpejo menor com sétima maior':['T','b3','5','7M']},'Escalas':{'Escala maior':['T','2','3','4','5','6','7'],'Escala menor natural':['T','2','b3','4','5','b6','b7'],'Escala menor harmônica':['T','2','b3','4','5','b6','7'],'Escala menor melódica':['T','2','b3','4','5','6','7'],'Pentatonic/root maior':['T','2','3','5','6'],'Pentatonic/root menor':['T','b3','4','5','b7'],'Blues maior':['T','2','b3','3','5','6'],'Blues menor':['T','b3','4','b5','5','b7'],'Escala diminuta':['T','2','b3','4','b5','b6','6','7'],'Diminuta dominante':['T','b2','b3','3','b5','5','6','b7'],'Tons inteiros':['T','2','3','#4','#5','b7']},'Modos':{'Modo jônico':['T','2','3','4','5','6','7'],'Modo dórico':['T','2','b3','4','5','6','b7'],'Modo frígio':['T','b2','b3','4','5','b6','b7'],'Modo lídio':['T','2','3','#4','5','6','7'],'Modo mixolídio':['T','2','3','4','5','6','b7'],'Modo eólio':['T','2','b3','4','5','b6','b7'],'Modo lócrio':['T','b2','b3','4','b5','b6','b7'],'Superlócrio / alterada':['T','b2','#2','3','b5','#5','b7']},'Intervalos':{'Todos os intervalos':['T','b2','2','b3','3','4','#4','5','b6','6','b7','7M','8'],'Uníssono / Tônica':['T'],'Segunda menor b2':['T','b2'],'Segunda maior 2':['T','2'],'Terça menor b3':['T','b3'],'Terça maior 3':['T','3'],'Quarta justa 4':['T','4'],'Trítono #4 / b5':['T','#4'],'Quinta justa 5':['T','5'],'Sexta menor b6':['T','b6'],'Sexta maior 6':['T','6'],'Sétima menor b7':['T','b7'],'Sétima maior 7M':['T','7M'],'Oitava':['T','8']},'Campos Harmônicos':{'Campo maior (jônico)':['T','2','3','4','5','6','7'],'Campo menor natural (eólio)':['T','2','b3','4','5','b6','b7'],'Campo menor harmônico':['T','2','b3','4','5','b6','7'],'Campo menor melódico':['T','2','b3','4','5','6','7']}};
 
 const SCALE_SUGGESTIONS={
   'Tríade maior':[
@@ -936,6 +936,99 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:2, fret:1, interval:'T'},
         {string:1, fret:0, interval:'3'},
         {string:1, fret:4, interval:'#5'}
+      ]
+    }
+  ],
+  'Arpejo menor com sétima maior': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Minor-major 7 arpeggio m(maj7) - book-style position 1.
+      // Formula: T-b3-5-7M. Corrected from the user's markup: removed the D-string b3
+      // at fret 1; added a b3 on the A string at fret 6 and a 7M on the top-E string at fret 7.
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:5, fret:2, interval:'7M'},
+        {string:5, fret:3, interval:'T'},
+        {string:5, fret:6, interval:'b3'},
+        {string:4, fret:5, interval:'5'},
+        {string:3, fret:4, interval:'7M'},
+        {string:3, fret:5, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:3, interval:'5'},
+        {string:1, fret:7, interval:'7M'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 5,
+      // Minor-major 7 arpeggio m(maj7) - book-style position 2.
+      // Formula: T-b3-5-7M. Corrected from the user's markup: removed the B-string b3
+      // at fret 4 and added a b3 on the G string at fret 8.
+      offsets: [
+        {string:6, fret:2, interval:'7M'},
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:-1, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:2, fret:3, interval:'5'},
+        {string:1, fret:2, interval:'7M'},
+        {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      // Minor-major 7 arpeggio m(maj7) - book-style position 3.
+      // Formula: T-b3-5-7M. Major 7 position 3 with each 3 lowered to b3.
+      offsets: [
+        {string:6, fret:-1, interval:'7M'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:1, interval:'7M'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-1, interval:'7M'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 8,
+      // Minor-major 7 arpeggio m(maj7) - book-style position 4.
+      // Formula: T-b3-5-7M. Major 7 position 4 with each 3 lowered to b3.
+      offsets: [
+        {string:6, fret:3, interval:'b3'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:1, interval:'7M'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:4, interval:'5'},
+        {string:2, fret:4, interval:'7M'},
+        {string:2, fret:5, interval:'T'},
+        {string:1, fret:3, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 0,
+      // Minor-major 7 arpeggio m(maj7) - book-style position 5 (open region).
+      // Formula: T-b3-5-7M. Built from the minor 7 position 5 by raising every
+      // b7 one fret to a 7M, keeping it playable in open position.
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:5, fret:2, interval:'7M'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:1, interval:'b3'},
+        {string:3, fret:0, interval:'5'},
+        {string:3, fret:4, interval:'7M'},
+        {string:2, fret:1, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:3, interval:'5'}
       ]
     }
   ],
