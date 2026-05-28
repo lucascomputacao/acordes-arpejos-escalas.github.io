@@ -113,7 +113,7 @@ function svgHorizontalArpeggio(item){
   strings.forEach((str,row)=>{
     const y=y0+row*rowGap;
     s+=`<line x1="${x0}" y1="${y}" x2="${x0+frets*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.4:1.8}"/>`;
-    s+=`<text x="${x0-28}" y="${y+5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#334155">${STRING_TUNING[str]}</text>`;
+    s+=`<text x="${x0-34}" y="${y+5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#334155">${STRING_TUNING[str]}</text>`;
   });
 
   for(const p of positions){
@@ -122,7 +122,7 @@ function svgHorizontalArpeggio(item){
     let x;
     if(p.fret===0){
       if(start!==0) continue;
-      x=x0-18;
+      x=x0-14;
     }else{
       if(p.fret<=start || p.fret>end) continue;
       x=x0+(p.fret-start-0.5)*cell;
