@@ -1210,6 +1210,30 @@ function buildDay(day, qk, dayIndex) {
         }).join('')}
       </div>
       ` : ''}
+      ${formacao.items.some(ex => ex.img) ? `
+      <div class="examples-grid" data-formacao-id="${formacaoId}">
+        ${formacao.items.filter(ex => ex.img).map((ex, itemIdx) => {
+          const itemId = `${formacaoId}-img-${itemIdx}`;
+          return `
+          <div class="example-item">
+            <img
+              src="${ex.img}"
+              alt="${ex.label || 'Exemplo'}"
+              class="example-img"
+              data-formacao-id="${formacaoId}"
+              data-img-src="${ex.img}"
+              data-img-title="${(ex.label || ex.title || 'Exemplo').replace(/"/g, '&quot;')}"
+              style="max-width: 100%; height: auto; cursor: pointer; border-radius: 4px; display: block;"
+            />
+            <div style="font-size: 0.85rem; margin-top: 4px; text-align: center; color: #666;">
+              ${ex.label || ''}
+              ${ex.notes ? `<br><code>${ex.notes}</code>` : ''}
+            </div>
+          </div>
+          `;
+        }).join('')}
+      </div>
+      ` : ''}
     `}).join('') : '';
 
     return `<div class="session">
@@ -1264,6 +1288,34 @@ function buildWeek(k) {
 
   // Renderizar diagramas SVGuitar após o HTML ser inserido
   renderSVGuitarDiagrams();
+
+  // Registrar imagens de exemplos
+  registerFormacaoImagesFromDOM();
+}
+
+function registerFormacaoImagesFromDOM() {
+  // Encontrar todos os grids de exemplos com data-formacao-id
+  const grids = document.querySelectorAll('.examples-grid[data-formacao-id]');
+
+  grids.forEach(grid => {
+    const formacaoId = grid.getAttribute('data-formacao-id');
+    const images = [];
+
+    // Buscar todas as imagens dentro deste grid
+    const imgElements = grid.querySelectorAll('img.example-img');
+    imgElements.forEach(img => {
+      images.push({
+        img: img.src,
+        title: img.getAttribute('data-img-title') || img.alt,
+        notes: img.getAttribute('data-notes') || ''
+      });
+    });
+
+    // Registrar as imagens no mapa
+    if (images.length > 0) {
+      registerFormacaoImages(formacaoId, images);
+    }
+  });
 }
 
 function renderSVGuitarDiagrams() {
