@@ -1540,6 +1540,9 @@ function navigateToDay(dayNum) {
       const dayNumberMatch = day.n.match(/\d+/);
       if (dayNumberMatch && parseInt(dayNumberMatch[0]) === dayNum) {
         // Encontrou o dia! Navega para a fase e rola para o dia
+        // Fechar modal ChordAtlas se estiver aberto (evita mostrar exemplos do dia anterior)
+        closeChordAtlasModal();
+
         showTab(phaseKey);
         setTimeout(() => {
           const dayId = 'day-' + day.n.toLowerCase().replace(/\s+/g, '-');
