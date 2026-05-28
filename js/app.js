@@ -1509,8 +1509,8 @@ function applyRouteFromHash() {
   const hash = window.location.hash.slice(2); // Remove '#/'
 
   if (!hash) {
-    // Sem hash: padrão é dia 1
-    writeRoute('dia-1');
+    // Sem hash: padrão é dia 0
+    writeRoute('dia-0');
     return;
   }
 
