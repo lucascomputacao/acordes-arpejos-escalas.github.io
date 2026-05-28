@@ -1,8 +1,9 @@
 const WEEKS = {
   f1: {
     label: 'Semanas 1–2 · Tríades e inversões',
-    sub: 'Fundação harmônica (Dias 1-10)',
+    sub: 'Fundação harmônica (Dias 0-10)',
     days: [
+      { n: 'Dia 0', b: 'ba', bl: 'Intervalos', t: '20 min', warm: 'Comece tocando notas diferentes na mesma corda e perceba as distâncias entre elas', sess: [['O que é um intervalo?', 'Distância em semitons (meios-tons) entre duas notas. Base para entender acordes e escalas', 'p.10-11'], ['Nomes dos intervalos', '2ª, 3ª, 4ª, 5ª, 6ª, 7ª (maiores, menores, justos, aumentados, diminutos)', 'p.12-13'], ['Intervalos no braço do violão', 'Visualizar as distâncias: cada traste = 1 semitom', 'p.14']], exemplos: [{ sessionIndex: 1, title: 'Intervalos básicos em C', items: [{ notes: 'Demonstração dos intervalos mais comuns a partir de C', note: 'Exemplos com ChordAtlas em desenvolvimento' }] }], tip: 'Intervalos são a linguagem da música. Quanto melhor você reconhecê-los, melhor vai entender acordes, escalas e melodias.' },
       {
         n: 'Dia 1',
         b: 'ba',
