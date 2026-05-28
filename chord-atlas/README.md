@@ -22,3 +22,5 @@ The app now supports GitHub Pages friendly hash URLs, for example:
 These links preserve the selected tab, structure, key, fret range, and language.
 
 - Mobile drawer for controls on small screens.
+
+- Added harmonic field options: Major, Natural Minor, Harmonic Minor and Melodic Minor.
