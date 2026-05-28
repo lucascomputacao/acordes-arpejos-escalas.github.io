@@ -203,7 +203,7 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
   max-width:360px;
   height:auto;
   display:block;
-  margin:0 auto 0 clamp(8px,2vw,24px);
+  margin:0 auto;
   overflow:visible;
   filter:drop-shadow(0 6px 14px rgba(15,23,42,.06));
 }
@@ -444,16 +444,69 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
   .field-map-svg{min-width:560px}
 }
 
+/* Interval section */
+.interval-section .field-info{
+  margin-bottom:14px;
+}
+.interval-summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  margin:14px 0 16px;
+}
+.interval-summary div{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 14px;
+  box-shadow:var(--shadow-sm);
+}
+.interval-summary strong{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.interval-summary span{
+  font-size:18px;
+  font-weight:850;
+  color:var(--ink);
+}
+.interval-map-card{
+  overflow-x:auto;
+}
+.interval-map-svg{
+  width:100%;
+  max-width:760px;
+  min-width:520px;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  filter:drop-shadow(0 8px 20px rgba(15,23,42,.06));
+}
+@media(max-width:760px){
+  .interval-map-svg{min-width:500px;}
+}
 
-/* Arpeggio horizontal diagrams: keep them closer to the left edge of the card */
-.arpeggio-section .horizontal-card{
-  text-align:left;
+
+/* Interval colors */
+.interval-chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:max-content;
+  min-width:42px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:var(--interval-color,#2563eb);
+  color:#fff !important;
+  font-size:14px !important;
+  font-weight:900 !important;
+  line-height:1.1;
+  box-shadow:0 8px 18px rgba(15,23,42,.12);
 }
-.arpeggio-section .horizontal-card .title,
-.arpeggio-section .horizontal-card .meta{
-  text-align:center;
-}
-.arpeggio-section .horizontal-arpeggio{
-  margin-left:clamp(8px,2vw,24px);
-  margin-right:auto;
+.interval-map-svg circle{
+  filter:drop-shadow(0 3px 6px rgba(15,23,42,.18));
 }

@@ -1,3 +1,15 @@
+
+const INTERVAL_COLORS={
+  'T':'#2563eb','8':'#2563eb',
+  'b2':'#ef4444','2':'#f97316',
+  'b3':'#8b5cf6','3':'#16a34a',
+  '4':'#0ea5a4','#4':'#eab308','b5':'#eab308',
+  '5':'#06b6d4','#5':'#ec4899','b6':'#ec4899',
+  '6':'#14b8a6','bb7':'#64748b','b7':'#7c3aed','7':'#f59e0b','7M':'#f59e0b'
+};
+function intervalColor(iv){return INTERVAL_COLORS[iv]||'#0f172a'}
+function intervalTextColor(iv){return iv==='T'||iv==='8'?'#ffffff':'#ffffff'}
+function isAllIntervalsFormula(formulaIntervals){return Array.isArray(formulaIntervals) && formulaIntervals.length>3;}
 function generateVoicing(root,f,voice,minF,maxF){
   const ints=voice.split('-');
   const targets=intervalMap(root,f);
@@ -127,6 +139,78 @@ function svgHorizontalArpeggio(item){
 }
 
 
+function svgIntervalMap(root,name,formulaIntervals,minF,maxF){
+  const selectedStrings=[...document.querySelectorAll('#stringGroups input:checked')]
+    .flatMap(x=>x.value.split('-').map(Number));
+  const strings=uniq(selectedStrings.length?selectedStrings:STRINGS).sort((a,b)=>a-b);
+  const start=Math.max(0,minF), end=Math.min(24,maxF);
+  const fretCount=Math.max(1,end-start);
+  const cell=Math.max(18, Math.min(30, 720 / Math.max(1,fretCount)));
+  const x0=54, y0=30, rowGap=22, h=y0+(rowGap*(strings.length-1))+54, w=x0+fretCount*cell+42;
+  const isAll=isAllIntervalsFormula(formulaIntervals);
+  const intervalsToShow=isAll?formulaIntervals.filter(iv=>iv!=='8'):['T', (formulaIntervals[1] || 'T')];
+  const rootNote=noteFor(root,'T');
+  const targetNote=noteFor(root,formulaIntervals[1] || 'T');
+  const noteToInterval={};
+  intervalsToShow.forEach(iv=>{ noteToInterval[noteFor(root,iv)] = iv; });
+  let s=`<svg class="interval-map-svg" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<rect x="0" y="0" width="${w}" height="${h}" rx="16" fill="#fff"/>`;
+  s+=`<rect x="${x0}" y="${y0}" width="${fretCount*cell}" height="${rowGap*(strings.length-1)}" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>`;
+  for(let f=start; f<=end; f++){
+    const x=x0+(f-start)*cell;
+    const isNut=f===0;
+    s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+rowGap*(strings.length-1)}" stroke="${isNut?'#0f172a':'#94a3b8'}" stroke-width="${isNut?4:1.5}"/>`;
+    if(f<end){const label=f+1;s+=`<text x="${x+cell/2}" y="${y0+rowGap*(strings.length-1)+24}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${label}</text>`;}
+  }
+  strings.forEach((str,row)=>{
+    const y=y0+row*rowGap;
+    s+=`<line x1="${x0}" y1="${y}" x2="${x0+fretCount*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.2:1.5}"/>`;
+    s+=`<text x="${x0-30}" y="${y+4}" text-anchor="middle" font-size="9" font-weight="900" fill="#334155">${STRING_TUNING[str]}</text>`;
+  });
+  strings.forEach((str,row)=>{
+    const y=y0+row*rowGap;
+    for(let fret=start; fret<=end; fret++){
+      const n=noteAt(str,fret);
+      let label=null, rootDot=false;
+      if(n===rootNote){label='T'; rootDot=true;}
+      else if(isAll){label=noteToInterval[n] || null;}
+      else if(n===targetNote && (formulaIntervals[1] || 'T')!=='T' && (formulaIntervals[1] || 'T')!=='8'){label=(formulaIntervals[1] || 'T');}
+      if(!label) continue;
+      let x;
+      if(fret===0){if(start!==0) continue; x=x0-16;}
+      else {if(fret<=start) continue; x=x0+(fret-start-0.5)*cell;}
+      const fill=intervalColor(label);
+      const text=intervalTextColor(label);
+      const stroke=label==='T'?'#1e3a8a':'rgba(15,23,42,.34)';
+      s+=`<circle cx="${x}" cy="${y}" r="7.8" fill="${fill}" stroke="${stroke}" stroke-width="1.8"/>`;
+      s+=`<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.8" font-weight="900" fill="${text}">${label}</text>`;
+    }
+  });
+  return s+'</svg>';
+}
+
+function renderIntervals(root,name,f,minF,maxF,out){
+  const isAll=isAllIntervalsFormula(f);
+  const interval=f[1] || 'T';
+  const rootNote=noteFor(root,'T');
+  const targetNote=noteFor(root,interval);
+  const section=document.createElement('section');
+  section.className='section interval-section';
+  section.innerHTML=`<h2>${root} — ${dn(name)}</h2><div class="field-info">${tr('intervalInfo')}</div>`;
+  const summary=document.createElement('div');
+  summary.className='interval-summary';
+  summary.innerHTML=isAll
+    ? `<div><strong>${tr('rootNote')}</strong><span class="interval-chip" style="--interval-color:${intervalColor('T')}">${rootNote} · T</span></div><div><strong>${tr('targetInterval')}</strong><span class="interval-chip" style="--interval-color:${intervalColor('T')}">${dn('Todos os intervalos')}</span></div><div><strong>${tr('intervalNotes')}</strong>${f.filter(iv=>iv!=='8').map(iv=>`<span class="interval-chip" style="--interval-color:${intervalColor(iv)}">${iv}</span>`).join('')}</div>`
+    : `<div><strong>${tr('rootNote')}</strong><span class="interval-chip" style="--interval-color:${intervalColor('T')}">${rootNote} · T</span></div><div><strong>${tr('targetInterval')}</strong><span class="interval-chip" style="--interval-color:${intervalColor(interval)}">${interval}</span></div><div><strong>${tr('targetNote')}</strong><span class="interval-chip" style="--interval-color:${intervalColor(interval)}">${targetNote}</span></div>`;
+  section.appendChild(summary);
+  const map=document.createElement('div');
+  map.className='field-map-card interval-map-card';
+  map.innerHTML=`<h3>${tr('intervalMap')} (${minF}-${maxF})</h3>${svgIntervalMap(root,name,f,minF,maxF)}`;
+  section.appendChild(map);
+  out.appendChild(section);
+  document.getElementById('status').textContent=`1 ${tr('diagrams')}`;
+}
+
 function functionName(code){
   if(code==='T') return currentLang==='pt' ? 'Tônica' : 'Tonic';
   if(code==='S') return currentLang==='pt' ? 'Subdominante' : 'Subdominant';
@@ -208,6 +292,11 @@ function render(){
       voices=[...document.querySelectorAll('#voicings input:checked')].map(x=>x.value),
       out=document.getElementById('output');
   out.innerHTML='';
+  if(currentCategory==='Intervalos'){
+    renderIntervals(root,name,f,minF,maxF,out);
+    renderVoiceLeading();
+    return;
+  }
   if(currentCategory==='Campos Harmônicos'){
     renderHarmonicField(root,name,minF,maxF,out);
     renderVoiceLeading();
