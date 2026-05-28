@@ -1216,9 +1216,14 @@ function buildDay(day, qk, dayIndex) {
   // Verificar se este dia foi marcado como estudado
   const isDayComplete = studentProgress[qk] && studentProgress[qk][dayIndex];
 
+  // Extrair número do dia (ex: "Dia 1" → "1")
+  const dayNumberMatch = day.n.match(/\d+/);
+  const dayNumber = dayNumberMatch ? dayNumberMatch[0] : '';
+  const dayLink = dayNumber ? `/#/dia-${dayNumber}` : '#';
+
   return `<div class="card" id="day-${day.n.toLowerCase().replace(/\s+/g, '-')}">
     <div class="card-header">
-      <span class="card-title">${day.n}</span>
+      <a href="${dayLink}" class="card-title" style="text-decoration: none; color: inherit; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='inherit'">${day.n}</a>
       <span class="badge ${day.b}">${day.bl}</span>
       <span class="time-badge">⏱ ${day.t}</span>
       <div class="day-checkbox-wrap">
