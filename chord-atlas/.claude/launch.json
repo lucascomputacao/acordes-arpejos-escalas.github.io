@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "chord-atlas",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd /Users/lucas/Code/acordes-arpejos-escalas/chord-atlas && python3 -m http.server --bind 127.0.0.1 ${PORT:-8000}"],
+      "autoPort": true
+    }
+  ]
+}

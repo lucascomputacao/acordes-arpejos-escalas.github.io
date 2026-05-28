@@ -209,7 +209,7 @@ function renderVoiceLeading(){
   const sec=document.createElement('section'); sec.className='section'; sec.innerHTML=`<h2>${tr('closestMoves')}: ${ra} ${dn(sa)} → ${rb} ${dn(sb)}</h2>`;
   const grid=document.createElement('div'); grid.className='vl-grid';
   top.forEach(p=>{const el=document.createElement('div'); el.className='vl-pair'; el.innerHTML=`<div class="vl-pair-head">${p.a.voice} → ${p.b.voice}</div><div class="vl-diagrams"><div class="card"><div class="title">${ra}</div><div class="meta">${dn(sa)} · ${tr('fret')} ${p.a.baseFret}</div>${svgDiagram(p.a,false)}</div><div class="card"><div class="title">${rb}</div><div class="meta">${dn(sb)} · ${tr('fret')} ${p.b.baseFret}</div>${svgDiagram(p.b,false)}</div></div><div class="vl-score">${tr('movement')}: ${p.score}</div>`; grid.appendChild(el);});
-  sec.appendChild(grid); out.innerHTML=''; out.appendChild(sec);
+  sec.appendChild(grid); makeSectionCloseable(sec); out.innerHTML=''; out.appendChild(sec);
 }
 
 function applyLang(){document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.innerHTML=tr(el.dataset.i18n));document.getElementById('lang-pt').classList.toggle('active',currentLang==='pt');document.getElementById('lang-en').classList.toggle('active',currentLang==='en');populateTabs();populateStructures();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords();populateVoiceLeadingControls();render();renderVoiceLeading();writeRoute()}

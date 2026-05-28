@@ -614,6 +614,23 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:1, fret:3, interval:'T'},
         {string:1, fret:6, interval:'b3'}
       ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      // Minor seventh arpeggio - book-style position 4.
+      // Formula: T-b3-5-b7. Added from the supplied reference diagram.
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:1, interval:'b3'}
+      ]
     }
   ],
   'Arpejo tríade aumentada': [

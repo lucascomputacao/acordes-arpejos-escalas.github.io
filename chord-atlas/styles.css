@@ -510,3 +510,87 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
 .interval-map-svg circle{
   filter:drop-shadow(0 3px 6px rgba(15,23,42,.18));
 }
+
+/* Close button for generated visual sections */
+.closeable-section{
+  position:relative;
+}
+.section-close{
+  position:absolute;
+  top:14px;
+  right:16px;
+  z-index:3;
+  width:34px;
+  height:34px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  color:#ef4444;
+  box-shadow:none;
+  font-size:34px;
+  line-height:1;
+  font-weight:300;
+  cursor:pointer;
+  transition:background .16s ease, transform .16s ease, color .16s ease;
+}
+.section-close:hover{
+  background:rgba(239,68,68,.08);
+  color:#dc2626;
+  box-shadow:none;
+  transform:scale(1.03);
+}
+.section-close:focus-visible{
+  outline:3px solid rgba(239,68,68,.25);
+  outline-offset:2px;
+}
+@media(max-width:560px){
+  .section-close{top:10px;right:10px;width:30px;height:30px;font-size:30px;}
+  .section.closeable-section h2{padding-right:40px;}
+}
+
+/* Close button - subtle premium style */
+.close-view,
+.section-close {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #64748b;
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: none;
+  line-height: 1;
+  font-size: 0;
+  text-align: center;
+}
+
+.close-view::before,
+.section-close::before {
+  content: "×";
+  display: block;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.close-view:hover,
+.section-close:hover {
+  color: #0f172a;
+  background: rgba(15,23,42,.06);
+  border-color: rgba(15,23,42,.08);
+  box-shadow: none;
+  transform: none;
+}
+
+.close-view:focus-visible,
+.section-close:focus-visible {
+  outline: 3px solid rgba(37,99,235,.18);
+  outline-offset: 2px;
+}

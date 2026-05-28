@@ -283,6 +283,26 @@ function renderHarmonicField(root,name,minF,maxF,out){
   document.getElementById('status').textContent=`${data.chords.length} ${tr('diagrams')}`;
 }
 
+function makeSectionCloseable(section){
+  if(!section || section.querySelector('.section-close')) return section;
+  section.classList.add('closeable-section');
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='section-close';
+  btn.setAttribute('aria-label', currentLang === 'pt' ? 'Fechar visualização' : 'Close view');
+  btn.innerHTML='&times;';
+  btn.addEventListener('click',()=>{
+    section.remove();
+    const remaining=document.querySelectorAll('#output .section, #voiceLeadingOutput .section').length;
+    if(!remaining){
+      const status=document.getElementById('status');
+      if(status) status.textContent='0 '+tr('diagrams');
+    }
+  });
+  section.appendChild(btn);
+  return section;
+}
+
 function render(){
   let root=document.getElementById('root').value,
       name=selectedStructure(),
@@ -325,6 +345,7 @@ function render(){
       grid.appendChild(card);
       rendered++;
       sec.appendChild(grid);
+      makeSectionCloseable(sec);
       out.appendChild(sec);
     });
   }else{
@@ -345,6 +366,7 @@ function render(){
         rendered++;
       });
       sec.appendChild(grid);
+      makeSectionCloseable(sec);
       out.appendChild(sec);
     });
   }
@@ -354,7 +376,7 @@ function render(){
 }
 
 function exportCSS(){return `
-*{box-sizing:border-box} body{margin:0;background:white;color:#111;font-family:Arial,Helvetica,sans-serif}.export-page{width:1400px;background:white;color:#111;padding:28px 34px}.section{margin-top:28px;border-top:2px solid #111;padding-top:14px;break-inside:avoid}.section h2{text-align:center;margin:0 0 14px;font-size:20px;text-transform:uppercase;letter-spacing:.03em}.voicing-label{text-transform:none!important}.grid{display:grid;grid-template-columns:repeat(6,145px);gap:18px 22px;align-items:start;justify-content:start}.fretboard-grid{display:block}.card{text-align:center;width:145px;break-inside:avoid}.horizontal-card{width:100%;overflow:visible}.title{font-size:18px;font-weight:bold;margin-bottom:4px}.meta{font-size:12px;color:#666;min-height:15px;margin-bottom:10px}svg.diagram{width:142px!important;height:160px!important;display:block;overflow:visible}svg.horizontal-arpeggio{width:100%!important;max-width:720px!important;height:auto!important;display:block;margin:0 auto;overflow:visible}svg text{font-family:Arial,Helvetica,sans-serif}.empty{text-align:center;padding:30px;border:1px dashed #111;color:#666}
+*{box-sizing:border-box} body{margin:0;background:white;color:#111;font-family:Arial,Helvetica,sans-serif}.export-page{width:1400px;background:white;color:#111;padding:28px 34px}.section{margin-top:28px;border-top:2px solid #111;padding-top:14px;break-inside:avoid}.section h2{text-align:center;margin:0 0 14px;font-size:20px;text-transform:uppercase;letter-spacing:.03em}.voicing-label{text-transform:none!important}.grid{display:grid;grid-template-columns:repeat(6,145px);gap:18px 22px;align-items:start;justify-content:start}.fretboard-grid{display:block}.card{text-align:center;width:145px;break-inside:avoid}.horizontal-card{width:100%;overflow:visible}.title{font-size:18px;font-weight:bold;margin-bottom:4px}.meta{font-size:12px;color:#666;min-height:15px;margin-bottom:10px}svg.diagram{width:142px!important;height:160px!important;display:block;overflow:visible}svg.horizontal-arpeggio{width:100%!important;max-width:720px!important;height:auto!important;display:block;margin:0 auto;overflow:visible}svg text{font-family:Arial,Helvetica,sans-serif}.empty{text-align:center;padding:30px;border:1px dashed #111;color:#666}.section-close{display:none!important}
 `;}
 function exportMarkup(){const clone=document.getElementById('output').cloneNode(true);return `<div xmlns="http://www.w3.org/1999/xhtml" class="export-page"><style>${exportCSS()}</style>${clone.innerHTML}</div>`;}
 function exportSVG(){const w=1400;const h=Math.max(900,document.getElementById('output').scrollHeight+120);const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="white"/><foreignObject x="0" y="0" width="${w}" height="${h}">${exportMarkup()}</foreignObject></svg>`;downloadFile('gerador-harmonico.svg','image/svg+xml;charset=utf-8',svg);}
