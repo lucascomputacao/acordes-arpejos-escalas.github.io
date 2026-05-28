@@ -742,9 +742,9 @@ body {
   width: 100%;
   max-width: 120px;
   padding: 8px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+  background: var(--blue600);
   color: white;
-  border: 2px solid #1e3a8a;
+  border: 1px solid var(--blue800);
   border-radius: 8px;
   font-weight: 600;
   font-size: 13px;
@@ -756,9 +756,9 @@ body {
 }
 
 .chord-atlas-button:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  transform: translateY(-2px);
+  background: var(--blue800);
+  box-shadow: 0 2px 8px rgba(12, 68, 124, 0.15);
+  transform: translateY(-1px);
 }
 
 .chord-atlas-button:active {
@@ -789,9 +789,9 @@ body {
   justify-content: center;
   min-height: 100px;
   padding: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--teal600);
   color: white;
-  border: 2px solid #5a67d8;
+  border: 1px solid var(--teal800);
   border-radius: 8px;
   font-weight: 600;
   font-size: 13px;
@@ -804,9 +804,9 @@ body {
 }
 
 .chord-atlas-button-secondary:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  transform: translateY(-2px);
+  background: var(--teal800);
+  box-shadow: 0 2px 8px rgba(8, 80, 65, 0.15);
+  transform: translateY(-1px);
 }
 
 .chord-atlas-button-secondary:active {
