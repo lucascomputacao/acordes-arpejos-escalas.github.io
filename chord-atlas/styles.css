@@ -912,3 +912,139 @@ body.printing-super-open details.super-accordion > summary::after{
     page-break-inside:auto;
   }
 }
+
+/* Interactive Fretboard Styles */
+.ifretboard {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 16px;
+  background: #fafaf8;
+  border-radius: 8px;
+  border: 1px solid #e5e5e0;
+  user-select: none;
+}
+
+.ifretboard-nut {
+  display: flex;
+  gap: 0;
+  height: 40px;
+  margin-bottom: 8px;
+  border-bottom: 3px solid #333;
+  position: relative;
+}
+
+.ifretboard-fret {
+  display: flex;
+  gap: 0;
+  height: 50px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+.ifretboard-note {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #ddd;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  background: white;
+  color: #333;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.ifretboard-note:last-child {
+  border-right: none;
+}
+
+.ifretboard-note:hover {
+  background: #e3f2fd;
+  transform: scale(1.05);
+  box-shadow: inset 0 0 0 2px #185fa5;
+}
+
+.ifretboard-note.played {
+  background: #185fa5;
+  color: white;
+}
+
+.ifretboard-note.active {
+  background: #0c447c;
+  color: white;
+  transform: scale(0.95);
+}
+
+.ifretboard-note-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.ifretboard-strings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 16px;
+}
+
+.ifretboard-string {
+  flex: 1;
+  border-right: 2px solid #666;
+  opacity: 0.1;
+  margin-right: calc(var(--string, 1) * 100% / 6 - 50%);
+}
+
+/* Left-handed mode */
+.ifretboard.lefthanded {
+  transform: rotateY(180deg);
+}
+
+.ifretboard.lefthanded .ifretboard-note-label {
+  transform: rotateY(180deg);
+}
+
+/* Controls Panel */
+.ifretboard-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 13px;
+}
+
+.ifretboard-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ifretboard-control-group label {
+  font-weight: 600;
+  color: #666;
+}
+
+.ifretboard-control-group input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.ifretboard-control-group select,
+.ifretboard-control-group input[type="range"] {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+}
