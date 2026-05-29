@@ -1,5 +1,5 @@
 const INTERVALS={'T':0,'1':0,'8':0,'b2':1,'2':2,'#2':3,'b3':3,'3':4,'4':5,'#4':6,'b5':6,'5':7,'#5':8,'b6':8,'6':9,'bb7':9,'b7':10,'7':11,'7M':11};
-const LIBRARY={'Acordes':{'Tríade maior':['T','3','5'],'Tríade menor':['T','b3','5'],'Tríade aumentada':['T','3','#5'],'Tríade diminuta':['T','b3','b5'],'Tétrade maior 7M':['T','3','5','7M'],'Tétrade menor 7':['T','b3','5','b7'],'Tétrade dominante 7':['T','3','5','b7'],'Tétrade meio-diminuta m7(b5)':['T','b3','b5','b7'],'Tétrade diminuta dim7':['T','b3','b5','bb7'],'Menor com sétima maior m(7M)':['T','b3','5','7M'],'Maior com sexta 6':['T','3','5','6'],'Menor com sexta m6':['T','b3','5','6'],'Suspenso sus4':['T','4','5']},'Arpejos':{'Arpejo tríade maior':['T','3','5'],'Arpejo tríade menor':['T','b3','5'],'Arpejo tríade aumentada':['T','3','#5'],'Arpejo tríade diminuta':['T','b3','b5'],'Arpejo tétrade maior 7M':['T','3','5','7M'],'Arpejo tétrade menor 7':['T','b3','5','b7'],'Arpejo dominante 7':['T','3','5','b7'],'Arpejo meio-diminuto':['T','b3','b5','b7'],'Arpejo diminuto':['T','b3','b5','bb7'],'Arpejo tétrade aumentada':['T','3','#5','7M'],'Arpejo menor com sétima maior':['T','b3','5','7M']},'Escalas':{'Escala maior':['T','2','3','4','5','6','7'],'Escala menor natural':['T','2','b3','4','5','b6','b7'],'Escala menor harmônica':['T','2','b3','4','5','b6','7'],'Escala menor melódica':['T','2','b3','4','5','6','7'],'Pentatonic/root maior':['T','2','3','5','6'],'Pentatonic/root menor':['T','b3','4','5','b7'],'Blues maior':['T','2','b3','3','5','6'],'Blues menor':['T','b3','4','b5','5','b7'],'Escala diminuta':['T','2','b3','4','b5','b6','6','7'],'Diminuta dominante':['T','b2','b3','3','b5','5','6','b7'],'Tons inteiros':['T','2','3','#4','#5','b7']},'Modos':{'Modo jônico':['T','2','3','4','5','6','7'],'Modo dórico':['T','2','b3','4','5','6','b7'],'Modo frígio':['T','b2','b3','4','5','b6','b7'],'Modo lídio':['T','2','3','#4','5','6','7'],'Modo mixolídio':['T','2','3','4','5','6','b7'],'Modo eólio':['T','2','b3','4','5','b6','b7'],'Modo lócrio':['T','b2','b3','4','b5','b6','b7'],'Superlócrio / alterada':['T','b2','#2','3','b5','#5','b7']},'Intervalos':{'Todos os intervalos':['T','b2','2','b3','3','4','#4','5','b6','6','b7','7M','8'],'Uníssono / Tônica':['T'],'Segunda menor b2':['T','b2'],'Segunda maior 2':['T','2'],'Terça menor b3':['T','b3'],'Terça maior 3':['T','3'],'Quarta justa 4':['T','4'],'Trítono #4 / b5':['T','#4'],'Quinta justa 5':['T','5'],'Sexta menor b6':['T','b6'],'Sexta maior 6':['T','6'],'Sétima menor b7':['T','b7'],'Sétima maior 7M':['T','7M'],'Oitava':['T','8']},'Campos Harmônicos':{'Campo maior (jônico)':['T','2','3','4','5','6','7'],'Campo menor natural (eólio)':['T','2','b3','4','5','b6','b7'],'Campo menor harmônico':['T','2','b3','4','5','b6','7'],'Campo menor melódico':['T','2','b3','4','5','6','7']}};
+const LIBRARY={'Acordes':{'Tríade maior':['T','3','5'],'Tríade menor':['T','b3','5'],'Tríade aumentada':['T','3','#5'],'Tríade diminuta':['T','b3','b5'],'Tétrade maior 7M':['T','3','5','7M'],'Tétrade menor 7':['T','b3','5','b7'],'Tétrade dominante 7':['T','3','5','b7'],'Tétrade meio-diminuta m7(b5)':['T','b3','b5','b7'],'Tétrade diminuta dim7':['T','b3','b5','bb7'],'Menor com sétima maior m(7M)':['T','b3','5','7M'],'Maior com sexta 6':['T','3','5','6'],'Menor com sexta m6':['T','b3','5','6'],'Suspenso sus4':['T','4','5']},'Arpejos':{'Arpejo tríade maior':['T','3','5'],'Arpejo tríade menor':['T','b3','5'],'Arpejo tríade aumentada':['T','3','#5'],'Arpejo tríade diminuta':['T','b3','b5'],'Arpejo tétrade maior 7M':['T','3','5','7M'],'Arpejo tétrade menor 7':['T','b3','5','b7'],'Arpejo dominante 7':['T','3','5','b7'],'Arpejo meio-diminuto':['T','b3','b5','b7'],'Arpejo diminuto':['T','b3','b5','bb7']},'Escalas':{'Escala maior':['T','2','3','4','5','6','7'],'Escala menor natural':['T','2','b3','4','5','b6','b7'],'Escala menor harmônica':['T','2','b3','4','5','b6','7'],'Escala menor melódica':['T','2','b3','4','5','6','7'],'Pentatonic/root maior':['T','2','3','5','6'],'Pentatonic/root menor':['T','b3','4','5','b7'],'Blues maior':['T','2','b3','3','5','6'],'Blues menor':['T','b3','4','b5','5','b7'],'Escala diminuta':['T','2','b3','4','b5','b6','6','7'],'Diminuta dominante':['T','b2','b3','3','b5','5','6','b7'],'Tons inteiros':['T','2','3','#4','#5','b7']},'Modos':{'Modo jônico':['T','2','3','4','5','6','7'],'Modo dórico':['T','2','b3','4','5','6','b7'],'Modo frígio':['T','b2','b3','4','5','b6','b7'],'Modo lídio':['T','2','3','#4','5','6','7'],'Modo mixolídio':['T','2','3','4','5','6','b7'],'Modo eólio':['T','2','b3','4','5','b6','b7'],'Modo lócrio':['T','b2','b3','4','b5','b6','b7'],'Superlócrio / alterada':['T','b2','#2','3','b5','#5','b7']},'Intervalos':{'Todos os intervalos':['T','b2','2','b3','3','4','#4','5','b6','6','b7','7M','8'],'Uníssono / Tônica':['T'],'Segunda menor b2':['T','b2'],'Segunda maior 2':['T','2'],'Terça menor b3':['T','b3'],'Terça maior 3':['T','3'],'Quarta justa 4':['T','4'],'Trítono #4 / b5':['T','#4'],'Quinta justa 5':['T','5'],'Sexta menor b6':['T','b6'],'Sexta maior 6':['T','6'],'Sétima menor b7':['T','b7'],'Sétima maior 7M':['T','7M'],'Oitava':['T','8']},'Campos Harmônicos':{'Campo maior (jônico)':['T','2','3','4','5','6','7'],'Campo menor natural (eólio)':['T','2','b3','4','5','b6','b7'],'Campo menor harmônico':['T','2','b3','4','5','b6','7'],'Campo menor melódico':['T','2','b3','4','5','6','7']}};
 
 const SCALE_SUGGESTIONS={
   'Tríade maior':[
@@ -307,7 +307,7 @@ function intervalMap(root,f){let m={};f.forEach(iv=>m[iv]=noteFor(root,iv));retu
 const BOOK_ARPEGGIO_PATTERNS = {
   'Arpejo tríade maior': [
     {
-      name: 'Posição 1',
+      name: 'Position 1',
       baseForC: 0,
       // Major triad arpeggio - book-style position 1.
       // This pattern has been checked against the horizontal fretboard version.
@@ -322,7 +322,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 2',
+      name: 'Position 2',
       baseForC: 5,
       // Major triad arpeggio - book-style position 2.
       // Removed the extra G-string note at the final column.
@@ -338,7 +338,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 3',
+      name: 'Position 3',
       baseForC: 8,
       // Major triad arpeggio - book-style position 3.
       // The A-string third at fret 7 stays fixed.
@@ -354,7 +354,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 4',
+      name: 'Position 4',
       baseForC: 10,
       // Major triad arpeggio - book-style position 4.
       // Removed the D-string third at fret 14 and added the G-string third at fret 9.
@@ -369,7 +369,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 5',
+      name: 'Position 5',
       baseForC: 0,
       // Major triad arpeggio - book-style position 5.
       // Removed the B-string note at fret 5.
@@ -389,7 +389,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tétrade maior 7M': [
     {
-      name: 'Posição 1',
+      name: 'Position 1',
       baseForC: 0,
       // Major 7 arpeggio - book-style regional position 1.
       // Formula: T-3-5-7M. Root notes are white; all other chord tones are black.
@@ -406,7 +406,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 2',
+      name: 'Position 2',
       baseForC: 5,
       // Major 7 arpeggio - Position 2 corrected from user markup.
       // Removed the right-edge G-string 3 and D-string 7M; added left-side 7M and 3.
@@ -424,7 +424,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 3',
+      name: 'Position 3',
       baseForC: 8,
       // Major 7 arpeggio - Position 3 corrected from user markup.
       // Removed the right-edge notes and added the left-side tones from the book pattern.
@@ -442,7 +442,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 4',
+      name: 'Position 4',
       baseForC: 8,
       // Major 7 arpeggio - book-style regional position 4.
       // Rebuilt from the reference diagram: no open-position notes; region is 8-13 in C.
@@ -459,7 +459,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 5',
+      name: 'Position 5',
       baseForC: 0,
       // Major 7 arpeggio - Position 5 corrected from user markup.
       // Removed the G-string 7M at fret 4 and added the open B-string 7M.
@@ -479,7 +479,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tríade menor': [
     {
-      name: 'Posição 1',
+      name: 'Position 1',
       baseForC: 0,
       // Minor triad arpeggio inferred from the corrected major-triad position 1.
       // T and 5 stay in the same places; every 3 is lowered one fret and relabeled b3.
@@ -496,7 +496,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 2',
+      name: 'Position 2',
       baseForC: 5,
       // Minor triad arpeggio inferred from corrected major-triad position 2.
       offsets: [
@@ -511,7 +511,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 3',
+      name: 'Position 3',
       baseForC: 8,
       // Minor triad arpeggio - Position 3 corrected from the supplied reference.
       // Removed the A-string b3 below the region and added the two b3 notes on both E strings.
@@ -527,7 +527,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 4',
+      name: 'Position 4',
       baseForC: 10,
       // Minor triad arpeggio - Position 4 corrected from the supplied markup.
       // Removed the low G-string b3 and added the D-string b3 at the right edge of the region.
@@ -542,7 +542,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 5',
+      name: 'Position 5',
       baseForC: 0,
       // Minor triad arpeggio - Position 5 corrected from the supplied markup.
       // Removed the b3 notes on both E strings at the left edge and added the B-string b3 on the right edge.
@@ -559,7 +559,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tétrade menor 7': [
     {
-      name: 'Posição 1',
+      name: 'Position 1',
       baseForC: 0,
       // Minor seventh arpeggio - book-style position 1.
       // Formula: T-b3-5-b7. Added on top of the current known-good project base.
@@ -579,7 +579,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 2',
+      name: 'Position 2',
       baseForC: 5,
       // Minor seventh arpeggio - book-style position 2.
       // Added from the supplied reference diagram. Formula: T-b3-5-b7.
@@ -597,7 +597,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 3',
+      name: 'Position 3',
       baseForC: 5,
       // Minor seventh arpeggio - book-style position 3.
       // User correction: A-string fifth stays at fret 10; removed the extra right-edge note.
@@ -614,486 +614,11 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:1, fret:3, interval:'T'},
         {string:1, fret:6, interval:'b3'}
       ]
-    },
-    {
-      name: 'Posição 4',
-      baseForC: 10,
-      // Minor seventh arpeggio - book-style position 4.
-      // Formula: T-b3-5-b7. Added from the supplied reference diagram.
-      offsets: [
-        {string:6, fret:1, interval:'b3'},
-        {string:5, fret:0, interval:'5'},
-        {string:5, fret:3, interval:'b7'},
-        {string:4, fret:0, interval:'T'},
-        {string:4, fret:3, interval:'b3'},
-        {string:3, fret:2, interval:'5'},
-        {string:2, fret:1, interval:'b7'},
-        {string:2, fret:3, interval:'T'},
-        {string:1, fret:1, interval:'b3'}
-      ]
-    },
-    {
-      name: 'Posição 5',
-      baseForC: 0,
-      // Minor seventh arpeggio - book-style position 5.
-      // Formula: T-b3-5-b7. Based on Position 5 of the minor triad with added b7.
-      offsets: [
-        {string:6, fret:3, interval:'5'},
-        {string:5, fret:1, interval:'b7'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:1, interval:'b3'},
-        {string:3, fret:0, interval:'5'},
-        {string:3, fret:3, interval:'b7'},
-        {string:2, fret:1, interval:'T'},
-        {string:2, fret:4, interval:'b3'},
-        {string:1, fret:3, interval:'5'}
-      ]
-    }
-  ],
-  'Arpejo dominante 7': [
-    {
-      name: 'Posição 1',
-      baseForC: 0,
-      // Dominant seventh arpeggio - book-style position 1.
-      // Formula: T-3-5-b7. Corrected from the user's markup:
-      // removed the A-string 3 at fret 7 and added the D-string 3 at fret 2.
-      // This matches the major triad position 1 plus the b7 notes.
-      offsets: [
-        {string:6, fret:3, interval:'5'},
-        {string:6, fret:6, interval:'b7'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:2, interval:'3'},
-        {string:4, fret:5, interval:'5'},
-        {string:3, fret:3, interval:'b7'},
-        {string:3, fret:5, interval:'T'},
-        {string:2, fret:5, interval:'3'},
-        {string:1, fret:3, interval:'5'},
-        {string:1, fret:6, interval:'b7'}
-      ]
-    },
-    {
-      name: 'Posição 2',
-      baseForC: 5,
-      // Dominant seventh arpeggio - book-style position 2.
-      // Formula: T-3-5-b7. Corrected from the user's markup:
-      // removed the G-string 3 at fret 9 and added the B-string 3 at fret 5.
-      // This matches the major triad position 2 plus the b7 notes.
-      offsets: [
-        {string:6, fret:1, interval:'b7'},
-        {string:6, fret:3, interval:'T'},
-        {string:5, fret:2, interval:'3'},
-        {string:4, fret:0, interval:'5'},
-        {string:4, fret:3, interval:'b7'},
-        {string:3, fret:0, interval:'T'},
-        {string:2, fret:0, interval:'3'},
-        {string:2, fret:3, interval:'5'},
-        {string:1, fret:1, interval:'b7'},
-        {string:1, fret:3, interval:'T'}
-      ]
-    },
-    {
-      name: 'Posição 3',
-      baseForC: 5,
-      // Dominant seventh arpeggio - book-style position 3.
-      // Formula: T-3-5-b7. Corrected from the user's markup:
-      // removed both E-string 3rds at fret 12 and added the A-string 3 at fret 7.
-      offsets: [
-        {string:6, fret:3, interval:'T'},
-        {string:5, fret:2, interval:'3'},
-        {string:5, fret:5, interval:'5'},
-        {string:4, fret:3, interval:'b7'},
-        {string:4, fret:5, interval:'T'},
-        {string:3, fret:4, interval:'3'},
-        {string:2, fret:3, interval:'5'},
-        {string:2, fret:6, interval:'b7'},
-        {string:1, fret:3, interval:'T'}
-      ]
-    },
-    {
-      name: 'Posição 4',
-      baseForC: 10,
-      // Dominant seventh arpeggio - book-style position 4.
-      // Formula: T-3-5-b7. Corrected from the user's markup:
-      // removed the D-string 3 at fret 14 and added the G-string 3 at fret 9.
-      offsets: [
-        {string:6, fret:2, interval:'3'},
-        {string:5, fret:0, interval:'5'},
-        {string:5, fret:3, interval:'b7'},
-        {string:4, fret:0, interval:'T'},
-        {string:3, fret:-1, interval:'3'},
-        {string:3, fret:2, interval:'5'},
-        {string:2, fret:1, interval:'b7'},
-        {string:2, fret:3, interval:'T'},
-        {string:1, fret:2, interval:'3'}
-      ]
-    },
-    {
-      name: 'Posição 5',
-      baseForC: 0,
-      // Dominant seventh arpeggio - book-style position 5.
-      // Formula: T-3-5-b7. Corrected from the user's markup:
-      // removed the B-string 3 at fret 5 and added the open 3 on both E strings.
-      // This matches the major triad position 5 plus the b7 notes.
-      offsets: [
-        {string:6, fret:0, interval:'3'},
-        {string:6, fret:3, interval:'5'},
-        {string:5, fret:1, interval:'b7'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:2, interval:'3'},
-        {string:3, fret:0, interval:'5'},
-        {string:3, fret:3, interval:'b7'},
-        {string:2, fret:1, interval:'T'},
-        {string:1, fret:0, interval:'3'},
-        {string:1, fret:3, interval:'5'}
-      ]
-    }
-  ],
-  'Arpejo meio-diminuto': [
-    {
-      name: 'Posição 1',
-      baseForC: 0,
-      // Half-diminished (m7b5) arpeggio - book-style position 1.
-      // Formula: T-b3-b5-b7. Derived from the minor 7 position 1 by lowering every
-      // perfect 5 one fret to a b5 (min7 and m7b5 differ only by the fifth).
-      offsets: [
-        {string:6, fret:2, interval:'b5'},
-        {string:6, fret:6, interval:'b7'},
-        {string:5, fret:3, interval:'T'},
-        {string:5, fret:6, interval:'b3'},
-        {string:4, fret:4, interval:'b5'},
-        {string:3, fret:3, interval:'b7'},
-        {string:3, fret:5, interval:'T'},
-        {string:2, fret:4, interval:'b3'},
-        {string:1, fret:2, interval:'b5'},
-        {string:1, fret:6, interval:'b7'}
-      ]
-    },
-    {
-      name: 'Posição 2',
-      baseForC: 5,
-      // Half-diminished (m7b5) arpeggio - book-style position 2.
-      // Formula: T-b3-b5-b7. Corrected from the user's markup:
-      // removed the D-string b5 at fret 4 and added the A-string b5 at fret 9.
-      offsets: [
-        {string:6, fret:1, interval:'b7'},
-        {string:6, fret:3, interval:'T'},
-        {string:5, fret:1, interval:'b3'},
-        {string:5, fret:4, interval:'b5'},
-        {string:4, fret:3, interval:'b7'},
-        {string:3, fret:0, interval:'T'},
-        {string:3, fret:3, interval:'b3'},
-        {string:2, fret:2, interval:'b5'},
-        {string:1, fret:1, interval:'b7'},
-        {string:1, fret:3, interval:'T'}
-      ]
-    },
-    {
-      name: 'Posição 3',
-      baseForC: 5,
-      // Half-diminished (m7b5) arpeggio - book-style position 3.
-      // Formula: T-b3-b5-b7. Corrected from the user's markup:
-      // removed the B-string b5 at fret 7 and added the G-string b5 at fret 11.
-      offsets: [
-        {string:6, fret:3, interval:'T'},
-        {string:6, fret:6, interval:'b3'},
-        {string:5, fret:4, interval:'b5'},
-        {string:4, fret:3, interval:'b7'},
-        {string:4, fret:5, interval:'T'},
-        {string:3, fret:3, interval:'b3'},
-        {string:3, fret:6, interval:'b5'},
-        {string:2, fret:6, interval:'b7'},
-        {string:1, fret:3, interval:'T'},
-        {string:1, fret:6, interval:'b3'}
-      ]
-    },
-    {
-      name: 'Posição 4',
-      baseForC: 10,
-      // Half-diminished (m7b5) arpeggio - book-style position 4.
-      // Formula: T-b3-b5-b7. Corrected from the user's markup:
-      // removed the A-string b5 at fret 9 and added a b5 on both E strings at fret 14.
-      offsets: [
-        {string:6, fret:1, interval:'b3'},
-        {string:6, fret:4, interval:'b5'},
-        {string:5, fret:3, interval:'b7'},
-        {string:4, fret:0, interval:'T'},
-        {string:4, fret:3, interval:'b3'},
-        {string:3, fret:1, interval:'b5'},
-        {string:2, fret:1, interval:'b7'},
-        {string:2, fret:3, interval:'T'},
-        {string:1, fret:1, interval:'b3'},
-        {string:1, fret:4, interval:'b5'}
-      ]
-    },
-    {
-      name: 'Posição 5',
-      baseForC: 0,
-      // Half-diminished (m7b5) arpeggio - book-style position 5.
-      // Formula: T-b3-b5-b7. Corrected from the user's markup:
-      // added a b5 on the D string (string 4) at fret 4.
-      offsets: [
-        {string:6, fret:2, interval:'b5'},
-        {string:5, fret:1, interval:'b7'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:1, interval:'b3'},
-        {string:4, fret:4, interval:'b5'},
-        {string:3, fret:3, interval:'b7'},
-        {string:2, fret:1, interval:'T'},
-        {string:2, fret:4, interval:'b3'},
-        {string:1, fret:2, interval:'b5'}
-      ]
-    }
-  ],
-  'Arpejo tétrade aumentada': [
-    {
-      name: 'Posição 1',
-      baseForC: 0,
-      // Augmented major 7 arpeggio (maj7#5) - book-style position 1.
-      // Formula: T-3-#5-7M. Corrected from the user's markup:
-      // removed the D-string #5 at fret 6 and added a #5 on the G string at fret 1.
-      offsets: [
-        {string:6, fret:4, interval:'#5'},
-        {string:5, fret:2, interval:'7M'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:2, interval:'3'},
-        {string:3, fret:1, interval:'#5'},
-        {string:3, fret:4, interval:'7M'},
-        {string:3, fret:5, interval:'T'},
-        {string:2, fret:5, interval:'3'},
-        {string:1, fret:4, interval:'#5'}
-      ]
-    },
-    {
-      name: 'Posição 2',
-      baseForC: 5,
-      // Augmented major 7 arpeggio (maj7#5) - book-style position 2.
-      // Formula: T-3-#5-7M. Corrected from the user's markup: removed the top-E T
-      // at fret 8 and the B-string #5 at fret 9; added a #5 on the top-E string at fret 4.
-      offsets: [
-        {string:6, fret:2, interval:'7M'},
-        {string:6, fret:3, interval:'T'},
-        {string:5, fret:2, interval:'3'},
-        {string:4, fret:1, interval:'#5'},
-        {string:3, fret:-1, interval:'7M'},
-        {string:3, fret:0, interval:'T'},
-        {string:2, fret:0, interval:'3'},
-        {string:1, fret:-1, interval:'#5'},
-        {string:1, fret:2, interval:'7M'}
-      ]
-    },
-    {
-      name: 'Posição 3',
-      baseForC: 8,
-      // Augmented major 7 arpeggio (maj7#5) - book-style position 3.
-      // Formula: T-3-#5-7M. Corrected from the user's markup: removed the A-string #5
-      // at fret 11 and added a #5 on the D string at fret 6.
-      offsets: [
-        {string:6, fret:-1, interval:'7M'},
-        {string:6, fret:0, interval:'T'},
-        {string:5, fret:-1, interval:'3'},
-        {string:4, fret:-2, interval:'#5'},
-        {string:4, fret:1, interval:'7M'},
-        {string:4, fret:2, interval:'T'},
-        {string:3, fret:1, interval:'3'},
-        {string:2, fret:1, interval:'#5'},
-        {string:1, fret:-1, interval:'7M'},
-        {string:1, fret:0, interval:'T'}
-      ]
-    },
-    {
-      name: 'Posição 4',
-      baseForC: 8,
-      // Augmented major 7 arpeggio (maj7#5) - book-style position 4.
-      // Formula: T-3-#5-7M. Corrected from the user's markup: removed the B-string T
-      // and G-string #5 at fret 13; added a T on both E strings at fret 8 and a #5 on
-      // the B string at fret 9.
-      offsets: [
-        {string:6, fret:0, interval:'T'},
-        {string:6, fret:4, interval:'3'},
-        {string:5, fret:3, interval:'#5'},
-        {string:4, fret:1, interval:'7M'},
-        {string:4, fret:2, interval:'T'},
-        {string:3, fret:1, interval:'3'},
-        {string:2, fret:1, interval:'#5'},
-        {string:2, fret:4, interval:'7M'},
-        {string:1, fret:0, interval:'T'},
-        {string:1, fret:4, interval:'3'}
-      ]
-    },
-    {
-      name: 'Posição 5',
-      baseForC: 0,
-      // Augmented major 7 arpeggio (maj7#5) - book-style position 5.
-      // Formula: T-3-#5-7M. Major 7 position 5 with each 5 raised to #5.
-      offsets: [
-        {string:6, fret:0, interval:'3'},
-        {string:6, fret:4, interval:'#5'},
-        {string:5, fret:2, interval:'7M'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:2, interval:'3'},
-        {string:3, fret:1, interval:'#5'},
-        {string:2, fret:0, interval:'7M'},
-        {string:2, fret:1, interval:'T'},
-        {string:1, fret:0, interval:'3'},
-        {string:1, fret:4, interval:'#5'}
-      ]
-    }
-  ],
-  'Arpejo menor com sétima maior': [
-    {
-      name: 'Posição 1',
-      baseForC: 0,
-      // Minor-major 7 arpeggio m(maj7) - book-style position 1.
-      // Formula: T-b3-5-7M. Corrected from the user's markup: removed the D-string b3
-      // at fret 1; added a b3 on the A string at fret 6 and a 7M on the top-E string at fret 7.
-      offsets: [
-        {string:6, fret:3, interval:'5'},
-        {string:5, fret:2, interval:'7M'},
-        {string:5, fret:3, interval:'T'},
-        {string:5, fret:6, interval:'b3'},
-        {string:4, fret:5, interval:'5'},
-        {string:3, fret:4, interval:'7M'},
-        {string:3, fret:5, interval:'T'},
-        {string:2, fret:4, interval:'b3'},
-        {string:1, fret:3, interval:'5'},
-        {string:1, fret:7, interval:'7M'}
-      ]
-    },
-    {
-      name: 'Posição 2',
-      baseForC: 5,
-      // Minor-major 7 arpeggio m(maj7) - book-style position 2.
-      // Formula: T-b3-5-7M. Corrected from the user's markup: removed the B-string b3
-      // at fret 4 and added a b3 on the G string at fret 8.
-      offsets: [
-        {string:6, fret:2, interval:'7M'},
-        {string:6, fret:3, interval:'T'},
-        {string:5, fret:1, interval:'b3'},
-        {string:4, fret:0, interval:'5'},
-        {string:3, fret:-1, interval:'7M'},
-        {string:3, fret:0, interval:'T'},
-        {string:3, fret:3, interval:'b3'},
-        {string:2, fret:3, interval:'5'},
-        {string:1, fret:2, interval:'7M'},
-        {string:1, fret:3, interval:'T'}
-      ]
-    },
-    {
-      name: 'Posição 3',
-      baseForC: 8,
-      // Minor-major 7 arpeggio m(maj7) - book-style position 3.
-      // Formula: T-b3-5-7M. Corrected from the user's markup: removed the low-E 7M at
-      // fret 7 and b3 at fret 10; added a b3 on the low-E string at fret 11.
-      offsets: [
-        {string:6, fret:0, interval:'T'},
-        {string:6, fret:3, interval:'b3'},
-        {string:5, fret:2, interval:'5'},
-        {string:4, fret:1, interval:'7M'},
-        {string:4, fret:2, interval:'T'},
-        {string:3, fret:0, interval:'b3'},
-        {string:2, fret:0, interval:'5'},
-        {string:1, fret:-1, interval:'7M'},
-        {string:1, fret:0, interval:'T'}
-      ]
-    },
-    {
-      name: 'Posição 4',
-      baseForC: 8,
-      // Minor-major 7 arpeggio m(maj7) - book-style position 4.
-      // Formula: T-b3-5-7M. Corrected from the user's markup: removed the G-string b3
-      // at fret 8 and added a b3 on the D string at fret 13 (D+13=Eb).
-      offsets: [
-        {string:6, fret:3, interval:'b3'},
-        {string:5, fret:2, interval:'5'},
-        {string:4, fret:1, interval:'7M'},
-        {string:4, fret:2, interval:'T'},
-        {string:4, fret:5, interval:'b3'},
-        {string:3, fret:4, interval:'5'},
-        {string:2, fret:4, interval:'7M'},
-        {string:2, fret:5, interval:'T'},
-        {string:1, fret:3, interval:'b3'}
-      ]
-    },
-    {
-      name: 'Posição 5',
-      baseForC: 0,
-      // Minor-major 7 arpeggio m(maj7) - book-style position 5 (open region).
-      // Formula: T-b3-5-7M. Corrected from the user's markup: the B-string 7M/T belong
-      // on the open string (B=7M, fret1=C=T), not at frets 2/3; removed the wrong low-E
-      // "b3" at fret 1 (that pitch is F, not Eb). The Eb on the E strings sits below the
-      // nut in C, so it is omitted from this open-position shape.
-      offsets: [
-        {string:6, fret:-1, interval:'b3'},
-        {string:6, fret:3, interval:'5'},
-        {string:5, fret:2, interval:'7M'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:1, interval:'b3'},
-        {string:3, fret:0, interval:'5'},
-        {string:2, fret:0, interval:'7M'},
-        {string:2, fret:1, interval:'T'},
-        {string:1, fret:-1, interval:'b3'},
-        {string:1, fret:3, interval:'5'}
-      ]
-    }
-  ],
-  'Arpejo diminuto': [
-    {
-      name: 'Posição 1',
-      baseForC: 0,
-      // Dim7 (T-b3-b5-bb7). C: casas 1-5 / D: casas 3-7. Confirmed by user.
-      offsets: [
-        {string:6, fret:2, interval:'b5'},
-        {string:6, fret:5, interval:'bb7'},
-        {string:5, fret:3, interval:'T'},
-        {string:4, fret:1, interval:'b3'},
-        {string:4, fret:4, interval:'b5'},
-        {string:3, fret:2, interval:'bb7'},
-        {string:2, fret:1, interval:'T'},
-        {string:2, fret:4, interval:'b3'},
-        {string:1, fret:2, interval:'b5'}
-      ]
-    },
-    {
-      name: 'Posição 2',
-      baseForC: 3,
-      // Dim7 — P1 shifted +3 semitones. Label cycle: b5→bb7, bb7→T, T→b3, b3→b5.
-      // C: casas 4-8 / D: casas 6-10.
-      offsets: [
-        {string:6, fret:2, interval:'bb7'},
-        {string:6, fret:5, interval:'T'},
-        {string:5, fret:3, interval:'b3'},
-        {string:4, fret:1, interval:'b5'},
-        {string:4, fret:4, interval:'bb7'},
-        {string:3, fret:2, interval:'T'},
-        {string:2, fret:1, interval:'b3'},
-        {string:2, fret:4, interval:'b5'},
-        {string:1, fret:2, interval:'bb7'}
-      ]
-    },
-    {
-      name: 'Posição 3',
-      baseForC: 0,
-      // Dim7 — book-style diagonal sweep, 2 notes per string. C: casas 2-11 / D: casas 4-13.
-      // Each string pair: b5+bb7 (strings 6/4/2) or T+b3 (strings 5/3/1).
-      offsets: [
-        {string:6, fret:2, interval:'b5'},
-        {string:6, fret:5, interval:'bb7'},
-        {string:5, fret:3, interval:'T'},
-        {string:5, fret:6, interval:'b3'},
-        {string:4, fret:4, interval:'b5'},
-        {string:4, fret:7, interval:'bb7'},
-        {string:3, fret:5, interval:'T'},
-        {string:3, fret:8, interval:'b3'},
-        {string:2, fret:7, interval:'b5'},
-        {string:2, fret:10, interval:'bb7'},
-        {string:1, fret:8, interval:'T'},
-        {string:1, fret:11, interval:'b3'}
-      ]
     }
   ],
   'Arpejo tríade aumentada': [
     {
-      name: 'Posição 1',
+      name: 'Position 1',
       baseForC: 0,
       // Augmented triad arpeggio from the book-style single movable shape.
       // Formula: T-3-#5. This is symmetrical, so one shape covers the cycle.
@@ -1111,7 +636,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ],
   'Arpejo tríade diminuta': [
     {
-      name: 'Posição 1',
+      name: 'Position 1',
       baseForC: 0,
       // Diminished triad arpeggio - Position 1 corrected from user markup.
       // Removed the marked B-string and D-string notes.
@@ -1130,7 +655,7 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     },
     {
-      name: 'Posição 2',
+      name: 'Position 2',
       baseForC: 4,
       // Diminished triad arpeggio from the book diagram, position 2.
       // Same T-b3-b5 material in the next region of the neck.
@@ -1211,3 +736,61 @@ function generateBookArpeggio(root, structureName, formulaIntervals, minF, maxF,
 function hasBookArpeggioPattern(structureName){
   return !!BOOK_ARPEGGIO_PATTERNS[structureName];
 }
+
+
+// Arpeggio Superimposition -------------------------------------------------
+// Tables transcribed as reusable data from the studied material. These are
+// reference mappings: base chord type -> superimposed arpeggio -> harmonic result.
+const SUPERIMPOSITION_DATA={
+  'Acorde tipo 7M':{
+    baseExample:'C7M', formula:['T','3','5','7M'],
+    rows:[
+      ['C','C7M',''],['C7M','C7M',''],['Em','C7M',''],['Em7','C7M(9)','9'],['G','C7M(9)','9'],['G7M','C7M(9,#11)','9, #11'],['Bm','C7M(9,#11)','9, #11'],['Bm7','C7M/6(9,#11)','6, 9, #11'],['D','C7M/6(9,#11)','6, 9, #11'],['D7','C7M/6(9,#11)','6, 9, #11'],['F#m7(b5)','C7M/6(#11)','6, #11'],['Am','C7M/6','6'],['Am7','C7M/6','6']
+    ]
+  },
+  'Acorde tipo m7':{
+    baseExample:'Cm7', formula:['T','b3','5','b7'],
+    rows:[
+      ['Cm','Cm7',''],['Cm7','Cm7',''],['Eb','Cm7',''],['Eb7M','Cm7(9)','9'],['Gm','Cm7(9)','9'],['Gm7','Cm7(9,11)','9, 11'],['Bb','Cm7(9,11)','9, 11'],['Bb7M','Cm7(9,11,13)','9, 11, 13'],['Dm','Cm7(9,11,13)','9, 11, 13'],['Dm7','Cm7(9,11,13)','9, 11, 13'],['F','Cm7(11,13)','11, 13'],['F7','Cm7(11,13)','11, 13'],['Am7(b5)','Cm7(13)','13']
+    ]
+  },
+  'Acorde tipo m7(b5)':{
+    baseExample:'Cm7(b5)', formula:['T','b3','b5','b7'],
+    rows:[
+      ['Cm7(b5)','Cm7(b5)',''],['Ebm','Cm7(b5)',''],['Ebm7M','Cm7(b5,9)','9'],['Gb(#5)','Cm7(b5,9)','9'],['Gb7M(#5)','Cm7(b5,9,11)','9, 11'],['Bb','Cm7(b5,9,11)','9, 11'],['Bb7','Cm7(b5,9,11,b13)','9, 11, b13'],['Dm7(b5)','Cm7(b5,9,11,b13)','9, 11, b13'],['Fm','Cm7(b5,11,b13)','11, b13'],['Fm7','Cm7(b5,11,b13)','11, b13'],['Ab','Cm7(b5,b13)','b13'],['Ab7','Cm7(b5,b13)','b13']
+    ]
+  },
+  'Acorde tipo m7M':{
+    baseExample:'Cm7M', formula:['T','b3','5','7M'],
+    rows:[
+      ['Cm','Cm7M',''],['Cm7M','Cm7M',''],['Eb(#5)','Cm7M',''],['Eb7M(#5)','Cm7M(9)','9'],['G','Cm7M(9)','9'],['G7','Cm7M(9,11)','9, 11'],['Bm7(b5)','Cm7M/6(9,11)','6, 9, 11'],['Dm','Cm7M/6(9,11)','6, 9, 11'],['Dm7','Cm7M/6(9,11)','6, 9, 11'],['F','Cm7M/6(11)','6, 11'],['F7','Cm7M/6(11)','6, 11'],['Am7(b5)','Cm7M/6','6']
+    ]
+  },
+  'Acorde tipo 7M(#5)':{
+    baseExample:'C7M(#5)', formula:['T','3','#5','7M'],
+    rows:[
+      ['C(#5)','C7M(#5)',''],['C7M(#5)','C7M(#5)',''],['E','C7M(#5)',''],['E7','C7M(#5,9)','9'],['G#m7(b5)','C7M(#5,9,#11)','9, #11']
+    ]
+  },
+  'Acorde tipo °':{
+    baseExample:'C°', formula:['T','b3','b5','bb7'],
+    rows:[
+      ['C°','C°',''],['Eb°','C°',''],['Gb°','C°',''],['A°','C°',''],['D','C°(9)','9'],['Dm','C°(9,11)','9, 11'],['D°','C°(7M,9,11,b13)','7M, 9, 11, b13'],['D7','C°(9)','9'],['Dm7','C°(9,11)','9, 11'],['Dm7(b5)','C°(9,11,b13)','9, 11, b13'],['F','C°(11)','11'],['Fm','C°(11,b13)','11, b13'],['F°','C°(7M,9,11,b13)','7M, 9, 11, b13'],['F7','C°(11)','11'],['Fm7','C°(11,b13)','11, b13'],['Fm7(b5)','C°(7M,11,b13)','7M, 11, b13'],['Ab','C°(b13)','b13'],['Abm','C°(7M,b13)','7M, b13'],['Ab°','C°(7M,9,11,b13)','7M, 9, 11, b13'],['Ab7','C°(b13)','b13'],['Abm7','C°(7M,b13)','7M, b13'],['Abm7(b5)','C°(7M,9,b13)','7M, 9, b13'],['B','C°(7M)','7M'],['Bm','C°(7M,9)','7M, 9'],['B°','C°(7M,9,11,b13)','7M, 9, 11, b13'],['B7','C°(7M)','7M'],['Bm7','C°(7M,9)','7M, 9'],['Bm7(b5)','C°(7M,9,11)','7M, 9, 11']
+    ]
+  },
+  'Acorde tipo 7':{
+    baseExample:'C7', formula:['T','3','5','b7'],
+    rows:[
+      ['C','C7',''],['Cm','C7(#9)','#9'],['C(#5)','C7(#5)','#5'],['C7','C7',''],['Cm7','C7(#9)','#9'],['C°','C7(#9,#11,13)','#9, #11, 13'],['Cm7(b5)','C7(#9,#11)','#9, #11'],['E7M(#5)','C7(#5,9)','#5, 9'],['E°','C7(b9)','b9'],['Em7(b5)','C7(9)','9'],['Gm','C7(9)','9'],['Gm7M','C7(9,11)','9, 11'],['G°','C7(b9)','b9'],['Bb(#5)','C7(9,#11)','9, #11'],['Bb°','C7(b9)','b9'],['Bbm7(b5)','C7(b9,b13)','b9, b13'],['Bb7M(#5)','C7(9,#11,13)','9, #11, 13'],['Dbm','C7(b9,b13)','b9, b13'],['Dbm7M','C7(b9,b13)','b9, b13'],['Db°','C7(b9)','b9'],['D','C7(9,#11,13)','9, #11, 13'],['D(#5)','C7(9,#11)','9, #11'],['D7','C7(9,#11,13)','9, #11, 13'],['Eb','C7(#9)','#9'],['Eb7','C7(#9,b9)','#9, b9'],['Ebm','C7(#9,#11)','#9, #11'],['Ebm7','C7(#9,b9,#11)','#9, b9, #11'],['Eb°','C7(#9,#11,13)','#9, #11, 13'],['Ebm7(b5)','C7(#9,b9,#11,13)','#9, b9, #11, 13'],['Gb','C7(b9,#11)','b9, #11'],['Gbm','C7(b9,#11,13)','b9, #11, 13'],['Gb(#5)','C7(9,#11)','9, #11'],['Gb°','C7(#9,#11,13)','#9, #11, 13'],['Gb7','C7(b9,#11)','b9, #11'],['Gbm7','C7(b9,#11,13)','b9, #11, 13'],['Gbm7(b5)','C7(#11,13)','#11, 13'],['Ab','C7(#5,#9)','#5, #9'],['Ab(#5)','C7(b13)','b13'],['Ab7','C7(#5,#9,#11)','#5, #9, #11'],['A','C7(b9,13)','b9, 13'],['Am','C7(13)','13'],['A°','C7(#9,#11,13)','#9, #11, 13'],['A7','C7(b9,13)','b9, 13'],['Am7','C7(13)','13'],['Am7(b5)','C7(#9,13)','#9, 13']
+    ]
+  }
+};
+
+LIBRARY['Superposição de Arpejos']=Object.fromEntries(Object.keys(SUPERIMPOSITION_DATA).map(k=>[k,SUPERIMPOSITION_DATA[k].formula]));
+(function reorderLibraryForProductFlow(){
+  const desired=['Intervalos','Acordes','Arpejos','Escalas','Modos','Campos Harmônicos','Superposição de Arpejos'];
+  const snapshot={}; Object.keys(LIBRARY).forEach(k=>snapshot[k]=LIBRARY[k]);
+  Object.keys(LIBRARY).forEach(k=>delete LIBRARY[k]);
+  desired.forEach(k=>{if(snapshot[k]) LIBRARY[k]=snapshot[k];});
+  Object.keys(snapshot).forEach(k=>{if(!LIBRARY[k]) LIBRARY[k]=snapshot[k];});
+})();

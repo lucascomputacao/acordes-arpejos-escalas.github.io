@@ -43,4 +43,4 @@ The app now keeps the main controls in the hash URL for GitHub Pages compatibili
 Example:
 `#/arpeggios/arpejo-tetrade-menor-7?root=C&minFret=0&maxFret=24&lang=en&stringGroups=1-2-3-4-5-6&voicings=Position%201`
 
-- Added book-style Arpejo tétrade menor 7 position 4.
+- Added Arpeggio Superimposition tables after Harmonic Fields.

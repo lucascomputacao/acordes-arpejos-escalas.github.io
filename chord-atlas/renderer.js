@@ -113,7 +113,7 @@ function svgHorizontalArpeggio(item){
   strings.forEach((str,row)=>{
     const y=y0+row*rowGap;
     s+=`<line x1="${x0}" y1="${y}" x2="${x0+frets*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.4:1.8}"/>`;
-    s+=`<text x="${x0-34}" y="${y+5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#334155">${STRING_TUNING[str]}</text>`;
+    s+=`<text x="${x0-28}" y="${y+5}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#334155">${STRING_TUNING[str]}</text>`;
   });
 
   for(const p of positions){
@@ -122,7 +122,7 @@ function svgHorizontalArpeggio(item){
     let x;
     if(p.fret===0){
       if(start!==0) continue;
-      x=x0-14;
+      x=x0-18;
     }else{
       if(p.fret<=start || p.fret>end) continue;
       x=x0+(p.fret-start-0.5)*cell;
@@ -303,6 +303,68 @@ function makeSectionCloseable(section){
   return section;
 }
 
+
+function renderArpeggioSuperimpositionBlock(root,name,out){
+  const data=SUPERIMPOSITION_DATA[name];
+  if(!data) return 0;
+  const rows=data.rows||[];
+  const sec=document.createElement('section');
+  sec.className='section superimposition-section superimposition-accordion-section';
+
+  const tableRows=rows.map((r,idx)=>`<tr class="${idx===0?'selected-row':''}"><td class="super-arp"><button type="button" class="super-play" title="${tr('useSuggestion')}">▶</button><strong>${r[0]}</strong></td><td><strong>${r[1]}</strong></td><td>${(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>'}</td></tr>`).join('');
+
+  const mobileCards=rows.map((r,idx)=>{
+    const tensions=(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>';
+    return `<article class="super-mobile-card ${idx===0?'selected-row':''}">
+      <div class="super-mobile-card-head">
+        <button type="button" class="super-play" title="${tr('useSuggestion')}">▶</button>
+        <strong>${r[0]}</strong>
+      </div>
+      <div class="super-mobile-card-row"><span>${tr('result')}</span><strong>${r[1]}</strong></div>
+      <div class="super-mobile-card-row"><span>${tr('addedTensions')}</span><div>${tensions}</div></div>
+    </article>`;
+  }).join('');
+
+  sec.innerHTML=`
+    <details class="super-accordion">
+      <summary class="super-accordion-summary">
+        <span class="super-accordion-title">${dn('Superposição de Arpejos')} — ${dn(name)}</span>
+        <span class="super-accordion-meta">${rows.length} ${tr('superimpositions')}</span>
+      </summary>
+      <div class="superimposition-layout">
+        <div class="super-summary">
+          <div class="super-base-box">${data.baseExample}</div>
+          <div>
+            <div class="compat-title">${tr('baseChord')}</div>
+            <div class="super-base-name">${data.baseExample}</div>
+            <div class="tension-note">${tr('superimpositionInfo')}</div>
+          </div>
+        </div>
+        <div class="super-table-wrap">
+          <table class="super-table">
+            <thead><tr><th>${tr('superimposedArpeggio')}</th><th>${tr('result')}</th><th>${tr('addedTensions')}</th></tr></thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+          <div class="super-mobile-list">${mobileCards}</div>
+        </div>
+      </div>
+    </details>
+  `;
+  makeSectionCloseable(sec);
+  out.appendChild(sec);
+  return rows.length;
+}
+
+function renderArpeggioSuperimposition(root,name,out){
+  out.innerHTML='';
+  const order=['Acorde tipo 7M','Acorde tipo m7','Acorde tipo m7(b5)','Acorde tipo m7M','Acorde tipo 7M(#5)','Acorde tipo °','Acorde tipo 7'];
+  let total=0;
+  order.forEach(key=>{ if(SUPERIMPOSITION_DATA[key]) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
+  Object.keys(SUPERIMPOSITION_DATA).forEach(key=>{ if(!order.includes(key)) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
+  if(!total) out.innerHTML=`<div class="empty">${tr('noPositions')}</div>`;
+  document.getElementById('status').textContent=`${total} ${tr('superimpositions')}`;
+}
+
 function render(){
   let root=document.getElementById('root').value,
       name=selectedStructure(),
@@ -319,6 +381,11 @@ function render(){
   }
   if(currentCategory==='Campos Harmônicos'){
     renderHarmonicField(root,name,minF,maxF,out);
+    renderVoiceLeading();
+    return;
+  }
+  if(currentCategory==='Superposição de Arpejos'){
+    renderArpeggioSuperimposition(root,name,out);
     renderVoiceLeading();
     return;
   }
