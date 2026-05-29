@@ -8,12 +8,12 @@ class InteractiveFretboard {
     this.containerId = containerId;
     this.container = document.getElementById(containerId);
     this.settings = {
-      minFret: 0,
-      maxFret: 12,
+      minFret: 1,
+      maxFret: 24,
       hoverPlay: true,
       showNoteNames: true,
       isLeftHanded: false,
-      noteDuration: 200,
+      noteDuration: 2.0,
       oscillatorType: 'sine'
     };
     this.activeNotes = new Set();
