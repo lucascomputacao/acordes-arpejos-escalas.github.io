@@ -13,7 +13,7 @@ class AudioEngineSamples {
     this.masterGain = null;
     this.reverb = null;
     this.delay = null;
-    this.volume = 0.4;
+    this.volume = 0.8;
     this.loadingStatus = 'idle';
     // Local samples folder (relative to the HTML page)
     this.sampleBaseDir = 'samples/';

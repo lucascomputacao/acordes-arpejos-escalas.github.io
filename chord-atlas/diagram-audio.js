@@ -60,16 +60,17 @@
     if (btn.classList.contains('is-playing')) return; // avoid overlap
     btn.classList.add('is-playing');
 
-    const stepMs = 165; // gap between sequenced notes
-    window.audioEngine.playArpeggio(notes, { noteDuration: 0.7, delayBetween: stepMs });
+    const stepMs = 200;     // gap between sequenced notes
+    const pauseMs = 650;    // pause between the sequence and the simultaneous strum
+    window.audioEngine.playArpeggio(notes, { noteDuration: 0.9, delayBetween: stepMs });
     const seqMs = notes.length * stepMs;
 
     if (mode === 'chord') {
-      // After the sequence, play all notes together (strum).
+      // After the sequence finishes, pause, then play all notes together (strum).
       setTimeout(() => {
-        window.audioEngine.playChord(notes, { duration: 2.4 });
-      }, seqMs + 220);
-      setTimeout(() => btn.classList.remove('is-playing'), seqMs + 2600);
+        window.audioEngine.playChord(notes, { duration: 2.6 });
+      }, seqMs + pauseMs);
+      setTimeout(() => btn.classList.remove('is-playing'), seqMs + pauseMs + 2600);
     } else {
       setTimeout(() => btn.classList.remove('is-playing'), seqMs + 700);
     }
