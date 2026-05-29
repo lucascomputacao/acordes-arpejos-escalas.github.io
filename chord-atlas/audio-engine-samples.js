@@ -13,6 +13,7 @@ class AudioEngineSamples {
     this.reverb = null;
     this.delay = null;
     this.volume = 0.4;
+    this.loadingStatus = 'idle';
   }
 
   /**
@@ -22,6 +23,9 @@ class AudioEngineSamples {
     if (this.isInitialized) return;
 
     try {
+      console.log('🎵 Starting Tone.js...');
+      this.loadingStatus = 'initializing';
+
       // Start Tone audio context
       await Tone.start();
 
@@ -40,50 +44,89 @@ class AudioEngineSamples {
         wet: 0.15
       });
 
-      // Load guitar samples from tonejs-instruments
-      // Using a simpler approach: load samples directly from the CDN
+      console.log('📦 Loading guitar samples...');
+      this.loadingStatus = 'loading-samples';
+
+      // Load guitar samples
       await this.loadGuitarSamples();
 
       this.isInitialized = true;
-      console.log('🎸 AudioEngine (Real Samples) initialized');
+      this.loadingStatus = 'ready';
+      console.log('✅ AudioEngine (Real Samples) initialized successfully!');
     } catch (error) {
       console.error('❌ Error initializing audio engine:', error);
+      this.loadingStatus = 'error';
       throw error;
     }
   }
 
   /**
    * Load guitar samples using Tone.Sampler
-   * Maps note names to sample URLs from tonejs-instruments CDN
    */
   async loadGuitarSamples() {
-    // Guitar tuning: E A D G B E (standard 6-string)
-    const tuning = ['E4', 'B3', 'G3', 'D3', 'A2', 'E2'];
-
-    // Create samplers for different guitar types
     const guitarTypes = ['guitar-acoustic', 'guitar-electric'];
+    const loadPromises = [];
 
     for (const guitarType of guitarTypes) {
-      // Create a sampler for each guitar type
-      // Using URLs from tonejs-instruments GitHub repo
+      console.log(`📥 Preparing to load ${guitarType}...`);
       const urls = this.generateSampleUrls(guitarType);
 
-      this.samplers[guitarType] = new Tone.Sampler({
-        urls: urls,
-        baseUrl: `https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/${guitarType}/`,
-        onload: () => {
-          console.log(`✅ ${guitarType} samples loaded`);
-        },
-        onerror: (error) => {
-          console.error(`❌ Error loading ${guitarType}:`, error);
+      const promise = new Promise((resolve, reject) => {
+        try {
+          const baseUrl = `https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/${guitarType}/`;
+
+          this.samplers[guitarType] = new Tone.Sampler({
+            urls: urls,
+            baseUrl: baseUrl,
+            onload: () => {
+              console.log(`✅ ${guitarType} loaded! (${Object.keys(urls).length} samples)`);
+              resolve();
+            },
+            onerror: (error) => {
+              console.warn(`⚠️ ${guitarType} encountered an error but continuing:`, error);
+              // Still resolve - samples may load asynchronously
+              resolve();
+            }
+          });
+
+          // Connect to effects chain
+          this.samplers[guitarType].connect(this.reverb);
+          console.log(`✓ ${guitarType} connected to effects chain`);
+
+          // Timeout in case loading stalls
+          const timeout = setTimeout(() => {
+            console.log(`⏱️ ${guitarType} load timeout (continuing anyway)`);
+            resolve();
+          }, 20000);
+
+          // Override onload to clear timeout
+          const originalOnload = this.samplers[guitarType]._onload;
+          this.samplers[guitarType]._onload = () => {
+            clearTimeout(timeout);
+            if (originalOnload) originalOnload();
+          };
+        } catch (error) {
+          console.error(`❌ Error creating sampler for ${guitarType}:`, error);
+          reject(error);
         }
       });
 
-      // Connect to effects chain
-      this.samplers[guitarType].connect(this.reverb);
-      this.reverb.connect(this.delay);
-      this.delay.connect(this.masterGain);
-      this.masterGain.toDestination();
+      loadPromises.push(promise);
+    }
+
+    // Connect effects chain (do this once)
+    this.reverb.connect(this.delay);
+    this.delay.connect(this.masterGain);
+    this.masterGain.toDestination();
+    console.log('✓ Effects chain connected to destination');
+
+    // Wait for all samplers
+    try {
+      await Promise.all(loadPromises);
+      console.log('✅ All samplers loaded');
+    } catch (error) {
+      console.error('Error loading samplers:', error);
+      // Don't throw - continue anyway
     }
 
     // Set default instrument
@@ -92,7 +135,6 @@ class AudioEngineSamples {
 
   /**
    * Generate sample URLs for a guitar type
-   * tonejs-instruments has samples at intervals (e.g., every semitone)
    */
   generateSampleUrls(guitarType) {
     const notes = ['C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1',
@@ -103,8 +145,8 @@ class AudioEngineSamples {
 
     const urls = {};
     notes.forEach(note => {
-      // tonejs-instruments samples are named like: A1.mp3, A#1.mp3, etc.
-      urls[note] = `${note}.mp3`;
+      // Use .ogg format (more available than .mp3)
+      urls[note] = `${note}.ogg`;
     });
 
     return urls;
@@ -125,7 +167,7 @@ class AudioEngineSamples {
    */
   playNote(note, options = {}) {
     if (!this.isInitialized) {
-      console.warn('⚠️ Audio engine not initialized yet');
+      console.warn('⚠️ Audio engine not initialized yet - status:', this.loadingStatus);
       return;
     }
 
@@ -137,19 +179,19 @@ class AudioEngineSamples {
     try {
       const sampler = this.samplers[this.currentInstrument];
       if (!sampler) {
-        console.error('❌ Current sampler not loaded');
+        console.error(`❌ Sampler for '${this.currentInstrument}' not found. Available: ${Object.keys(this.samplers).join(', ')}`);
         return;
       }
 
       // Convert duration if it's in milliseconds
       let toneDuration = duration;
       if (typeof duration === 'number' && duration < 10) {
-        // Assume it's already in seconds if < 10
         toneDuration = duration;
       } else if (typeof duration === 'number') {
-        // Assume it's in milliseconds
         toneDuration = duration / 1000;
       }
+
+      console.log(`🎵 Playing ${note} (${toneDuration.toFixed(2)}s) on ${this.currentInstrument}`);
 
       // Play the note
       sampler.triggerAttackRelease(note, toneDuration, Tone.now());
