@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Interactive Fretboard (Real Guitar Samples) - ChordAtlas</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
   <style>
     body {
       font-family: 'DM Sans', sans-serif;
@@ -134,7 +137,7 @@
   </style>
 </head>
 <body>
-  <h1>🎸 Interactive Fretboard <span class="badge-samples">Real Samples</span></h1>
+  <h1>🎸 Interactive Fretboard <span class="badge-samples">Real Guitar Samples</span></h1>
 
   <div class="demo-section">
     <h2>Real Guitar Samples - Acoustic & Electric</h2>
@@ -238,12 +241,14 @@
   <script src="tone.js"></script>
 
   <!-- Audio Engine with Real Samples -->
-  <script src="audio-engine-samples.js"></script>
+  <script src="audio-engine-samples.js?v=1"></script>
 
   <!-- Interactive Fretboard -->
-  <script src="interactive-fretboard.js"></script>
+  <script src="interactive-fretboard.js?v=2"></script>
 
   <script>
+    console.log('🚀 Page loaded - about to initialize');
+
     // Initialize
     const statusEl = document.getElementById('status');
     const fretboardContainer = document.getElementById('interactive-fretboard');
@@ -255,6 +260,8 @@
       if (initialized) return;
       initialized = true;
 
+      console.log('👆 User interaction detected - starting initialization');
+
       try {
         statusEl.innerHTML = '⏳ Initializing audio engine...';
 
@@ -263,8 +270,7 @@
 
         statusEl.innerHTML = '⏳ Loading guitar samples... This may take 10-20 seconds.';
 
-        // Wait for samples to load (they load asynchronously)
-        // Give them time to load from GitHub
+        // Wait for samples to load
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         // Now create and render fretboard

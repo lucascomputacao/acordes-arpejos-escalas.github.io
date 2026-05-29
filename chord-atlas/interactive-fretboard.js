@@ -34,76 +34,92 @@ class InteractiveFretboard {
   }
 
   /**
-   * Create HTML structure for fretboard
+   * Create HTML structure for fretboard (horizontal, muted.io style)
+   * - 6 horizontal strings, bass (thick) on top → treble (thin) on bottom
+   * - Fret wires as vertical lines, fret numbers on top
+   * - Wood-colored board with inlay markers
    */
   createFretboardHTML() {
-    let html = '<div class="ifretboard">';
+    const minFret = this.settings.minFret;
+    const maxFret = this.settings.maxFret;
+    // Fret columns always start at 1 (fret 0 = open string column / nut)
+    const startFret = Math.max(minFret, 1);
+    const fretCount = Math.max(0, maxFret - startFret + 1);
 
-    // Nut (open strings)
-    html += this.createNutHTML();
+    let html = `<div class="ifretboard" style="--frets:${fretCount};">`;
 
-    // Frets
-    for (let fret = this.settings.minFret; fret <= this.settings.maxFret; fret++) {
-      html += this.createFretHTML(fret);
-    }
-
-    // Strings (visual)
-    html += '<div class="ifretboard-strings">';
-    for (let i = 0; i < 6; i++) {
-      html += `<div class="ifretboard-string" style="--string: ${i + 1}"></div>`;
+    // Fret number header row
+    html += '<div class="ifretboard-fretnums">';
+    html += '<div class="ifretboard-fretnum is-open">0</div>';
+    for (let f = startFret; f <= maxFret; f++) {
+      html += `<div class="ifretboard-fretnum">${f}</div>`;
     }
     html += '</div>';
 
-    html += '</div>';
+    // Board (holds inlays + string rows)
+    html += '<div class="ifretboard-board">';
+
+    // Inlay markers overlay
+    html += this.createInlaysHTML(startFret, maxFret);
+
+    // String rows: display low E (string 5, thickest) on top → high E (string 0) on bottom
+    for (let displayRow = 0; displayRow < 6; displayRow++) {
+      const stringNum = 5 - displayRow;
+      html += `<div class="ifretboard-srow" data-gauge="${displayRow}" data-string="${stringNum}">`;
+
+      // Open string note (nut column)
+      const openNote = window.audioEngine.getStringNote(stringNum, 0);
+      html += this.noteCellHTML(stringNum, 0, openNote, true);
+
+      // Fretted notes
+      for (let f = startFret; f <= maxFret; f++) {
+        const note = window.audioEngine.getStringNote(stringNum, f);
+        html += this.noteCellHTML(stringNum, f, note, false);
+      }
+
+      html += '</div>';
+    }
+
+    html += '</div>'; // board
+    html += '</div>'; // ifretboard
     return html;
   }
 
   /**
-   * Create nut (open strings) HTML
+   * Build a single note cell
    */
-  createNutHTML() {
-    const tuning = ['E', 'B', 'G', 'D', 'A', 'E'];
-    let html = '<div class="ifretboard-nut">';
-
-    tuning.forEach((note, idx) => {
-      const stringNum = 5 - idx; // String numbering (0 = high E)
-      const noteName = window.audioEngine.getStringNote(stringNum, 0);
-
-      html += `
-        <div class="ifretboard-note"
-             data-string="${stringNum}"
-             data-fret="0"
-             data-note="${noteName}">
-          <span class="ifretboard-note-label">${note}</span>
-        </div>
-      `;
-    });
-
-    html += '</div>';
-    return html;
+  noteCellHTML(stringNum, fretNum, noteName, isOpen) {
+    const label = (noteName || '').replace(/\d/g, '');
+    const cls = 'ifretboard-note' + (isOpen ? ' ifretboard-open' : '');
+    return `
+      <div class="${cls}"
+           data-string="${stringNum}"
+           data-fret="${fretNum}"
+           data-note="${noteName}">
+        <span class="ifretboard-note-label">${label}</span>
+      </div>
+    `;
   }
 
   /**
-   * Create fret HTML
+   * Inlay markers overlay (single dots at 3,5,7,9,15,17,19,21 — double at 12,24)
    */
-  createFretHTML(fretNum) {
-    let html = `<div class="ifretboard-fret" data-fret="${fretNum}">`;
+  createInlaysHTML(startFret, maxFret) {
+    const singles = [3, 5, 7, 9, 15, 17, 19, 21];
+    const doubles = [12, 24];
 
-    for (let stringNum = 0; stringNum < 6; stringNum++) {
-      const noteName = window.audioEngine.getStringNote(stringNum, fretNum);
-      // Extract note letter from full name (e.g., "C4" → "C")
-      const noteLabel = noteName.replace(/\d/g, '');
-
-      html += `
-        <div class="ifretboard-note"
-             data-string="${stringNum}"
-             data-fret="${fretNum}"
-             data-note="${noteName}">
-          <span class="ifretboard-note-label">${noteLabel}</span>
-        </div>
-      `;
+    let html = '<div class="ifretboard-inlays" aria-hidden="true">';
+    // Spacer for the open/nut column
+    html += '<div class="ifretboard-inlay-cell is-open"></div>';
+    for (let f = startFret; f <= maxFret; f++) {
+      if (doubles.includes(f)) {
+        html += '<div class="ifretboard-inlay-cell"><span class="ifretboard-dot"></span><span class="ifretboard-dot"></span></div>';
+      } else if (singles.includes(f)) {
+        html += '<div class="ifretboard-inlay-cell"><span class="ifretboard-dot single"></span></div>';
+      } else {
+        html += '<div class="ifretboard-inlay-cell"></div>';
+      }
     }
-
     html += '</div>';
     return html;
   }
