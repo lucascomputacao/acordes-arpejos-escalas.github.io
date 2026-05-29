@@ -62,10 +62,11 @@ class InteractiveFretboard {
     // Inlay markers overlay
     html += this.createInlaysHTML(startFret, maxFret);
 
-    // String rows: display low E (string 5, thickest) on top → high E (string 0) on bottom
+    // String rows: display high E (string 0, thinnest) on top → low E (string 5, thickest) on bottom
     for (let displayRow = 0; displayRow < 6; displayRow++) {
-      const stringNum = 5 - displayRow;
-      html += `<div class="ifretboard-srow" data-gauge="${displayRow}" data-string="${stringNum}">`;
+      const stringNum = displayRow;
+      const gauge = 5 - stringNum; // thickness: string 0 = thin (gauge 5), string 5 = thick (gauge 0)
+      html += `<div class="ifretboard-srow" data-gauge="${gauge}" data-string="${stringNum}">`;
 
       // Open string note (nut column)
       const openNote = window.audioEngine.getStringNote(stringNum, 0);
