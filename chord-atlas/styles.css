@@ -1145,3 +1145,21 @@ body.printing-super-open details.super-accordion > summary::after{
   stroke-width: 3.5 !important;
   filter: drop-shadow(0 0 3px rgba(24,95,165,.6));
 }
+
+/* Card play button (sequence / strum) */
+.ca-play{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;margin:0 0 8px;padding:0;
+  border:0;border-radius:999px;cursor:pointer;
+  background:#185fa5;color:#fff;font-size:12px;line-height:1;
+  box-shadow:0 4px 10px rgba(24,95,165,.28);
+  transition:transform .14s ease,box-shadow .14s ease,background .14s ease;
+}
+.ca-play:hover{transform:translateY(-1px) scale(1.06);background:#0c447c;box-shadow:0 8px 18px rgba(24,95,165,.36)}
+.ca-play:active{transform:scale(.94)}
+.ca-play.is-playing{
+  background:#16a34a;
+  animation:caPlayPulse .8s ease-in-out infinite;
+}
+@keyframes caPlayPulse{0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}50%{box-shadow:0 0 0 6px rgba(22,163,74,0)}}
+@media print{ .ca-play{display:none !important} }

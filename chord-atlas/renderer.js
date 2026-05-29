@@ -27,6 +27,20 @@ function audioNoteGroup(string, fret, inner){
   if(!note) return inner;
   return `<g class="ca-note" data-note="${note}" data-string="${string}" data-fret="${fret}" style="cursor:pointer">${inner}</g>`;
 }
+// Ordered list of pitches for a diagram, ascending (low → high) — strum/run order.
+function orderedPitches(item){
+  return (item.positions || [])
+    .map(p => OPEN_STRING_MIDI[p.string] + (p.fret || 0))
+    .filter(m => typeof m === 'number' && !isNaN(m))
+    .sort((a, b) => a - b)
+    .map(midi => `${NOTES[((midi % 12) + 12) % 12]}${Math.floor(midi / 12) - 1}`);
+}
+// Play button for a card. mode: 'chord' (sequence then together) or 'arp' (sequence).
+function cardPlayButton(item, mode){
+  const notes = orderedPitches(item);
+  if(!notes.length) return '';
+  return `<button class="ca-play" type="button" data-notes="${notes.join(',')}" data-mode="${mode}" aria-label="${tr('play') || 'Play'}" title="${tr('play') || 'Play'}">▶</button>`;
+}
 function isAllIntervalsFormula(formulaIntervals){return Array.isArray(formulaIntervals) && formulaIntervals.length>3;}
 function generateVoicing(root,f,voice,minF,maxF){
   const ints=voice.split('-');
@@ -608,7 +622,7 @@ function render(){
       card.className='card horizontal-card';
       const minNote=Math.min(...it.positions.map(p=>p.fret));
       const maxNote=Math.max(...it.positions.map(p=>p.fret));
-      card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${minNote}-${maxNote}</div>${svgHorizontalArpeggio(it)}`;
+      card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${minNote}-${maxNote}</div>${cardPlayButton(it,'arp')}${svgHorizontalArpeggio(it)}`;
       grid.appendChild(card);
       rendered++;
       sec.appendChild(grid);
@@ -628,7 +642,8 @@ function render(){
       items.forEach(it=>{
         let card=document.createElement('div');
         card.className='card';
-        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${svgDiagram(it,isScale)}`;
+        const playMode=currentCategory==='Acordes'?'chord':'arp';
+        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgDiagram(it,isScale)}`;
         grid.appendChild(card);
         rendered++;
       });
@@ -643,7 +658,7 @@ function render(){
 }
 
 function exportCSS(){return `
-*{box-sizing:border-box} body{margin:0;background:white;color:#111;font-family:Arial,Helvetica,sans-serif}.export-page{width:1400px;background:white;color:#111;padding:28px 34px}.section{margin-top:28px;border-top:2px solid #111;padding-top:14px;break-inside:avoid}.section h2{text-align:center;margin:0 0 14px;font-size:20px;text-transform:uppercase;letter-spacing:.03em}.voicing-label{text-transform:none!important}.grid{display:grid;grid-template-columns:repeat(6,145px);gap:18px 22px;align-items:start;justify-content:start}.fretboard-grid{display:block}.card{text-align:center;width:145px;break-inside:avoid}.horizontal-card{width:100%;overflow:visible}.title{font-size:18px;font-weight:bold;margin-bottom:4px}.meta{font-size:12px;color:#666;min-height:15px;margin-bottom:10px}svg.diagram{width:142px!important;height:160px!important;display:block;overflow:visible}svg.horizontal-arpeggio{width:100%!important;max-width:720px!important;height:auto!important;display:block;margin:0 auto;overflow:visible}svg text{font-family:Arial,Helvetica,sans-serif}.empty{text-align:center;padding:30px;border:1px dashed #111;color:#666}.section-close{display:none!important}
+*{box-sizing:border-box} body{margin:0;background:white;color:#111;font-family:Arial,Helvetica,sans-serif}.export-page{width:1400px;background:white;color:#111;padding:28px 34px}.section{margin-top:28px;border-top:2px solid #111;padding-top:14px;break-inside:avoid}.section h2{text-align:center;margin:0 0 14px;font-size:20px;text-transform:uppercase;letter-spacing:.03em}.voicing-label{text-transform:none!important}.grid{display:grid;grid-template-columns:repeat(6,145px);gap:18px 22px;align-items:start;justify-content:start}.fretboard-grid{display:block}.card{text-align:center;width:145px;break-inside:avoid}.horizontal-card{width:100%;overflow:visible}.title{font-size:18px;font-weight:bold;margin-bottom:4px}.meta{font-size:12px;color:#666;min-height:15px;margin-bottom:10px}svg.diagram{width:142px!important;height:160px!important;display:block;overflow:visible}svg.horizontal-arpeggio{width:100%!important;max-width:720px!important;height:auto!important;display:block;margin:0 auto;overflow:visible}svg text{font-family:Arial,Helvetica,sans-serif}.empty{text-align:center;padding:30px;border:1px dashed #111;color:#666}.section-close{display:none!important}.ca-play{display:none!important}
 `;}
 function exportMarkup(){const clone=document.getElementById('output').cloneNode(true);return `<div xmlns="http://www.w3.org/1999/xhtml" class="export-page"><style>${exportCSS()}</style>${clone.innerHTML}</div>`;}
 function exportSVG(){const w=1400;const h=Math.max(900,document.getElementById('output').scrollHeight+120);const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="white"/><foreignObject x="0" y="0" width="${w}" height="${h}">${exportMarkup()}</foreignObject></svg>`;downloadFile('gerador-harmonico.svg','image/svg+xml;charset=utf-8',svg);}

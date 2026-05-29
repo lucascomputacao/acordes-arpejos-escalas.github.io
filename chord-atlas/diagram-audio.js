@@ -45,10 +45,48 @@
     flash(groupEl);
   }
 
-  // Event delegation: handle clicks anywhere, find the nearest note group.
+  // Play an entire diagram from a card play button.
+  // mode 'chord': arpeggiate (sequence) then strum (simultaneous).
+  // mode 'arp':   arpeggiate (sequence) only.
+  async function playFromButton(btn) {
+    const raw = btn.getAttribute('data-notes') || '';
+    const notes = raw.split(',').map((n) => n.trim()).filter(Boolean);
+    if (!notes.length) return;
+    const mode = btn.getAttribute('data-mode') || 'arp';
+
+    const ready = await ensureAudio();
+    if (!ready || !window.audioEngine.isInitialized) return;
+
+    if (btn.classList.contains('is-playing')) return; // avoid overlap
+    btn.classList.add('is-playing');
+
+    const stepMs = 165; // gap between sequenced notes
+    window.audioEngine.playArpeggio(notes, { noteDuration: 0.7, delayBetween: stepMs });
+    const seqMs = notes.length * stepMs;
+
+    if (mode === 'chord') {
+      // After the sequence, play all notes together (strum).
+      setTimeout(() => {
+        window.audioEngine.playChord(notes, { duration: 2.4 });
+      }, seqMs + 220);
+      setTimeout(() => btn.classList.remove('is-playing'), seqMs + 2600);
+    } else {
+      setTimeout(() => btn.classList.remove('is-playing'), seqMs + 700);
+    }
+  }
+
+  // Event delegation: handle clicks anywhere, find the nearest note or play button.
   document.addEventListener('click', (e) => {
     const target = e.target;
     if (!target || !target.closest) return;
+
+    const playBtn = target.closest('.ca-play');
+    if (playBtn) {
+      e.preventDefault();
+      playFromButton(playBtn);
+      return;
+    }
+
     const group = target.closest('.ca-note');
     if (!group) return;
     e.preventDefault();
