@@ -67,14 +67,13 @@ class InteractiveFretboard {
 
     tuning.forEach((note, idx) => {
       const stringNum = 5 - idx; // String numbering (0 = high E)
-      const noteData = window.audioEngine.getStringNote(stringNum, 0);
-      const displayNote = `${noteData.note}${noteData.octave}`;
+      const noteName = window.audioEngine.getStringNote(stringNum, 0);
 
       html += `
         <div class="ifretboard-note"
              data-string="${stringNum}"
              data-fret="0"
-             data-note="${displayNote}">
+             data-note="${noteName}">
           <span class="ifretboard-note-label">${note}</span>
         </div>
       `;
@@ -91,15 +90,16 @@ class InteractiveFretboard {
     let html = `<div class="ifretboard-fret" data-fret="${fretNum}">`;
 
     for (let stringNum = 0; stringNum < 6; stringNum++) {
-      const noteData = window.audioEngine.getStringNote(stringNum, fretNum);
-      const displayNote = `${noteData.note}${noteData.octave}`;
+      const noteName = window.audioEngine.getStringNote(stringNum, fretNum);
+      // Extract note letter from full name (e.g., "C4" → "C")
+      const noteLabel = noteName.replace(/\d/g, '');
 
       html += `
         <div class="ifretboard-note"
              data-string="${stringNum}"
              data-fret="${fretNum}"
-             data-note="${displayNote}">
-          <span class="ifretboard-note-label">${noteData.note}</span>
+             data-note="${noteName}">
+          <span class="ifretboard-note-label">${noteLabel}</span>
         </div>
       `;
     }
