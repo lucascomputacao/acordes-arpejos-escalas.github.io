@@ -762,3 +762,69 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
     min-width:0;
   }
 }
+
+/* Print: always include full arpeggio-superimposition accordion content */
+@media print{
+  .super-accordion{
+    break-inside:avoid;
+    page-break-inside:avoid;
+  }
+  .super-accordion-summary{
+    cursor:default;
+  }
+  .super-accordion-summary:after{
+    display:none;
+  }
+  .super-accordion .superimposition-layout{
+    display:grid !important;
+  }
+}
+
+
+body.printing-super-open details.super-accordion > .superimposition-layout{
+  display:grid !important;
+}
+body.printing-super-open details.super-accordion > summary::after{
+  display:none !important;
+}
+
+/* Print refinement for arpeggio superimposition tables */
+@media print{
+  @page{margin:12mm;}
+  body{background:#fff !important;color:#111 !important;}
+  .mobile-menu-button,
+  .mobile-drawer-overlay,
+  .close-view,
+  .section-close,
+  .close-button,
+  [data-action="close"],
+  .accordion-close,
+  .super-play{display:none !important;}
+  .main{padding:0 !important;}
+  header{min-height:auto !important;padding:14px 16px !important;margin-bottom:10px !important;border-radius:0 !important;}
+  .legend{margin:0 0 10px !important;padding:8px 10px !important;border-radius:0 !important;box-shadow:none !important;}
+  .section{box-shadow:none !important;border:1px solid #ddd !important;border-radius:0 !important;background:#fff !important;padding:10px !important;margin:0 0 12px !important;break-inside:auto !important;page-break-inside:auto !important;}
+  .superimposition-control-section{break-after:avoid !important;page-break-after:avoid !important;}
+  .super-control-header{display:flex !important;align-items:flex-start !important;justify-content:space-between !important;gap:12px !important;}
+  .super-root-control{box-shadow:none !important;border:1px solid #ddd !important;border-radius:0 !important;padding:6px 8px !important;min-width:140px !important;}
+  .super-root-control label{font-size:9px !important;color:#444 !important;}
+  .super-root-control select{border:0 !important;padding:0 !important;appearance:none !important;font-weight:700 !important;}
+  .super-accordion{display:block !important;border:0 !important;box-shadow:none !important;break-inside:auto !important;page-break-inside:auto !important;}
+  .super-accordion-summary{display:flex !important;padding:0 0 8px !important;border-bottom:1px solid #ddd !important;background:#fff !important;color:#111 !important;break-after:avoid !important;page-break-after:avoid !important;}
+  .super-accordion-summary:before,
+  .super-accordion-summary:after{display:none !important;content:none !important;}
+  .super-accordion-title{font-size:13px !important;color:#111 !important;}
+  .super-accordion-meta{border:1px solid #ddd !important;background:#fff !important;color:#444 !important;font-size:9px !important;}
+  .superimposition-layout{display:block !important;grid-template-columns:none !important;gap:0 !important;break-inside:auto !important;page-break-inside:auto !important;}
+  .super-summary{display:flex !important;align-items:center !important;gap:12px !important;box-shadow:none !important;border:1px solid #ddd !important;border-radius:0 !important;background:#fff !important;padding:8px !important;margin:8px 0 !important;break-inside:avoid !important;page-break-inside:avoid !important;}
+  .super-base-box{width:62px !important;height:42px !important;font-size:14px !important;border:1px solid #999 !important;border-radius:4px !important;margin:0 !important;}
+  .super-base-name{font-size:14px !important;}
+  .super-table-wrap{display:block !important;overflow:visible !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;background:#fff !important;break-inside:auto !important;page-break-inside:auto !important;}
+  .super-table{display:table !important;width:100% !important;min-width:0 !important;border-collapse:collapse !important;font-size:10px !important;}
+  .super-table thead{display:table-header-group !important;}
+  .super-table th{position:static !important;background:#f3f4f6 !important;color:#111 !important;border:1px solid #ddd !important;padding:5px 6px !important;font-size:8px !important;}
+  .super-table td{border:1px solid #ddd !important;padding:5px 6px !important;}
+  .super-table tr{break-inside:avoid !important;page-break-inside:avoid !important;}
+  .super-mobile-list{display:none !important;}
+  .tension-chip,.super-chip{display:inline-block !important;border:1px solid #ccc !important;background:#fff !important;color:#111 !important;padding:1px 4px !important;margin:0 2px 2px 0 !important;font-size:9px !important;}
+}

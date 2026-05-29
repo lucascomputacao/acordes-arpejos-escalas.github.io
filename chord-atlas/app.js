@@ -221,5 +221,47 @@ function setSuperimpositionRoot(value){
   autoRender();
 }
 
+
+
+// Print helper: open all arpeggio-superimposition accordions before printing.
+// This is intentionally used both by beforeprint and by the app Print button,
+// because some mobile browsers create the print snapshot before beforeprint finishes.
+let __printOpenedSuperAccordions = [];
+let __printWasTriggeredByApp = false;
+
+function openSuperimpositionAccordionsForPrint(){
+  __printOpenedSuperAccordions = [];
+  document.body.classList.add('printing-super-open');
+  document.querySelectorAll('details.super-accordion').forEach((details)=>{
+    if(!details.open){
+      __printOpenedSuperAccordions.push(details);
+      details.open = true;
+    }
+  });
+}
+
+function restoreSuperimpositionAccordionsAfterPrint(){
+  const restore = () => {
+    __printOpenedSuperAccordions.forEach((details)=>{ details.open = false; });
+    __printOpenedSuperAccordions = [];
+    document.body.classList.remove('printing-super-open');
+    __printWasTriggeredByApp = false;
+  };
+  setTimeout(restore, 250);
+}
+
+function printChordAtlas(){
+  __printWasTriggeredByApp = true;
+  openSuperimpositionAccordionsForPrint();
+  // Let the DOM paint with all accordions open before the print dialog snapshots it.
+  requestAnimationFrame(()=>setTimeout(()=>window.print(), 60));
+}
+
+if(typeof window !== 'undefined'){
+  window.printChordAtlas = printChordAtlas;
+  window.addEventListener('beforeprint', openSuperimpositionAccordionsForPrint);
+  window.addEventListener('afterprint', restoreSuperimpositionAccordionsAfterPrint);
+}
+
 function applyLang(){document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.innerHTML=tr(el.dataset.i18n));document.getElementById('lang-pt').classList.toggle('active',currentLang==='pt');document.getElementById('lang-en').classList.toggle('active',currentLang==='en');populateTabs();populateStructures();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords();populateVoiceLeadingControls();render();renderVoiceLeading();writeRoute()}
 function init(){currentLang='en';initMobileDrawer();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{writeRoute();renderVoiceLeading()}));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();
