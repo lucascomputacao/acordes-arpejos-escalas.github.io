@@ -68,14 +68,13 @@ class InteractiveFretboard {
     tuning.forEach((note, idx) => {
       const stringNum = 5 - idx; // String numbering (0 = high E)
       const noteData = window.audioEngine.getStringNote(stringNum, 0);
-      const frequency = window.audioEngine.getFrequency(noteData.note, noteData.octave);
+      const displayNote = `${noteData.note}${noteData.octave}`;
 
       html += `
         <div class="ifretboard-note"
              data-string="${stringNum}"
              data-fret="0"
-             data-frequency="${frequency}"
-             data-note="${note}4">
+             data-note="${displayNote}">
           <span class="ifretboard-note-label">${note}</span>
         </div>
       `;
@@ -93,14 +92,12 @@ class InteractiveFretboard {
 
     for (let stringNum = 0; stringNum < 6; stringNum++) {
       const noteData = window.audioEngine.getStringNote(stringNum, fretNum);
-      const frequency = window.audioEngine.getFrequency(noteData.note, noteData.octave);
       const displayNote = `${noteData.note}${noteData.octave}`;
 
       html += `
         <div class="ifretboard-note"
              data-string="${stringNum}"
              data-fret="${fretNum}"
-             data-frequency="${frequency}"
              data-note="${displayNote}">
           <span class="ifretboard-note-label">${noteData.note}</span>
         </div>
@@ -143,13 +140,10 @@ class InteractiveFretboard {
    * Play note from element
    */
   playNote(noteEl) {
-    const frequency = parseFloat(noteEl.dataset.frequency);
     const note = noteEl.dataset.note;
 
-    window.audioEngine.playNote(frequency, {
-      duration: this.settings.noteDuration,
-      preset: 'guitar',  // Use guitar preset for better timbre
-      type: this.settings.oscillatorType
+    window.audioEngine.playNote(note, {
+      duration: this.settings.noteDuration
     });
 
     // Visual feedback
