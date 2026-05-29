@@ -1,7 +1,8 @@
 /**
  * Audio Engine with Real Guitar Samples
- * Uses Tone.Sampler to play recorded guitar samples instead of synthesis
- * Sample packs from: https://github.com/nbrosowsky/tonejs-instruments
+ * Uses Tone.Sampler to play recorded guitar samples bundled with the project
+ * (no external API needed). Samples originally from:
+ *   https://github.com/nbrosowsky/tonejs-instruments
  */
 
 class AudioEngineSamples {
@@ -14,6 +15,24 @@ class AudioEngineSamples {
     this.delay = null;
     this.volume = 0.4;
     this.loadingStatus = 'idle';
+    // Local samples folder (relative to the HTML page)
+    this.sampleBaseDir = 'samples/';
+    // Pick a format the browser can decode (Safari lacks Ogg Vorbis support)
+    this.sampleExt = this.detectAudioFormat();
+  }
+
+  /**
+   * Detect best-supported audio format for this browser.
+   * Returns 'ogg' (Chrome/Firefox) or 'mp3' (Safari and universal fallback).
+   */
+  detectAudioFormat() {
+    try {
+      const a = document.createElement('audio');
+      if (a.canPlayType && a.canPlayType('audio/ogg; codecs="vorbis"') !== '') {
+        return 'ogg';
+      }
+    } catch (e) { /* ignore */ }
+    return 'mp3';
   }
 
   /**
@@ -73,7 +92,8 @@ class AudioEngineSamples {
 
       const promise = new Promise((resolve, reject) => {
         try {
-          const baseUrl = `https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/${guitarType}/`;
+          // Local samples bundled with the project (no external API)
+          const baseUrl = `${this.sampleBaseDir}${guitarType}/`;
 
           this.samplers[guitarType] = new Tone.Sampler({
             urls: urls,
@@ -135,11 +155,10 @@ class AudioEngineSamples {
 
   /**
    * Generate sample URLs for a guitar type.
-   * IMPORTANT: only list samples that actually exist in the repo —
+   * IMPORTANT: only list samples that actually exist locally —
    * Tone.Sampler pitch-shifts from the nearest loaded sample to fill
    * chromatic gaps. Listing missing notes causes 404s and silent notes.
-   * Available files verified against:
-   *   https://github.com/nbrosowsky/tonejs-instruments/tree/master/samples
+   * Samples are bundled under samples/<guitarType>/ in both .ogg and .mp3.
    */
   generateSampleUrls(guitarType) {
     const AVAILABLE = {
@@ -155,9 +174,10 @@ class AudioEngineSamples {
     };
 
     const notes = AVAILABLE[guitarType] || AVAILABLE['guitar-acoustic'];
+    const ext = this.sampleExt || 'ogg';
     const urls = {};
     notes.forEach(note => {
-      urls[note] = `${note}.ogg`;
+      urls[note] = `${note}.${ext}`;
     });
 
     return urls;

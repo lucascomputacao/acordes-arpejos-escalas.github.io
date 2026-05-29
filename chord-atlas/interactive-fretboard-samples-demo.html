@@ -207,7 +207,7 @@
     </div>
 
     <div class="status loading" id="status">
-      ⏳ Loading guitar samples... Click anywhere to start. This may take a moment.
+      ⏳ Loading guitar samples... Click anywhere to start. Loads instantly from bundled samples.
     </div>
 
     <div class="info-box">
@@ -219,7 +219,7 @@
       • Adjustable note duration<br>
       • Supports polyphonic playing (multiple notes)<br>
       <br>
-      <strong>Note:</strong> First load may take a few seconds as samples are downloaded from GitHub.
+      <strong>Note:</strong> Samples are bundled with the project — no internet needed.
     </div>
   </div>
 
@@ -241,7 +241,7 @@
   <script src="tone.js"></script>
 
   <!-- Audio Engine with Real Samples -->
-  <script src="audio-engine-samples.js?v=2"></script>
+  <script src="audio-engine-samples.js?v=3"></script>
 
   <!-- Interactive Fretboard -->
   <script src="interactive-fretboard.js?v=3"></script>
@@ -268,11 +268,7 @@
         // Initialize Tone.js
         await window.audioEngine.init();
 
-        statusEl.innerHTML = '⏳ Loading guitar samples... This may take 10-20 seconds.';
-
-        // Wait for samples to load
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
+        // Samples are bundled locally — init() already awaits their load
         // Now create and render fretboard
         fretboard = new InteractiveFretboard('interactive-fretboard');
         fretboard.render();
