@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Fretboard (Tone.js) - ChordAtlas</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg, #f7f6f2);
+      color: var(--text, #1a1a18);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .badge-tonejs {
+      display: inline-block;
+      background: #185fa5;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-radius: 10px;
+      border: 1px solid #e5e5e0;
+    }
+
+    .demo-section h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #185fa5;
+      padding-bottom: 0.5rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control-group label {
+      font-weight: 600;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .control-group input[type="checkbox"],
+    .control-group input[type="range"],
+    .control-group select {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    .control-group input[type="range"] {
+      width: 150px;
+    }
+
+    .status {
+      padding: 12px;
+      background: #e8f5e9;
+      border-left: 4px solid #27500a;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #27500a;
+      margin-top: 1rem;
+    }
+
+    .status.loading {
+      background: #e3f2fd;
+      border-left-color: #185fa5;
+      color: #185fa5;
+    }
+
+    .fretboard-container {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .info-box {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      color: #185fa5;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎸 Interactive Fretboard <span class="badge-tonejs">Tone.js Pro</span></h1>
+
+  <div class="demo-section">
+    <h2>Professional Guitar Sound with Tone.js</h2>
+    <p>
+      This version uses <strong>Tone.js</strong> for professional-grade synthesis.
+      The guitar tone includes rich harmonics, reverb, and a natural pluck envelope.
+    </p>
+
+    <div class="controls">
+      <div class="control-group">
+        <label>Fret Range</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="number" id="minFret" min="0" max="24" value="0" style="width: 60px;">
+          <span>to</span>
+          <input type="number" id="maxFret" min="1" max="24" value="12" style="width: 60px;">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Master Volume</label>
+        <input type="range" id="volume" min="0" max="100" value="40" style="width: 100px;">
+        <span id="volumeDisplay">40%</span>
+      </div>
+
+      <div class="control-group">
+        <label>Reverb Amount</label>
+        <input type="range" id="reverb" min="0" max="100" value="40" style="width: 100px;">
+        <span id="reverbDisplay">40%</span>
+      </div>
+
+      <div class="control-group">
+        <label>Delay Amount</label>
+        <input type="range" id="delay" min="0" max="100" value="15" style="width: 100px;">
+        <span id="delayDisplay">15%</span>
+      </div>
+
+      <div class="control-group">
+        <label style="margin-bottom: 10px;">
+          <input type="checkbox" id="hoverPlay"> Hover to play
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label style="margin-bottom: 10px;">
+          <input type="checkbox" id="leftHanded"> Left-handed
+        </label>
+      </div>
+    </div>
+
+    <div class="fretboard-container">
+      <div id="interactive-fretboard"></div>
+    </div>
+
+    <div class="status loading" id="status">
+      ⏳ Loading Tone.js audio engine... Click anywhere to start.
+    </div>
+
+    <div class="info-box">
+      <strong>🎵 Features:</strong><br>
+      • Rich harmonic synthesis (triangle wave + 6 harmonics)<br>
+      • Professional reverb and delay effects<br>
+      • Natural guitar pluck envelope<br>
+      • Real-time effects control<br>
+      • Supports polyphonic playing (multiple notes)<br>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>How to Use</h2>
+    <ul>
+      <li><strong>Click:</strong> Play a single note</li>
+      <li><strong>Hover:</strong> Preview notes (enable "Hover to play")</li>
+      <li><strong>Volume:</strong> Control overall loudness</li>
+      <li><strong>Reverb:</strong> Add spacious room effect</li>
+      <li><strong>Delay:</strong> Add echo/repeat effect</li>
+      <li><strong>Left-handed:</strong> Flip the fretboard for left-handed players</li>
+    </ul>
+  </div>
+
+  <!-- Tone.js Library -->
+  <script src="tone.js"></script>
+
+  <!-- Audio Engine with Tone.js -->
+  <script src="audio-engine-tonejs.js"></script>
+
+  <!-- Interactive Fretboard -->
+  <script src="interactive-fretboard.js"></script>
+
+  <script>
+    // Initialize
+    const fretboard = new InteractiveFretboard('interactive-fretboard');
+    const statusEl = document.getElementById('status');
+
+    // Initialize Tone.js on first user interaction
+    let initialized = false;
+    const initAudio = async () => {
+      if (initialized) return;
+      initialized = true;
+
+      await window.audioEngine.init();
+      statusEl.classList.remove('loading');
+      statusEl.innerHTML = '✅ Audio engine ready. Click on notes to play!';
+      fretboard.render();
+    };
+
+    // Render fretboard (but no audio until user interaction)
+    document.addEventListener('click', initAudio);
+    document.addEventListener('touchstart', initAudio);
+
+    // Controls
+    document.getElementById('minFret').addEventListener('change', (e) => {
+      const min = parseInt(e.target.value);
+      const max = parseInt(document.getElementById('maxFret').value);
+      fretboard.setFretRange(min, max);
+    });
+
+    document.getElementById('maxFret').addEventListener('change', (e) => {
+      const min = parseInt(document.getElementById('minFret').value);
+      const max = parseInt(e.target.value);
+      fretboard.setFretRange(min, max);
+    });
+
+    document.getElementById('volume').addEventListener('input', (e) => {
+      const volume = parseInt(e.target.value);
+      window.audioEngine.setVolume(volume / 100);
+      document.getElementById('volumeDisplay').textContent = volume + '%';
+    });
+
+    document.getElementById('reverb').addEventListener('input', (e) => {
+      const amount = parseInt(e.target.value);
+      window.audioEngine.setReverb(amount / 100);
+      document.getElementById('reverbDisplay').textContent = amount + '%';
+    });
+
+    document.getElementById('delay').addEventListener('input', (e) => {
+      const amount = parseInt(e.target.value);
+      window.audioEngine.setDelay(amount / 100);
+      document.getElementById('delayDisplay').textContent = amount + '%';
+    });
+
+    document.getElementById('hoverPlay').addEventListener('change', (e) => {
+      fretboard.setHoverPlay(e.target.checked);
+    });
+
+    document.getElementById('leftHanded').addEventListener('change', (e) => {
+      fretboard.setLeftHanded(e.target.checked);
+    });
+
+    // Set default checkbox states
+    document.getElementById('hoverPlay').checked = true;
+    fretboard.setHoverPlay(true);
+
+    // Initialize reverb and delay
+    window.audioEngine.setReverb(0.4);
+    window.audioEngine.setDelay(0.15);
+  </script>
+</body>
+</html>
