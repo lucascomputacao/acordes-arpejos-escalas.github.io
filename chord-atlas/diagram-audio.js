@@ -1,16 +1,59 @@
 /**
  * Diagram Audio — makes the static SVG chord/scale/arpeggio diagrams playable.
  * Each note dot is rendered by renderer.js inside a <g class="ca-note" data-note="...">.
- * Clicking (or hovering, optionally) a note plays the corresponding real guitar
- * sample via the shared Tone.js sample engine (window.audioEngine).
+ * Clicking a note (or a card ▶ button) plays the matching real guitar sample
+ * via the shared Tone.js sample engine (window.audioEngine).
+ *
+ * Mobile note: iOS/Android require the AudioContext to be resumed *inside* a
+ * user gesture. We unlock it synchronously on the very first pointer/touch and
+ * keep it resumed before every playback so sound works on phones too.
  */
 (function () {
   let inited = false;
   let initing = null;
+  let unlocked = false;
 
-  // Lazy-initialize the audio engine on first user interaction (required by browsers).
+  function getCtx() {
+    try { return (window.Tone && Tone.context) ? Tone.context : null; }
+    catch (e) { return null; }
+  }
+
+  // Synchronously nudge the audio context awake within a user gesture.
+  // Also plays a 1-sample silent buffer — the classic iOS unlock trick.
+  function unlockAudio() {
+    try {
+      if (!window.Tone) return;
+      const ctx = getCtx();
+      if (ctx && ctx.state !== 'running' && typeof ctx.resume === 'function') {
+        ctx.resume();
+      }
+      if (typeof Tone.start === 'function') { Tone.start(); }
+      if (!unlocked && ctx) {
+        const raw = ctx.rawContext || ctx._context || ctx;
+        if (raw && typeof raw.createBuffer === 'function') {
+          const buf = raw.createBuffer(1, 1, 22050);
+          const src = raw.createBufferSource();
+          src.buffer = buf;
+          src.connect(raw.destination);
+          (src.start || src.noteOn).call(src, 0);
+          unlocked = true;
+        }
+      }
+    } catch (e) { /* best-effort */ }
+  }
+
+  // Make sure the context is actually running before producing sound.
+  async function resumeContext() {
+    const ctx = getCtx();
+    if (ctx && ctx.state !== 'running' && typeof ctx.resume === 'function') {
+      try { await ctx.resume(); } catch (e) { /* ignore */ }
+    }
+  }
+
+  // Lazy-initialize the audio engine on first user interaction.
   async function ensureAudio() {
-    if (inited) return true;
+    unlockAudio();
+    if (inited) { await resumeContext(); return true; }
     if (initing) return initing;
     initing = (async () => {
       try {
@@ -19,6 +62,7 @@
           return false;
         }
         await window.audioEngine.init();
+        await resumeContext();
         inited = !!window.audioEngine.isInitialized;
         return inited;
       } catch (err) {
@@ -41,6 +85,7 @@
     if (!note) return;
     const ready = await ensureAudio();
     if (!ready || !window.audioEngine.isInitialized) return;
+    await resumeContext();
     window.audioEngine.playNote(note, { duration: 1.4 });
     flash(groupEl);
   }
@@ -56,6 +101,7 @@
 
     const ready = await ensureAudio();
     if (!ready || !window.audioEngine.isInitialized) return;
+    await resumeContext();
 
     if (btn.classList.contains('is-playing')) return; // avoid overlap
     btn.classList.add('is-playing');
@@ -76,7 +122,14 @@
     }
   }
 
-  // Event delegation: handle clicks anywhere, find the nearest note or play button.
+  // Earliest possible unlock: fire synchronously on the first pointer/touch,
+  // before the click handler's async work runs. Capture phase, runs once.
+  const earlyUnlock = () => unlockAudio();
+  ['pointerdown', 'touchstart', 'mousedown'].forEach((evt) => {
+    document.addEventListener(evt, earlyUnlock, { capture: true, passive: true });
+  });
+
+  // Event delegation: handle taps anywhere, find the nearest note or play button.
   document.addEventListener('click', (e) => {
     const target = e.target;
     if (!target || !target.closest) return;
@@ -105,5 +158,5 @@
     playFromElement(group);
   });
 
-  console.log('🎸 Diagram audio ready — click any note on a diagram to hear it.');
+  console.log('🎸 Diagram audio ready — tap any note (or ▶) on a diagram to hear it.');
 })();
