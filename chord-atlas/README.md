@@ -46,3 +46,5 @@ Example:
 - Added Arpeggio Superimposition tables after Harmonic Fields.
 
 - Arpeggio superimposition tables are now transposed dynamically from the selected root while preserving interval/tension relationships.
+
+- Removed play buttons from the Arpeggio Superimposition section.

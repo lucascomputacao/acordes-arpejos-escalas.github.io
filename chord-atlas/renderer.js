@@ -351,13 +351,12 @@ function renderArpeggioSuperimpositionBlock(root,name,out){
   const sec=document.createElement('section');
   sec.className='section superimposition-section superimposition-accordion-section';
 
-  const tableRows=rows.map((r,idx)=>`<tr class="${idx===0?'selected-row':''}"><td class="super-arp"><button type="button" class="super-play" title="${tr('useSuggestion')}">▶</button><strong>${r[0]}</strong></td><td><strong>${r[1]}</strong></td><td>${(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>'}</td></tr>`).join('');
+  const tableRows=rows.map((r,idx)=>`<tr class="${idx===0?'selected-row':''}"><td class="super-arp"><strong>${r[0]}</strong></td><td><strong>${r[1]}</strong></td><td>${(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>'}</td></tr>`).join('');
 
   const mobileCards=rows.map((r,idx)=>{
     const tensions=(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>';
     return `<article class="super-mobile-card ${idx===0?'selected-row':''}">
       <div class="super-mobile-card-head">
-        <button type="button" class="super-play" title="${tr('useSuggestion')}">▶</button>
         <strong>${r[0]}</strong>
       </div>
       <div class="super-mobile-card-row"><span>${tr('result')}</span><strong>${r[1]}</strong></div>
