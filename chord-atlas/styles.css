@@ -338,9 +338,7 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
     margin-bottom:14px;
   }
   .tabs{
-    overflow-x:auto;
-    flex-wrap:nowrap;
-    -webkit-overflow-scrolling:touch;
+    flex-wrap:wrap;
     padding-bottom:6px;
   }
   .tab{
