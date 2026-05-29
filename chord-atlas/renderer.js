@@ -513,18 +513,18 @@ function renderTabExercises(root,name,out){
   `;
   const list=document.createElement('div');
   list.className='exercise-list';
-  ex.lines.forEach((line,idx)=>{
-    const block=document.createElement('article');
-    block.className='exercise-tab-card';
-    block.innerHTML=`
-      <div class="exercise-card-head">
-        <strong>${idx+1}. ${line.chords.join('  ·  ')}</strong>
-        <span>${tr('arpeggioStudy')}</span>
-      </div>
-      <pre class="tab-pre">${compactTabForDisplay(line).join('\n')}</pre>
-    `;
-    list.appendChild(block);
-  });
+
+  const block=document.createElement('article');
+  block.className='exercise-tab-card exercise-tab-full';
+  const allLines=ex.lines.map(line=>compactTabForDisplay(line).join('\n')).join('\n');
+  block.innerHTML=`
+    <div class="exercise-card-head">
+      <strong>${title}</strong>
+      <span>${ex.lines.length} ${tr('exercises')}</span>
+    </div>
+    <pre class="tab-pre tab-pre-full">${allLines}</pre>
+  `;
+  list.appendChild(block);
   sec.appendChild(list);
   makeSectionCloseable(sec);
   out.appendChild(sec);

@@ -897,3 +897,20 @@ body.printing-super-open details.super-accordion > summary::after{
   .exercise-tab-card{break-inside:avoid;box-shadow:none}
   .tab-pre{font-size:9px;line-height:1.25;white-space:pre}
 }
+
+/* Exercises: keep the whole study in one continuous tablature block */
+.exercise-tab-full{
+  overflow:auto;
+}
+.exercise-tab-full .exercise-card-head{
+  margin-bottom:12px;
+}
+.tab-pre-full{
+  min-width:max-content;
+}
+@media print{
+  .exercise-tab-full{
+    break-inside:auto;
+    page-break-inside:auto;
+  }
+}
