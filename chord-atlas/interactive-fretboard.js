@@ -142,8 +142,15 @@ class InteractiveFretboard {
   playNote(noteEl) {
     const note = noteEl.dataset.note;
 
+    // Convert duration to seconds if it's in ms
+    // For samples, duration should be in seconds (0.3-3.0)
+    let duration = this.settings.noteDuration;
+    if (typeof duration === 'number' && duration > 10) {
+      duration = duration / 1000; // Convert ms to seconds
+    }
+
     window.audioEngine.playNote(note, {
-      duration: this.settings.noteDuration
+      duration: duration
     });
 
     // Visual feedback

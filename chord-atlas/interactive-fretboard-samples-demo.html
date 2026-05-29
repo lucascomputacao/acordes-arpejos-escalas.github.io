@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Fretboard (Real Guitar Samples) - ChordAtlas</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg, #f7f6f2);
+      color: var(--text, #1a1a18);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .badge-samples {
+      display: inline-block;
+      background: #d4722f;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-radius: 10px;
+      border: 1px solid #e5e5e0;
+    }
+
+    .demo-section h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #d4722f;
+      padding-bottom: 0.5rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control-group label {
+      font-weight: 600;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .control-group input[type="checkbox"],
+    .control-group input[type="range"],
+    .control-group select {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    .control-group input[type="range"] {
+      width: 150px;
+    }
+
+    .control-group select {
+      min-width: 150px;
+    }
+
+    .status {
+      padding: 12px;
+      background: #e8f5e9;
+      border-left: 4px solid #27500a;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #27500a;
+      margin-top: 1rem;
+    }
+
+    .status.loading {
+      background: #fff3e0;
+      border-left-color: #d4722f;
+      color: #d4722f;
+    }
+
+    .status.error {
+      background: #ffebee;
+      border-left-color: #c62828;
+      color: #c62828;
+    }
+
+    .fretboard-container {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .info-box {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      color: #d4722f;
+    }
+
+    .note-duration-display {
+      display: inline-block;
+      min-width: 40px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎸 Interactive Fretboard <span class="badge-samples">Real Samples</span></h1>
+
+  <div class="demo-section">
+    <h2>Real Guitar Samples - Acoustic & Electric</h2>
+    <p>
+      This version uses <strong>real recorded guitar samples</strong> from 
+      <a href="https://github.com/nbrosowsky/tonejs-instruments" target="_blank">tonejs-instruments</a>.
+      Much more realistic sound than synthesis!
+    </p>
+
+    <div class="controls">
+      <div class="control-group">
+        <label>Guitar Type</label>
+        <select id="guitarType">
+          <option value="guitar-acoustic">🎸 Acoustic Guitar</option>
+          <option value="guitar-electric">⚡ Electric Guitar</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Fret Range</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="number" id="minFret" min="0" max="24" value="0" style="width: 60px;">
+          <span>to</span>
+          <input type="number" id="maxFret" min="1" max="24" value="12" style="width: 60px;">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Master Volume</label>
+        <input type="range" id="volume" min="0" max="100" value="40" style="width: 100px;">
+        <span id="volumeDisplay">40%</span>
+      </div>
+
+      <div class="control-group">
+        <label>Reverb Amount</label>
+        <input type="range" id="reverb" min="0" max="100" value="40" style="width: 100px;">
+        <span id="reverbDisplay">40%</span>
+      </div>
+
+      <div class="control-group">
+        <label>Delay Amount</label>
+        <input type="range" id="delay" min="0" max="100" value="15" style="width: 100px;">
+        <span id="delayDisplay">15%</span>
+      </div>
+
+      <div class="control-group">
+        <label>Note Duration</label>
+        <input type="range" id="noteDuration" min="0.3" max="3" step="0.1" value="1.5" style="width: 100px;">
+        <span id="noteDurationDisplay" class="note-duration-display">1.5s</span>
+      </div>
+
+      <div class="control-group">
+        <label style="margin-bottom: 10px;">
+          <input type="checkbox" id="hoverPlay"> Hover to play
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label style="margin-bottom: 10px;">
+          <input type="checkbox" id="leftHanded"> Left-handed
+        </label>
+      </div>
+    </div>
+
+    <div class="fretboard-container">
+      <div id="interactive-fretboard"></div>
+    </div>
+
+    <div class="status loading" id="status">
+      ⏳ Loading guitar samples... Click anywhere to start. This may take a moment.
+    </div>
+
+    <div class="info-box">
+      <strong>🎵 Features:</strong><br>
+      • Real recorded guitar samples (not synthesis)<br>
+      • Automatic pitch shifting to all notes<br>
+      • Professional reverb and delay effects<br>
+      • Acoustic and electric guitar types<br>
+      • Adjustable note duration<br>
+      • Supports polyphonic playing (multiple notes)<br>
+      <br>
+      <strong>Note:</strong> First load may take a few seconds as samples are downloaded from GitHub.
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>How to Use</h2>
+    <ul>
+      <li><strong>Click:</strong> Play a single note</li>
+      <li><strong>Hover:</strong> Preview notes (enable "Hover to play")</li>
+      <li><strong>Guitar Type:</strong> Switch between acoustic and electric</li>
+      <li><strong>Volume:</strong> Control overall loudness</li>
+      <li><strong>Reverb:</strong> Add spacious room effect</li>
+      <li><strong>Delay:</strong> Add echo/repeat effect</li>
+      <li><strong>Note Duration:</strong> How long each note plays (0.3-3 seconds)</li>
+      <li><strong>Left-handed:</strong> Flip the fretboard for left-handed players</li>
+    </ul>
+  </div>
+
+  <!-- Tone.js Library -->
+  <script src="tone.js"></script>
+
+  <!-- Audio Engine with Real Samples -->
+  <script src="audio-engine-samples.js"></script>
+
+  <!-- Interactive Fretboard -->
+  <script src="interactive-fretboard.js"></script>
+
+  <script>
+    // Initialize
+    const statusEl = document.getElementById('status');
+    const fretboardContainer = document.getElementById('interactive-fretboard');
+    let fretboard = null;
+    let initialized = false;
+
+    // Initialize audio and render fretboard on first user interaction
+    const initAudio = async (e) => {
+      if (initialized) return;
+      initialized = true;
+
+      try {
+        statusEl.innerHTML = '⏳ Initializing audio engine...';
+
+        // Initialize Tone.js
+        await window.audioEngine.init();
+
+        statusEl.innerHTML = '⏳ Loading guitar samples... This may take 10-20 seconds.';
+
+        // Wait for samples to load (they load asynchronously)
+        // Give them time to load from GitHub
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        // Now create and render fretboard
+        fretboard = new InteractiveFretboard('interactive-fretboard');
+        fretboard.render();
+
+        statusEl.classList.remove('loading');
+        statusEl.innerHTML = '✅ Audio ready! Click notes to play real guitar samples.';
+      } catch (error) {
+        console.error('Initialization error:', error);
+        statusEl.classList.remove('loading');
+        statusEl.classList.add('error');
+        statusEl.innerHTML = '❌ Error: ' + error.message + '<br>Check browser console for details.';
+      }
+
+      // Remove listeners after first interaction
+      document.removeEventListener('click', initAudio);
+      document.removeEventListener('touchstart', initAudio);
+    };
+
+    // Initialize on first user interaction
+    document.addEventListener('click', initAudio);
+    document.addEventListener('touchstart', initAudio);
+
+    // Controls - Guitar Type
+    document.getElementById('guitarType').addEventListener('change', (e) => {
+      const guitarType = e.target.value;
+      window.audioEngine.setInstrument(guitarType);
+    });
+
+    // Controls - Volume and Effects
+    document.getElementById('volume').addEventListener('input', (e) => {
+      const volume = parseInt(e.target.value);
+      window.audioEngine.setVolume(volume / 100);
+      document.getElementById('volumeDisplay').textContent = volume + '%';
+    });
+
+    document.getElementById('reverb').addEventListener('input', (e) => {
+      const amount = parseInt(e.target.value);
+      window.audioEngine.setReverb(amount / 100);
+      document.getElementById('reverbDisplay').textContent = amount + '%';
+    });
+
+    document.getElementById('delay').addEventListener('input', (e) => {
+      const amount = parseInt(e.target.value);
+      window.audioEngine.setDelay(amount / 100);
+      document.getElementById('delayDisplay').textContent = amount + '%';
+    });
+
+    document.getElementById('noteDuration').addEventListener('input', (e) => {
+      const duration = parseFloat(e.target.value);
+      document.getElementById('noteDurationDisplay').textContent = duration.toFixed(1) + 's';
+      if (fretboard) {
+        fretboard.setNoteDuration(duration);
+      }
+    });
+
+    // Fretboard controls (work after render)
+    document.getElementById('minFret').addEventListener('change', (e) => {
+      if (fretboard) {
+        const min = parseInt(e.target.value);
+        const max = parseInt(document.getElementById('maxFret').value);
+        fretboard.setFretRange(min, max);
+      }
+    });
+
+    document.getElementById('maxFret').addEventListener('change', (e) => {
+      if (fretboard) {
+        const min = parseInt(document.getElementById('minFret').value);
+        const max = parseInt(e.target.value);
+        fretboard.setFretRange(min, max);
+      }
+    });
+
+    document.getElementById('hoverPlay').addEventListener('change', (e) => {
+      if (fretboard) fretboard.setHoverPlay(e.target.checked);
+    });
+
+    document.getElementById('leftHanded').addEventListener('change', (e) => {
+      if (fretboard) fretboard.setLeftHanded(e.target.checked);
+    });
+
+    // Set default checkbox states
+    document.getElementById('hoverPlay').checked = true;
+
+    // Initialize reverb and delay
+    window.audioEngine.setReverb(0.4);
+    window.audioEngine.setDelay(0.15);
+  </script>
+</body>
+</html>
