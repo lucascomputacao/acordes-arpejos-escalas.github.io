@@ -113,7 +113,7 @@ class AudioEngine {
   /**
    * Play a single note
    * @param {number} frequency - Frequency in Hz
-   * @param {object} options - {duration, type, envelope}
+   * @param {object} options - {duration, type, envelope, preset}
    */
   playNote(frequency, options = {}) {
     if (!this.isInitialized) this.init();
@@ -121,36 +121,92 @@ class AudioEngine {
     const {
       duration = 200,
       type = 'sine',
-      envelope = { attack: 0.01, decay: 0.1, sustain: 0.3, release: 0.2 }
+      envelope = { attack: 0.01, decay: 0.1, sustain: 0.3, release: 0.2 },
+      preset = 'guitar'
     } = options;
 
     try {
-      const oscillator = this.audioContext.createOscillator();
-      const gainNode = this.audioContext.createGain();
-
-      // Configure oscillator
-      oscillator.type = type;
-      oscillator.frequency.value = frequency;
-
-      // Connect: oscillator → gain → master gain → destination
-      oscillator.connect(gainNode);
-      gainNode.connect(this.masterGain);
-
-      // Apply ADSR envelope
-      const now = this.audioContext.currentTime;
-      const totalDuration = duration / 1000;
-
-      gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(0.3, now + envelope.attack);
-      gainNode.gain.linearRampToValueAtTime(envelope.sustain, now + envelope.attack + envelope.decay);
-      gainNode.gain.linearRampToValueAtTime(0, now + totalDuration);
-
-      // Play
-      oscillator.start(now);
-      oscillator.stop(now + totalDuration);
+      if (preset === 'guitar') {
+        this.playGuitarNote(frequency, duration);
+      } else {
+        this.playSineNote(frequency, duration, type, envelope);
+      }
     } catch (error) {
       console.error('❌ Error playing note:', error);
     }
+  }
+
+  /**
+   * Play a guitar-like note with harmonics and realistic envelope
+   */
+  playGuitarNote(frequency, duration) {
+    const now = this.audioContext.currentTime;
+    const totalDuration = duration / 1000;
+
+    // Guitar envelope: quick attack, natural decay with sustain, longer release
+    const envelope = {
+      attack: 0.005,      // Very quick attack (pluck)
+      decay: 0.15,        // Decay to sustain level
+      sustain: 0.15,      // Lower sustain for natural decay
+      release: 0.4        // Longer release for string ring
+    };
+
+    // Create fundamental and harmonics for guitar-like timbre
+    const harmonics = [
+      { freq: frequency, gain: 0.5, type: 'sine' },        // Fundamental
+      { freq: frequency * 2, gain: 0.15, type: 'sine' },   // 2nd harmonic
+      { freq: frequency * 3, gain: 0.08, type: 'sine' },   // 3rd harmonic
+      { freq: frequency * 0.5, gain: 0.1, type: 'sine' }   // Sub-harmonic
+    ];
+
+    harmonics.forEach(harmonic => {
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+
+      oscillator.type = harmonic.type;
+      oscillator.frequency.value = harmonic.freq;
+
+      oscillator.connect(gainNode);
+      gainNode.connect(this.masterGain);
+
+      // Apply guitar-specific envelope
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.3 * harmonic.gain, now + envelope.attack);
+      gainNode.gain.linearRampToValueAtTime(envelope.sustain * harmonic.gain, now + envelope.attack + envelope.decay);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + totalDuration);
+
+      oscillator.start(now);
+      oscillator.stop(now + totalDuration);
+    });
+  }
+
+  /**
+   * Play a simple sine note (original behavior)
+   */
+  playSineNote(frequency, duration, type, envelope) {
+    const oscillator = this.audioContext.createOscillator();
+    const gainNode = this.audioContext.createGain();
+
+    const now = this.audioContext.currentTime;
+    const totalDuration = duration / 1000;
+
+    // Configure oscillator
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+
+    // Connect: oscillator → gain → master gain → destination
+    oscillator.connect(gainNode);
+    gainNode.connect(this.masterGain);
+
+    // Apply ADSR envelope
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.3, now + envelope.attack);
+    gainNode.gain.linearRampToValueAtTime(envelope.sustain, now + envelope.attack + envelope.decay);
+    gainNode.gain.linearRampToValueAtTime(0, now + totalDuration);
+
+    // Play
+    oscillator.start(now);
+    oscillator.stop(now + totalDuration);
   }
 
   /**
@@ -159,27 +215,29 @@ class AudioEngine {
    * @param {object} options - Same as playNote
    */
   playChord(frequencies, options = {}) {
+    const { preset = 'guitar', ...restOptions } = options;
     frequencies.forEach(freq => {
-      this.playNote(freq, options);
+      this.playNote(freq, { preset, ...restOptions });
     });
   }
 
   /**
    * Play a sequence of notes (arpeggio)
    * @param {array} frequencies - Array of frequencies
-   * @param {object} options - {noteDuration, delayBetween, ...}
+   * @param {object} options - {noteDuration, delayBetween, preset, ...}
    */
   playArpeggio(frequencies, options = {}) {
     const {
       noteDuration = 150,
       delayBetween = 50,
+      preset = 'guitar',
       ...noteOptions
     } = options;
 
     frequencies.forEach((freq, index) => {
       const delay = (noteDuration + delayBetween) * index;
       setTimeout(() => {
-        this.playNote(freq, { duration: noteDuration, ...noteOptions });
+        this.playNote(freq, { duration: noteDuration, preset, ...noteOptions });
       }, delay);
     });
   }

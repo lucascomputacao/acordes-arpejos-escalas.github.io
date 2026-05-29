@@ -148,6 +148,7 @@ class InteractiveFretboard {
 
     window.audioEngine.playNote(frequency, {
       duration: this.settings.noteDuration,
+      preset: 'guitar',  // Use guitar preset for better timbre
       type: this.settings.oscillatorType
     });
 
