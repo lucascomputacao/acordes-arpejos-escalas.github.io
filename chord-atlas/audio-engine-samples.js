@@ -134,18 +134,29 @@ class AudioEngineSamples {
   }
 
   /**
-   * Generate sample URLs for a guitar type
+   * Generate sample URLs for a guitar type.
+   * IMPORTANT: only list samples that actually exist in the repo —
+   * Tone.Sampler pitch-shifts from the nearest loaded sample to fill
+   * chromatic gaps. Listing missing notes causes 404s and silent notes.
+   * Available files verified against:
+   *   https://github.com/nbrosowsky/tonejs-instruments/tree/master/samples
    */
   generateSampleUrls(guitarType) {
-    const notes = ['C1', 'C#1', 'D1', 'D#1', 'E1', 'F1', 'F#1', 'G1', 'G#1', 'A1', 'A#1', 'B1',
-                   'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2',
-                   'C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3',
-                   'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4',
-                   'C5', 'C#5', 'D5', 'D#5', 'E5', 'F5'];
+    const AVAILABLE = {
+      'guitar-acoustic': [
+        'D2', 'E2', 'F2', 'G2', 'A2', 'B2',
+        'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3',
+        'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4',
+        'C5', 'D5'
+      ],
+      'guitar-electric': [
+        'E2', 'A2', 'C3', 'A3', 'C4', 'A4', 'C5', 'A5'
+      ]
+    };
 
+    const notes = AVAILABLE[guitarType] || AVAILABLE['guitar-acoustic'];
     const urls = {};
     notes.forEach(note => {
-      // Use .ogg format (more available than .mp3)
       urls[note] = `${note}.ogg`;
     });
 
