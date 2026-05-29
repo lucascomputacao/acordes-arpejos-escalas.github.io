@@ -209,38 +209,41 @@
 
   <script>
     // Initialize
-    const fretboard = new InteractiveFretboard('interactive-fretboard');
     const statusEl = document.getElementById('status');
-
-    // Initialize Tone.js on first user interaction
+    const fretboardContainer = document.getElementById('interactive-fretboard');
+    let fretboard = null;
     let initialized = false;
-    const initAudio = async () => {
+
+    // Initialize audio and render fretboard on first user interaction
+    const initAudio = async (e) => {
       if (initialized) return;
       initialized = true;
 
-      await window.audioEngine.init();
-      statusEl.classList.remove('loading');
-      statusEl.innerHTML = '✅ Audio engine ready. Click on notes to play!';
-      fretboard.render();
+      try {
+        // Initialize Tone.js
+        await window.audioEngine.init();
+
+        // Now create and render fretboard
+        fretboard = new InteractiveFretboard('interactive-fretboard');
+        fretboard.render();
+
+        statusEl.classList.remove('loading');
+        statusEl.innerHTML = '✅ Audio engine ready. Click on notes to play!';
+      } catch (error) {
+        console.error('Initialization error:', error);
+        statusEl.innerHTML = '❌ Error initializing audio engine: ' + error.message;
+      }
+
+      // Remove listeners after first interaction
+      document.removeEventListener('click', initAudio);
+      document.removeEventListener('touchstart', initAudio);
     };
 
-    // Render fretboard (but no audio until user interaction)
+    // Initialize on first user interaction
     document.addEventListener('click', initAudio);
     document.addEventListener('touchstart', initAudio);
 
-    // Controls
-    document.getElementById('minFret').addEventListener('change', (e) => {
-      const min = parseInt(e.target.value);
-      const max = parseInt(document.getElementById('maxFret').value);
-      fretboard.setFretRange(min, max);
-    });
-
-    document.getElementById('maxFret').addEventListener('change', (e) => {
-      const min = parseInt(document.getElementById('minFret').value);
-      const max = parseInt(e.target.value);
-      fretboard.setFretRange(min, max);
-    });
-
+    // Controls - Volume and Effects
     document.getElementById('volume').addEventListener('input', (e) => {
       const volume = parseInt(e.target.value);
       window.audioEngine.setVolume(volume / 100);
@@ -259,17 +262,33 @@
       document.getElementById('delayDisplay').textContent = amount + '%';
     });
 
+    // Fretboard controls (work after render)
+    document.getElementById('minFret').addEventListener('change', (e) => {
+      if (fretboard) {
+        const min = parseInt(e.target.value);
+        const max = parseInt(document.getElementById('maxFret').value);
+        fretboard.setFretRange(min, max);
+      }
+    });
+
+    document.getElementById('maxFret').addEventListener('change', (e) => {
+      if (fretboard) {
+        const min = parseInt(document.getElementById('minFret').value);
+        const max = parseInt(e.target.value);
+        fretboard.setFretRange(min, max);
+      }
+    });
+
     document.getElementById('hoverPlay').addEventListener('change', (e) => {
-      fretboard.setHoverPlay(e.target.checked);
+      if (fretboard) fretboard.setHoverPlay(e.target.checked);
     });
 
     document.getElementById('leftHanded').addEventListener('change', (e) => {
-      fretboard.setLeftHanded(e.target.checked);
+      if (fretboard) fretboard.setLeftHanded(e.target.checked);
     });
 
     // Set default checkbox states
     document.getElementById('hoverPlay').checked = true;
-    fretboard.setHoverPlay(true);
 
     // Initialize reverb and delay
     window.audioEngine.setReverb(0.4);
