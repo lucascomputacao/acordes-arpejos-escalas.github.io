@@ -9,7 +9,7 @@ class InteractiveFretboard {
     this.container = document.getElementById(containerId);
     this.settings = {
       minFret: 1,
-      maxFret: 24,
+      maxFret: 12,
       hoverPlay: true,
       showNoteNames: true,
       isLeftHanded: false,
