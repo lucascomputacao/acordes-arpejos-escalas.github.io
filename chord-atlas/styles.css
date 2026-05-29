@@ -1133,3 +1133,15 @@ body.printing-super-open details.super-accordion > summary::after{
   border-radius: 4px;
   font-size: 12px;
 }
+
+/* Playable diagram notes (click to hear the real guitar sample) */
+.ca-note { transition: opacity .1s ease; }
+.ca-note:hover { opacity: .78; }
+.ca-note:hover circle { stroke: #2f7fd1; stroke-width: 3; }
+.ca-note:focus { outline: none; }
+.ca-note:focus circle { stroke: #2f7fd1; stroke-width: 3; }
+.ca-note-playing circle {
+  stroke: #185fa5 !important;
+  stroke-width: 3.5 !important;
+  filter: drop-shadow(0 0 3px rgba(24,95,165,.6));
+}

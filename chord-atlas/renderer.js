@@ -9,6 +9,24 @@ const INTERVAL_COLORS={
 };
 function intervalColor(iv){return INTERVAL_COLORS[iv]||'#0f172a'}
 function intervalTextColor(iv){return iv==='T'||iv==='8'?'#ffffff':'#ffffff'}
+
+// --- Audio: map a string (1=high E ... 6=low E) + fret to a pitch with octave ---
+// Open-string MIDI numbers for standard tuning.
+const OPEN_STRING_MIDI = { 6: 40, 5: 45, 4: 50, 3: 55, 2: 59, 1: 64 }; // E2 A2 D3 G3 B3 E4
+function pitchAt(string, fret){
+  const open = OPEN_STRING_MIDI[string];
+  if(open === undefined) return '';
+  const midi = open + (fret || 0);
+  const name = NOTES[((midi % 12) + 12) % 12];
+  const octave = Math.floor(midi / 12) - 1;
+  return `${name}${octave}`;
+}
+// Wrap a note's circle+label in a clickable group that plays its pitch.
+function audioNoteGroup(string, fret, inner){
+  const note = pitchAt(string, fret);
+  if(!note) return inner;
+  return `<g class="ca-note" data-note="${note}" data-string="${string}" data-fret="${fret}" style="cursor:pointer">${inner}</g>`;
+}
 function isAllIntervalsFormula(formulaIntervals){return Array.isArray(formulaIntervals) && formulaIntervals.length>3;}
 function generateVoicing(root,f,voice,minF,maxF){
   const ints=voice.split('-');
@@ -80,8 +98,9 @@ function svgDiagram(item,scale=false){
     let idx=STRINGS.indexOf(p.string),off=p.fret-start;
     if(off<0||off>=fretCount) continue;
     let x=x0+idx*sw,y=y0+off*fh+fh/2,fill=p.label==='T'?'white':'#111',tf=p.label==='T'?'#111':'white';
-    s+=`<circle cx="${x}" cy="${y}" r="8.5" fill="${fill}" stroke="#111" stroke-width="2"/>`;
-    s+=`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="bold" fill="${tf}">${p.label}</text>`;
+    s+=audioNoteGroup(p.string,p.fret,
+      `<circle cx="${x}" cy="${y}" r="8.5" fill="${fill}" stroke="#111" stroke-width="2"/>`+
+      `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="bold" fill="${tf}" pointer-events="none">${p.label}</text>`);
   }
   return s+'</svg>';
 }
@@ -132,8 +151,9 @@ function svgHorizontalArpeggio(item){
     const fill=root?'#ffffff':'#0f172a';
     const stroke=root?'#0f172a':'#0f172a';
     const text=root?'#0f172a':'#ffffff';
-    s+=`<circle cx="${x}" cy="${y}" r="8.2" fill="${fill}" stroke="${stroke}" stroke-width="1.9"/>`;
-    s+=`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="7.5" font-weight="900" fill="${text}">${p.label}</text>`;
+    s+=audioNoteGroup(p.string,p.fret,
+      `<circle cx="${x}" cy="${y}" r="8.2" fill="${fill}" stroke="${stroke}" stroke-width="1.9"/>`+
+      `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="7.5" font-weight="900" fill="${text}" pointer-events="none">${p.label}</text>`);
   }
   return s+'</svg>';
 }
@@ -182,8 +202,9 @@ function svgIntervalMap(root,name,formulaIntervals,minF,maxF){
       const fill=intervalColor(label);
       const text=intervalTextColor(label);
       const stroke=label==='T'?'#1e3a8a':'rgba(15,23,42,.34)';
-      s+=`<circle cx="${x}" cy="${y}" r="7.8" fill="${fill}" stroke="${stroke}" stroke-width="1.8"/>`;
-      s+=`<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.8" font-weight="900" fill="${text}">${label}</text>`;
+      s+=audioNoteGroup(str,fret,
+        `<circle cx="${x}" cy="${y}" r="7.8" fill="${fill}" stroke="${stroke}" stroke-width="1.8"/>`+
+        `<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.8" font-weight="900" fill="${text}" pointer-events="none">${label}</text>`);
     }
   });
   return s+'</svg>';
@@ -249,8 +270,9 @@ function svgHarmonicField(root,fieldName,minF,maxF){
       else { if(fret<=start) continue; x=x0+(fret-start-0.5)*cell; }
       const label=deg.degree.replace('°','º');
       const isRoot=deg.index===0;
-      s+=`<circle cx="${x}" cy="${y}" r="7.2" fill="${isRoot?'#fff':deg.color}" stroke="${deg.color}" stroke-width="1.8"/>`;
-      s+=`<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.5" font-weight="900" fill="${isRoot?deg.color:'#fff'}">${label}</text>`;
+      s+=audioNoteGroup(str,fret,
+        `<circle cx="${x}" cy="${y}" r="7.2" fill="${isRoot?'#fff':deg.color}" stroke="${deg.color}" stroke-width="1.8"/>`+
+        `<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.5" font-weight="900" fill="${isRoot?deg.color:'#fff'}" pointer-events="none">${label}</text>`);
     }
   }
   return s+'</svg>';
