@@ -48,3 +48,5 @@ Example:
 - Arpeggio superimposition tables are now transposed dynamically from the selected root while preserving interval/tension relationships.
 
 - Removed play buttons from the Arpeggio Superimposition section.
+
+- Added Exercícios section with tablature-only IIm7 - V7 - I7M arpeggio study.

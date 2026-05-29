@@ -422,6 +422,115 @@ function renderArpeggioSuperimposition(root,name,out){
   document.getElementById('status').textContent=`${total} ${tr('superimpositions')}`;
 }
 
+
+
+function compactTabForDisplay(line){
+  const source=(line && Array.isArray(line.tab)) ? line.tab : [];
+  if(source.length < 7) return source;
+  const stringRows=source.slice(1).filter(row=>/^\s*[eBGDAE]\|/.test(row));
+  if(stringRows.length < 6) return source;
+  const parsed=stringRows.map(row=>{
+    const pipe=row.indexOf('|');
+    const label=row.slice(0,pipe+1);
+    const parts=row.slice(pipe+1).split('|');
+    if(parts[parts.length-1]==='') parts.pop();
+    return {label,parts};
+  });
+  const barCount=Math.max(...parsed.map(r=>r.parts.length), (line.chords||[]).length, 1);
+  const compressedByBar=[];
+  const widths=[];
+  const isNoteChar=ch=>ch && ch!=='-' && ch!==' ';
+
+  for(let b=0;b<barCount;b++){
+    const raw=parsed.map(r=>r.parts[b] || '');
+    const maxLen=Math.max(1,...raw.map(x=>x.length));
+    const padded=raw.map(x=>x.padEnd(maxLen,'-'));
+    const noteCols=new Set();
+    padded.forEach(seg=>{
+      for(let i=0;i<seg.length;i++) if(isNoteChar(seg[i])) noteCols.add(i);
+    });
+    let keep=[];
+    if(noteCols.size===0){
+      keep=[0,1,2,3].filter(i=>i<maxLen);
+    }else{
+      const notes=[...noteCols].sort((a,b)=>a-b);
+      const edgeGap=0;
+      const gapCap=1;
+      for(let i=Math.max(0,notes[0]-edgeGap); i<notes[0]; i++) keep.push(i);
+      for(let n=0;n<notes.length;n++){
+        const col=notes[n];
+        if(!keep.includes(col)) keep.push(col);
+        const next=notes[n+1];
+        if(next===undefined) continue;
+        for(let i=col+1; i<next; i++){
+          if(noteCols.has(i)) continue;
+          const distanceFromLeft=i-(col+1);
+          const distanceFromRight=(next-1)-i;
+          if(distanceFromLeft < Math.ceil(gapCap/2) || distanceFromRight < Math.floor(gapCap/2)) keep.push(i);
+        }
+      }
+      for(let i=notes[notes.length-1]+1; i<=Math.min(maxLen-1,notes[notes.length-1]+edgeGap); i++) keep.push(i);
+      keep=[...new Set(keep)].sort((a,b)=>a-b);
+    }
+    const segments=padded.map(seg=>keep.map(i=>seg[i]||'-').join(''));
+    compressedByBar.push(segments);
+    const chord=(line.chords && line.chords[b]) || '';
+    widths.push(Math.max(segments[0]?.length||0, chord.length, 4));
+  }
+
+  const header='  '+Array.from({length:barCount},(_,i)=>{
+    const chord=(line.chords && line.chords[i]) || '';
+    return chord.padEnd(widths[i],' ');
+  }).join('|')+'|';
+
+  const output=[header];
+  parsed.forEach((row,rowIdx)=>{
+    const body=Array.from({length:barCount},(_,b)=>compressedByBar[b][rowIdx].padEnd(widths[b],'-')).join('|');
+    output.push(row.label+body+'|');
+  });
+  return output;
+}
+
+function renderTabExercises(root,name,out){
+  out.innerHTML='';
+  const ex=TAB_EXERCISES[name] || TAB_EXERCISES[Object.keys(TAB_EXERCISES)[0]];
+  if(!ex){out.innerHTML=`<div class="empty">${tr('noPositions')}</div>`;return;}
+  const sec=document.createElement('section');
+  sec.className='section exercise-section';
+  const title=currentLang==='pt'?ex.name:ex.nameEn;
+  const subtitle=currentLang==='pt'?ex.subtitlePt:ex.subtitleEn;
+  sec.innerHTML=`
+    <h2>${title}</h2>
+    <div class="exercise-intro">${subtitle}</div>
+    <div class="exercise-toolbar">
+      <span class="exercise-badge">IIm7</span>
+      <span class="exercise-arrow">→</span>
+      <span class="exercise-badge">V7</span>
+      <span class="exercise-arrow">→</span>
+      <span class="exercise-badge">I7M</span>
+      <span class="exercise-note">${tr('tablatureOnly')}</span>
+    </div>
+  `;
+  const list=document.createElement('div');
+  list.className='exercise-list';
+  ex.lines.forEach((line,idx)=>{
+    const block=document.createElement('article');
+    block.className='exercise-tab-card';
+    block.innerHTML=`
+      <div class="exercise-card-head">
+        <strong>${idx+1}. ${line.chords.join('  ·  ')}</strong>
+        <span>${tr('arpeggioStudy')}</span>
+      </div>
+      <pre class="tab-pre">${compactTabForDisplay(line).join('\n')}</pre>
+    `;
+    list.appendChild(block);
+  });
+  sec.appendChild(list);
+  makeSectionCloseable(sec);
+  out.appendChild(sec);
+  document.getElementById('status').textContent=`${ex.lines.length} ${tr('exercises')}`;
+}
+
 function render(){
   let root=document.getElementById('root').value,
       name=selectedStructure(),
@@ -443,6 +552,11 @@ function render(){
   }
   if(currentCategory==='Superposição de Arpejos'){
     renderArpeggioSuperimposition(root,name,out);
+    renderVoiceLeading();
+    return;
+  }
+  if(currentCategory==='Exercícios'){
+    renderTabExercises(root,name,out);
     renderVoiceLeading();
     return;
   }

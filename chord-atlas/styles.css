@@ -338,8 +338,13 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
     margin-bottom:14px;
   }
   .tabs{
-    flex-wrap:wrap;
-    gap:8px;
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:6px;
+  }
+  .tab{
+    flex:0 0 auto;
   }
   .legend{
     overflow-x:auto;
@@ -819,4 +824,76 @@ body.printing-super-open details.super-accordion > summary::after{
   .super-table tr{break-inside:avoid !important;page-break-inside:avoid !important;}
   .super-mobile-list{display:none !important;}
   .tension-chip,.super-chip{display:inline-block !important;border:1px solid #ccc !important;background:#fff !important;color:#111 !important;padding:1px 4px !important;margin:0 2px 2px 0 !important;font-size:9px !important;}
+}
+
+
+/* Exercises / tablature */
+.exercise-section .exercise-intro{
+  color:var(--muted);
+  font-size:14px;
+  margin:-6px 0 14px;
+  line-height:1.5;
+}
+.exercise-toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:0 0 16px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+}
+.exercise-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:58px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--brand-soft);
+  color:var(--brand-dark);
+  font-size:12px;
+  font-weight:900;
+}
+.exercise-arrow{color:var(--muted);font-weight:900}
+.exercise-note{margin-left:auto;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.exercise-list{display:grid;gap:14px}
+.exercise-tab-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:var(--shadow-sm);
+  overflow:auto;
+}
+.exercise-card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:baseline;
+  margin-bottom:10px;
+  color:var(--ink);
+}
+.exercise-card-head span{color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.tab-pre{
+  margin:0;
+  padding:12px;
+  border-radius:14px;
+  background:#f8fafc;
+  border:1px solid var(--line);
+  color:#0f172a;
+  font:700 12px/1.45 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  white-space:pre;
+  overflow-x:auto;
+}
+@media(max-width:760px){
+  .exercise-note{width:100%;margin-left:0}
+  .exercise-card-head{display:block}
+  .tab-pre{font-size:10.5px;padding:9px}
+}
+@media print{
+  .exercise-tab-card{break-inside:avoid;box-shadow:none}
+  .tab-pre{font-size:9px;line-height:1.25;white-space:pre}
 }
