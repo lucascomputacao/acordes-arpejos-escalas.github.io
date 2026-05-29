@@ -44,3 +44,5 @@ Example:
 `#/arpeggios/arpejo-tetrade-menor-7?root=C&minFret=0&maxFret=24&lang=en&stringGroups=1-2-3-4-5-6&voicings=Position%201`
 
 - Added Arpeggio Superimposition tables after Harmonic Fields.
+
+- Arpeggio superimposition tables are now transposed dynamically from the selected root while preserving interval/tension relationships.

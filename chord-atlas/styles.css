@@ -722,3 +722,43 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
     font-weight:800;
   }
 }
+
+
+/* Superimposition local key selector */
+.superimposition-control-section{
+  margin-bottom:16px;
+}
+.super-control-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+}
+.super-control-header h2{
+  margin-bottom:6px;
+}
+.super-root-control{
+  min-width:190px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+  box-shadow:var(--shadow-sm);
+}
+.super-root-control label{
+  color:#475569;
+}
+.super-root-control select{
+  width:100%;
+}
+@media(max-width:760px){
+  .super-control-header{
+    display:grid;
+    grid-template-columns:1fr;
+    align-items:start;
+  }
+  .super-root-control{
+    width:100%;
+    min-width:0;
+  }
+}

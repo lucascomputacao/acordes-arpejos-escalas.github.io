@@ -304,10 +304,50 @@ function makeSectionCloseable(section){
 }
 
 
+
+function noteNameToPc(name){
+  const base={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+  if(!name) return 0;
+  const letter=name[0].toUpperCase();
+  let pc=base[letter] ?? 0;
+  const acc=name.slice(1);
+  for(const ch of acc){
+    if(ch==='#' || ch==='♯') pc+=1;
+    if(ch==='b' || ch==='♭') pc-=1;
+  }
+  return (pc%12+12)%12;
+}
+function parseChordSymbol(symbol){
+  const match=String(symbol||'').match(/^([A-Ga-g])([#♯b♭]?)(.*)$/);
+  if(!match) return null;
+  return {root:(match[1].toUpperCase()+match[2].replace('♯','#').replace('♭','b')), suffix:match[3]||''};
+}
+function transposeRootName(rootName, semitones){
+  const pc=(noteNameToPc(rootName)+semitones+1200)%12;
+  return NOTES[pc];
+}
+function transposeChordSymbol(symbol, semitones){
+  const parsed=parseChordSymbol(symbol);
+  if(!parsed) return symbol;
+  return transposeRootName(parsed.root,semitones)+parsed.suffix;
+}
+function transposeLeadingChordText(text, semitones){
+  return String(text||'').replace(/^([A-Ga-g])([#♯b♭]?)(.*)$/,(m,l,acc,rest)=>transposeRootName(l.toUpperCase()+acc.replace('♯','#').replace('♭','b'),semitones)+rest);
+}
+function transposeSuperimpositionRow(row, root){
+  const shift=(pc(root)-pc('C')+12)%12;
+  return [
+    transposeChordSymbol(row[0],shift),
+    transposeLeadingChordText(row[1],shift),
+    row[2]||''
+  ];
+}
+
 function renderArpeggioSuperimpositionBlock(root,name,out){
   const data=SUPERIMPOSITION_DATA[name];
   if(!data) return 0;
-  const rows=data.rows||[];
+  const rows=(data.rows||[]).map(row=>transposeSuperimpositionRow(row,root));
+  const baseExample=transposeLeadingChordText(data.baseExample||'',(pc(root)-pc('C')+12)%12);
   const sec=document.createElement('section');
   sec.className='section superimposition-section superimposition-accordion-section';
 
@@ -333,10 +373,10 @@ function renderArpeggioSuperimpositionBlock(root,name,out){
       </summary>
       <div class="superimposition-layout">
         <div class="super-summary">
-          <div class="super-base-box">${data.baseExample}</div>
+          <div class="super-base-box">${baseExample}</div>
           <div>
             <div class="compat-title">${tr('baseChord')}</div>
-            <div class="super-base-name">${data.baseExample}</div>
+            <div class="super-base-name">${baseExample}</div>
             <div class="tension-note">${tr('superimpositionInfo')}</div>
           </div>
         </div>
@@ -357,6 +397,24 @@ function renderArpeggioSuperimpositionBlock(root,name,out){
 
 function renderArpeggioSuperimposition(root,name,out){
   out.innerHTML='';
+  const rootOptions=(typeof NOTES!=='undefined'?NOTES:['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'])
+    .map(n=>`<option value="${n}" ${n===root?'selected':''}>${n}</option>`)
+    .join('');
+  const control=document.createElement('section');
+  control.className='section superimposition-control-section';
+  control.innerHTML=`
+    <div class="super-control-header">
+      <div>
+        <h2>${dn('Superposição de Arpejos')}</h2>
+        <div class="tension-note">${tr('superimpositionInfo')}</div>
+      </div>
+      <div class="super-root-control">
+        <label for="superRoot">${tr('root')}</label>
+        <select id="superRoot" onchange="setSuperimpositionRoot(this.value)">${rootOptions}</select>
+      </div>
+    </div>
+  `;
+  out.appendChild(control);
   const order=['Acorde tipo 7M','Acorde tipo m7','Acorde tipo m7(b5)','Acorde tipo m7M','Acorde tipo 7M(#5)','Acorde tipo °','Acorde tipo 7'];
   let total=0;
   order.forEach(key=>{ if(SUPERIMPOSITION_DATA[key]) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
