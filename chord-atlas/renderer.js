@@ -88,7 +88,14 @@ function svgDiagram(item,scale=false){
     let str=STRINGS[i],x=x0+i*sw,mark='x';
     if(active.has(str+':0')) mark='o';
     else if(item.positions.some(p=>p.string===str)) mark='';
-    if(mark) s+=`<text x="${x}" y="16" text-anchor="middle" font-size="15" font-weight="bold">${mark}</text>`;
+    if(mark==='o'){
+      // Open string: make it playable (transparent hit area + the 'o' glyph)
+      s+=audioNoteGroup(str,0,
+        `<circle cx="${x}" cy="11" r="9" fill="transparent" stroke="none"/>`+
+        `<text x="${x}" y="16" text-anchor="middle" font-size="15" font-weight="bold" pointer-events="none">o</text>`);
+    } else if(mark){
+      s+=`<text x="${x}" y="16" text-anchor="middle" font-size="15" font-weight="bold">${mark}</text>`;
+    }
   }
   for(let i=0;i<6;i++){let x=x0+i*sw;s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+fretCount*fh}" stroke="#111" stroke-width="1.5"/>`;}
   for(let f=0;f<=fretCount;f++){let y=y0+f*fh;s+=`<line x1="${x0}" y1="${y}" x2="${x0+5*sw}" y2="${y}" stroke="#111" stroke-width="${f===0&&start===0?4:1.5}"/>`;}
