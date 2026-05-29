@@ -614,6 +614,42 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:1, fret:3, interval:'T'},
         {string:1, fret:6, interval:'b3'}
       ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      // Minor seventh arpeggio - book-style position 4.
+      // Formula: T-b3-5-b7. Restored from the chordatlas-minor7-pos5 snapshot
+      // (positions 1-3 matched the current corrected shapes exactly).
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 0,
+      // Minor seventh arpeggio - book-style position 5.
+      // Restored from the chordatlas-minor7-pos5 snapshot. Formula: T-b3-5-b7.
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:5, fret:1, interval:'b7'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:1, interval:'b3'},
+        {string:4, fret:5, interval:'5'},
+        {string:3, fret:0, interval:'5'},
+        {string:3, fret:3, interval:'b7'},
+        {string:2, fret:1, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:3, interval:'5'}
+      ]
     }
   ],
   'Arpejo tríade aumentada': [
@@ -667,6 +703,255 @@ const BOOK_ARPEGGIO_PATTERNS = {
         {string:5, fret:2, interval:'b3'},
         {string:5, fret:5, interval:'b5'},
         {string:6, fret:4, interval:'T'}
+      ]
+    }
+  ],
+  'Arpejo dominante 7': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Dominant seventh arpeggio - book-style position 1.
+      // Formula: T-3-5-b7. Corrected from the user's markup:
+      // removed the A-string 3 at fret 7 and added the D-string 3 at fret 2.
+      // This matches the major triad position 1 plus the b7 notes.
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:6, fret:6, interval:'b7'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:2, interval:'3'},
+        {string:4, fret:5, interval:'5'},
+        {string:3, fret:3, interval:'b7'},
+        {string:3, fret:5, interval:'T'},
+        {string:2, fret:5, interval:'3'},
+        {string:1, fret:3, interval:'5'},
+        {string:1, fret:6, interval:'b7'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 5,
+      // Dominant seventh arpeggio - book-style position 2.
+      // Formula: T-3-5-b7. Corrected from the user's markup:
+      // removed the G-string 3 at fret 9 and added the B-string 3 at fret 5.
+      // This matches the major triad position 2 plus the b7 notes.
+      offsets: [
+        {string:6, fret:1, interval:'b7'},
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:2, interval:'3'},
+        {string:4, fret:0, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'},
+        {string:2, fret:3, interval:'5'},
+        {string:1, fret:1, interval:'b7'},
+        {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 5,
+      // Dominant seventh arpeggio - book-style position 3.
+      // Formula: T-3-5-b7. Corrected from the user's markup:
+      // removed both E-string 3rds at fret 12 and added the A-string 3 at fret 7.
+      offsets: [
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:2, interval:'3'},
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:4, fret:5, interval:'T'},
+        {string:3, fret:4, interval:'3'},
+        {string:2, fret:3, interval:'5'},
+        {string:2, fret:6, interval:'b7'},
+        {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      // Dominant seventh arpeggio - book-style position 4.
+      // Formula: T-3-5-b7. Corrected from the user's markup:
+      // removed the D-string 3 at fret 14 and added the G-string 3 at fret 9.
+      offsets: [
+        {string:6, fret:2, interval:'3'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-1, interval:'3'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 0,
+      // Dominant seventh arpeggio - book-style position 5.
+      // Formula: T-3-5-b7. Corrected from the user's markup:
+      // removed the B-string 3 at fret 5 and added the open 3 on both E strings.
+      // This matches the major triad position 5 plus the b7 notes.
+      offsets: [
+        {string:6, fret:0, interval:'3'},
+        {string:6, fret:3, interval:'5'},
+        {string:5, fret:1, interval:'b7'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:2, interval:'3'},
+        {string:3, fret:0, interval:'5'},
+        {string:3, fret:3, interval:'b7'},
+        {string:2, fret:1, interval:'T'},
+        {string:1, fret:0, interval:'3'},
+        {string:1, fret:3, interval:'5'}
+      ]
+    }
+  ],
+  'Arpejo meio-diminuto': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Half-diminished (m7b5) arpeggio - book-style position 1.
+      // Formula: T-b3-b5-b7. Derived from the minor 7 position 1 by lowering every
+      // perfect 5 one fret to a b5 (min7 and m7b5 differ only by the fifth).
+      offsets: [
+        {string:6, fret:2, interval:'b5'},
+        {string:6, fret:6, interval:'b7'},
+        {string:5, fret:3, interval:'T'},
+        {string:5, fret:6, interval:'b3'},
+        {string:4, fret:4, interval:'b5'},
+        {string:3, fret:3, interval:'b7'},
+        {string:3, fret:5, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:2, interval:'b5'},
+        {string:1, fret:6, interval:'b7'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 5,
+      // Half-diminished (m7b5) arpeggio - book-style position 2.
+      // Formula: T-b3-b5-b7. Corrected from the user's markup:
+      // removed the D-string b5 at fret 4 and added the A-string b5 at fret 9.
+      offsets: [
+        {string:6, fret:1, interval:'b7'},
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:1, interval:'b3'},
+        {string:5, fret:4, interval:'b5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:2, fret:2, interval:'b5'},
+        {string:1, fret:1, interval:'b7'},
+        {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 5,
+      // Half-diminished (m7b5) arpeggio - book-style position 3.
+      // Formula: T-b3-b5-b7. Corrected from the user's markup:
+      // removed the B-string b5 at fret 7 and added the G-string b5 at fret 11.
+      offsets: [
+        {string:6, fret:3, interval:'T'},
+        {string:6, fret:6, interval:'b3'},
+        {string:5, fret:4, interval:'b5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:4, fret:5, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:3, fret:6, interval:'b5'},
+        {string:2, fret:6, interval:'b7'},
+        {string:1, fret:3, interval:'T'},
+        {string:1, fret:6, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      // Half-diminished (m7b5) arpeggio - book-style position 4.
+      // Formula: T-b3-b5-b7. Corrected from the user's markup:
+      // removed the A-string b5 at fret 9 and added a b5 on both E strings at fret 14.
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:4, interval:'b5'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:1, interval:'b5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:4, interval:'b5'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 0,
+      // Half-diminished (m7b5) arpeggio - book-style position 5.
+      // Formula: T-b3-b5-b7. Corrected from the user's markup:
+      // added a b5 on the D string (string 4) at fret 4.
+      offsets: [
+        {string:6, fret:2, interval:'b5'},
+        {string:5, fret:1, interval:'b7'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:1, interval:'b3'},
+        {string:4, fret:4, interval:'b5'},
+        {string:3, fret:3, interval:'b7'},
+        {string:2, fret:1, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:2, interval:'b5'}
+      ]
+    }
+  ],
+  'Arpejo diminuto': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Dim7 (T-b3-b5-bb7). C: casas 1-5 / D: casas 3-7. Confirmed by user.
+      offsets: [
+        {string:6, fret:2, interval:'b5'},
+        {string:6, fret:5, interval:'bb7'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:1, interval:'b3'},
+        {string:4, fret:4, interval:'b5'},
+        {string:3, fret:2, interval:'bb7'},
+        {string:2, fret:1, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:2, interval:'b5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 3,
+      // Dim7 — P1 shifted +3 semitones. Label cycle: b5→bb7, bb7→T, T→b3, b3→b5.
+      // C: casas 4-8 / D: casas 6-10.
+      offsets: [
+        {string:6, fret:2, interval:'bb7'},
+        {string:6, fret:5, interval:'T'},
+        {string:5, fret:3, interval:'b3'},
+        {string:4, fret:1, interval:'b5'},
+        {string:4, fret:4, interval:'bb7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:1, interval:'b3'},
+        {string:2, fret:4, interval:'b5'},
+        {string:1, fret:2, interval:'bb7'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 0,
+      // Dim7 — book-style diagonal sweep, 2 notes per string. C: casas 2-11 / D: casas 4-13.
+      // Each string pair: b5+bb7 (strings 6/4/2) or T+b3 (strings 5/3/1).
+      offsets: [
+        {string:6, fret:2, interval:'b5'},
+        {string:6, fret:5, interval:'bb7'},
+        {string:5, fret:3, interval:'T'},
+        {string:5, fret:6, interval:'b3'},
+        {string:4, fret:4, interval:'b5'},
+        {string:4, fret:7, interval:'bb7'},
+        {string:3, fret:5, interval:'T'},
+        {string:3, fret:8, interval:'b3'},
+        {string:2, fret:7, interval:'b5'},
+        {string:2, fret:10, interval:'bb7'},
+        {string:1, fret:8, interval:'T'},
+        {string:1, fret:11, interval:'b3'}
       ]
     }
   ]
