@@ -695,17 +695,14 @@ const BOOK_ARPEGGIO_PATTERNS = {
       baseForC: 4,
       // Diminished triad arpeggio from the book diagram, position 2.
       // Corrected from user reference image. Formula: T-b3-b5.
+      // Removed extra notes; kept essential voicing per the diagram.
       offsets: [
-        {string:6, fret:1, interval:'T'},
+        {string:6, fret:4, interval:'b5'},
         {string:5, fret:3, interval:'b3'},
-        {string:5, fret:5, interval:'b5'},
         {string:4, fret:0, interval:'T'},
-        {string:4, fret:3, interval:'b3'},
         {string:3, fret:2, interval:'b5'},
         {string:2, fret:0, interval:'T'},
-        {string:2, fret:3, interval:'b3'},
-        {string:1, fret:1, interval:'T'},
-        {string:1, fret:4, interval:'b3'}
+        {string:1, fret:1, interval:'T'}
       ]
     }
   ],
