@@ -390,7 +390,7 @@ test('svgFullFretboard generates valid SVG with fullboard-diagram class', () => 
     { string: 2, fret: 2, label: '3' },
     { string: 3, fret: 4, label: '5' },
   ];
-  const svg = E.svgFullFretboard(positions, 0, 24);
+  const svg = E.svgFullFretboard(positions);
 
   assert.ok(svg.includes('<svg'), 'should contain SVG element');
   assert.ok(svg.includes('class="fullboard-diagram"'), 'should have fullboard-diagram class');
@@ -399,8 +399,8 @@ test('svgFullFretboard generates valid SVG with fullboard-diagram class', () => 
 });
 
 test('svgFullFretboard displays all 6 string lines', () => {
-  const positions = [];
-  const svg = E.svgFullFretboard(positions, 0, 24);
+  const positions = [{ string: 1, fret: 5, label: 'T' }];
+  const svg = E.svgFullFretboard(positions);
 
   // Should have 6 horizontal string lines
   const stringLines = svg.match(/stroke="#334155"/g);
@@ -408,36 +408,37 @@ test('svgFullFretboard displays all 6 string lines', () => {
 });
 
 test('svgFullFretboard displays fret numbers at bottom', () => {
-  const positions = [];
-  const svg = E.svgFullFretboard(positions, 0, 24);
+  const positions = [{ string: 1, fret: 5, label: 'T' }];
+  const svg = E.svgFullFretboard(positions);
 
   // Should have fret numbers
   assert.ok(svg.includes('<text'), 'should have text for fret numbers');
-  // Fret numbers should appear at the bottom (specific y coordinate)
 });
 
-test('svgFullFretboard respects minFret and maxFret range', () => {
+test('svgFullFretboard auto-calculates fret range from positions', () => {
   const positions = [
-    { string: 1, fret: 5, label: '·' },
-    { string: 2, fret: 10, label: '·' },
+    { string: 1, fret: 7, label: 'T' },
+    { string: 2, fret: 9, label: '3' },
   ];
-  const svg = E.svgFullFretboard(positions, 5, 10);
+  const svg = E.svgFullFretboard(positions);
 
-  // Should show both positions within range
+  // Should show both positions (range determined by positions themselves)
   const circles = svg.match(/<circle/g);
-  assert.ok(circles && circles.length >= 2, 'should render positions within range');
+  assert.ok(circles && circles.length >= 2, 'should render all positions');
 });
 
-test('svgFullFretboard filters positions outside range', () => {
+test('svgFullFretboard shows compact range (not full 0-24)', () => {
   const positions = [
-    { string: 1, fret: 2, label: '·' },  // Outside range
-    { string: 2, fret: 10, label: '·' }, // Within range
+    { string: 1, fret: 7, label: 'T' },
+    { string: 2, fret: 9, label: '3' },
   ];
-  const svg = E.svgFullFretboard(positions, 5, 15);
-
-  // Should only show position at fret 10
-  const circles = svg.match(/<circle/g);
-  assert.ok(circles && circles.length >= 1, 'should filter positions outside range');
+  const svg = E.svgFullFretboard(positions);
+  const box = svg.match(/viewBox="0 0 (\d+) (\d+)"/);
+  assert.ok(box, 'should have viewBox');
+  // Width should be much smaller than a full 0-24 fretboard
+  const fullWidth = 52 + 24 * 30 + 38; // ~810 approx max
+  const svgWidth = parseInt(box[1]);
+  assert.ok(svgWidth < fullWidth, `compact diagram (${svgWidth}) should be narrower than full fretboard (${fullWidth})`);
 });
 
 test('svgFullFretboard renders positions with labels', () => {
@@ -445,16 +446,39 @@ test('svgFullFretboard renders positions with labels', () => {
     { string: 1, fret: 5, label: 'T' },
     { string: 2, fret: 7, label: '3' },
   ];
-  const svg = E.svgFullFretboard(positions, 0, 12);
+  const svg = E.svgFullFretboard(positions);
 
   // Should contain position labels
-  assert.ok(svg.includes('T'), 'should include root label');
-  assert.ok(svg.includes('3'), 'should include interval label');
+  assert.ok(svg.includes('>T<'), 'should include root label');
+  assert.ok(svg.includes('>3<'), 'should include interval label');
+});
+
+test('svgFullFretboard uses interval colors for notes', () => {
+  const positions = [
+    { string: 1, fret: 5, label: 'T' },   // root: #2563eb
+    { string: 2, fret: 7, label: '3' },   // major third: #16a34a
+    { string: 3, fret: 9, label: '5' },   // fifth: #06b6d4
+  ];
+  const svg = E.svgFullFretboard(positions);
+
+  // Should use interval-specific colors
+  assert.ok(svg.includes('#2563eb'), 'root (T) should use brand blue color');
+  assert.ok(svg.includes('#16a34a'), 'major third should use green color');
+  assert.ok(svg.includes('#06b6d4'), 'fifth should use cyan color');
+});
+
+test('svgFullFretboard root note (T) has white fill with colored stroke', () => {
+  const positions = [{ string: 1, fret: 5, label: 'T' }];
+  const svg = E.svgFullFretboard(positions);
+
+  // Root note should be white fill (inverted) with colored stroke
+  assert.ok(svg.includes('fill="#fff"'), 'root should have white fill');
+  assert.ok(svg.includes('stroke="#2563eb"'), 'root should have blue stroke');
 });
 
 test('svgFullFretboard with empty positions still generates valid SVG', () => {
   const positions = [];
-  const svg = E.svgFullFretboard(positions, 0, 24);
+  const svg = E.svgFullFretboard(positions);
 
   assert.ok(svg.includes('<svg'), 'should generate valid SVG for empty positions');
   assert.ok(svg.includes('fullboard-diagram'), 'should have correct class');
@@ -462,8 +486,8 @@ test('svgFullFretboard with empty positions still generates valid SVG', () => {
 });
 
 test('svgFullFretboard includes string labels and text rendering', () => {
-  const positions = [];
-  const svg = E.svgFullFretboard(positions, 0, 24);
+  const positions = [{ string: 1, fret: 5, label: 'T' }];
+  const svg = E.svgFullFretboard(positions);
 
   // Should include string labels
   assert.ok(svg.includes('text-anchor="middle"'), 'should have centered text');
@@ -472,7 +496,7 @@ test('svgFullFretboard includes string labels and text rendering', () => {
 
 test('svgFullFretboard positions have interactive audio capability', () => {
   const positions = [{ string: 1, fret: 5, label: 'T' }];
-  const svg = E.svgFullFretboard(positions, 0, 24);
+  const svg = E.svgFullFretboard(positions);
 
   // Should have group elements with data attributes for audio interaction
   assert.ok(svg.includes('<g'), 'should have group elements for notes');
