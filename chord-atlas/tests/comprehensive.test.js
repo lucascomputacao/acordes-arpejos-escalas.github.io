@@ -524,3 +524,46 @@ test('svgFullFretboard positions have interactive audio capability', () => {
   assert.ok(svg.includes('<g'), 'should have group elements for notes');
   assert.ok(svg.includes('circle'), 'should have circles for note visualization');
 });
+
+test('svgFullFretboard shows x for muted strings', () => {
+  // Chord using only strings 1-3; strings 4,5,6 should be muted (x)
+  const positions = [
+    { string: 1, fret: 5, label: 'T' },
+    { string: 2, fret: 5, label: '3' },
+    { string: 3, fret: 5, label: '5' },
+  ];
+  const svg = E.svgFullFretboard(positions);
+
+  // Should have x markers for muted strings (4, 5, 6)
+  const xMarkers = (svg.match(/>x</g) || []).length;
+  assert.ok(xMarkers >= 3, `should have at least 3 x markers for muted strings, got ${xMarkers}`);
+});
+
+test('svgFullFretboard shows open circle (o) for open strings', () => {
+  // Chord with an open string (fret=0)
+  const positions = [
+    { string: 1, fret: 0, label: 'T' },
+    { string: 2, fret: 3, label: '3' },
+    { string: 3, fret: 5, label: '5' },
+  ];
+  const svg = E.svgFullFretboard(positions);
+
+  // Should have a transparent circle for the open string (o indicator)
+  assert.ok(svg.includes('fill="transparent"'), 'should have transparent circle for open string');
+});
+
+test('svgFullFretboard does not show x for strings that have positions', () => {
+  const positions = [
+    { string: 1, fret: 5, label: 'T' },
+    { string: 2, fret: 5, label: '3' },
+    { string: 3, fret: 5, label: '5' },
+    { string: 4, fret: 5, label: 'T' },
+    { string: 5, fret: 5, label: '3' },
+    { string: 6, fret: 5, label: '5' },
+  ];
+  const svg = E.svgFullFretboard(positions);
+
+  // All 6 strings played, so no x markers
+  const xMarkers = (svg.match(/>x</g) || []).length;
+  assert.strictEqual(xMarkers, 0, 'should have no x markers when all strings are played');
+});

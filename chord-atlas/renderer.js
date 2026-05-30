@@ -324,10 +324,20 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
     // Numeração nas barras (não nos espaços), começando após o nut
     if(f>start && f<=end){ s+=`<text x="${x}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${f}</text>`; }
   }
+  // Pré-calcular quais cordas estão em uso
+  const playedStrings=new Set(positions.map(p=>p.string));
+  const openStrings=new Set(positions.filter(p=>p.fret===0).map(p=>p.string));
   strings.forEach((str,row)=>{
     const y=y0+row*rowGap;
     s+=`<line x1="${x0}" y1="${y}" x2="${x0+fretCount*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.1:1.5}"/>`;
     s+=`<text x="${x0-28}" y="${y+4}" text-anchor="middle" font-size="9" font-weight="900" fill="#334155">${STRING_TUNING[str]}</text>`;
+    // Indicadores x / o à esquerda do nut
+    if(!playedStrings.has(str)){
+      s+=`<text x="${x0-12}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="900" fill="#64748b">x</text>`;
+    } else if(openStrings.has(str)){
+      s+=audioNoteGroup(str,0,
+        `<circle cx="${x0-12}" cy="${y}" r="5.5" fill="transparent" stroke="#64748b" stroke-width="1.5"/>`);
+    }
   });
   // Indicador de casa inicial (quando não começa em 0)
   if(start>0){
@@ -339,7 +349,7 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
     if(row===-1) continue;
     const y=y0+row*rowGap;
     let x;
-    if(p.fret===0){ x=x0-16; }
+    if(p.fret===0){ x=x0-12; }
     else { x=x0+(p.fret-start-0.5)*cell; }
     // Usar cores de intervalos
     const color=intervalColor(p.label);
