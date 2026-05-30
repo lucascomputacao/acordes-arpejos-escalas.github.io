@@ -320,7 +320,7 @@ function renderHarmonicField(root,name,minF,maxF,out){
   section.appendChild(map);
   const table=document.createElement('div');
   table.className='field-table-wrap';
-  table.innerHTML=`<h3>${tr('diatonicChords')}</h3><table class="field-table"><thead><tr><th>${tr('degree')}</th><th>${tr('chord')}</th><th>${tr('functionLabel')}</th><th>${tr('chordNotes')}</th><th>${tr('intervalFormula')}</th></tr></thead><tbody>${data.chords.map(c=>`<tr><td><span class="degree-pill" style="--degree-color:${c.color}">${c.degree}</span></td><td><span class="super-result-cell">${harmonicChordPlayButton(c.notes)}<strong>${c.root}${c.quality}</strong></span></td><td>${functionName(c.function)} (${c.function})</td><td><span class="super-result-cell">${harmonicChordPlayButton(c.notes)}<span>${c.notes.join(' - ')}</span></span></td><td>${c.formula.join(' - ')}</td></tr>`).join('')}</tbody></table>`;
+  table.innerHTML=`<h3>${tr('diatonicChords')}</h3><table class="field-table"><thead><tr><th>${tr('degree')}</th><th>${tr('chord')}</th><th>${tr('functionLabel')}</th><th>${tr('chordNotes')}</th><th>${tr('intervalFormula')}</th></tr></thead><tbody>${data.chords.map(c=>`<tr><td><span class="degree-pill" style="--degree-color:${c.color}">${c.degree}</span></td><td><span class="super-result-cell">${harmonicChordPlayButton(c.notes,'chord')}<strong>${c.root}${c.quality}</strong></span></td><td>${functionName(c.function)} (${c.function})</td><td><span class="super-result-cell">${harmonicChordPlayButton(c.notes,'arp')}<span>${c.notes.join(' - ')}</span></span></td><td>${c.formula.join(' - ')}</td></tr>`).join('')}</tbody></table>`;
   section.appendChild(table);
   out.appendChild(section);
   document.getElementById('status').textContent=`${data.chords.length} ${tr('diagrams')}`;
@@ -425,10 +425,10 @@ function harmonicChordPitches(notesArray){
   }).sort((a,b)=>a-b);
   return midis.map(m=>`${NOTES[((m%12)+12)%12]}${Math.floor(m/12)-1}`);
 }
-function harmonicChordPlayButton(notesArray){
+function harmonicChordPlayButton(notesArray, mode='chord'){
   const notes=harmonicChordPitches(notesArray);
   if(!notes.length) return '';
-  return `<button class="ca-play super-result-play" type="button" data-notes="${notes.join(',')}" data-mode="chord" aria-label="${tr('play')||'Play'}" title="${tr('play')||'Play'}">▶</button>`;
+  return `<button class="ca-play super-result-play" type="button" data-notes="${notes.join(',')}" data-mode="${mode}" aria-label="${tr('play')||'Play'}" title="${tr('play')||'Play'}">▶</button>`;
 }
 
 function renderArpeggioSuperimpositionBlock(root,name,out,openByDefault){
