@@ -958,7 +958,89 @@ const BOOK_ARPEGGIO_PATTERNS = {
     }
   ],
   'Arpejo tétrade aumentada': [],
-  'Arpejo menor com sétima maior': []
+  'Arpejo menor com sétima maior': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Minor major 7 arpeggio (T-b3-5-7M), from the book "Tétrade menor com sétima maior".
+      // Derived from the book minor 7 shape by raising each b7 to 7M (+1 fret).
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:6, fret:7, interval:'7M'},
+        {string:5, fret:3, interval:'T'},
+        {string:5, fret:6, interval:'b3'},
+        {string:4, fret:5, interval:'5'},
+        {string:3, fret:4, interval:'7M'},
+        {string:3, fret:5, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:3, interval:'5'},
+        {string:1, fret:7, interval:'7M'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:2, interval:'7M'},
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'5'},
+        {string:4, fret:4, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:2, fret:3, interval:'5'},
+        {string:1, fret:2, interval:'7M'},
+        {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:3, interval:'T'},
+        {string:6, fret:6, interval:'b3'},
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:4, interval:'7M'},
+        {string:4, fret:5, interval:'T'},
+        {string:3, fret:3, interval:'b3'},
+        {string:2, fret:3, interval:'5'},
+        {string:2, fret:7, interval:'7M'},
+        {string:1, fret:3, interval:'T'},
+        {string:1, fret:6, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:4, interval:'7M'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:2, interval:'7M'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 0,
+      offsets: [
+        {string:6, fret:3, interval:'5'},
+        {string:5, fret:2, interval:'7M'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:1, interval:'b3'},
+        {string:4, fret:5, interval:'5'},
+        {string:3, fret:0, interval:'5'},
+        {string:3, fret:4, interval:'7M'},
+        {string:2, fret:1, interval:'T'},
+        {string:2, fret:4, interval:'b3'},
+        {string:1, fret:3, interval:'5'}
+      ]
+    }
+  ]
 };
 
 function intervalForNote(root, note, formulaIntervals){
