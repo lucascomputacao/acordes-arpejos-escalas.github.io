@@ -957,7 +957,88 @@ const BOOK_ARPEGGIO_PATTERNS = {
       ]
     }
   ],
-  'Arpejo tétrade aumentada': [],
+  'Arpejo tétrade aumentada': [
+    {
+      name: 'Position 1',
+      baseForC: 0,
+      // Augmented major 7 arpeggio (T-3-#5-7M), from the book "Tétrade aumentada".
+      // Derived from the book major 7 shape by raising each 5 to #5 (+1 fret).
+      offsets: [
+        {string:6, fret:4, interval:'#5'},
+        {string:5, fret:2, interval:'7M'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:2, interval:'3'},
+        {string:4, fret:6, interval:'#5'},
+        {string:3, fret:4, interval:'7M'},
+        {string:3, fret:5, interval:'T'},
+        {string:2, fret:5, interval:'3'},
+        {string:1, fret:4, interval:'#5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:2, interval:'7M'},
+        {string:6, fret:3, interval:'T'},
+        {string:5, fret:2, interval:'3'},
+        {string:4, fret:1, interval:'#5'},
+        {string:3, fret:-1, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'},
+        {string:2, fret:4, interval:'#5'},
+        {string:1, fret:2, interval:'7M'},
+        {string:1, fret:3, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-1, interval:'7M'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-1, interval:'3'},
+        {string:5, fret:3, interval:'#5'},
+        {string:4, fret:1, interval:'7M'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:1, interval:'#5'},
+        {string:1, fret:-1, interval:'7M'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:4, interval:'3'},
+        {string:5, fret:3, interval:'#5'},
+        {string:4, fret:1, interval:'7M'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:1, interval:'3'},
+        {string:3, fret:5, interval:'#5'},
+        {string:2, fret:4, interval:'7M'},
+        {string:2, fret:5, interval:'T'},
+        {string:1, fret:4, interval:'3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 0,
+      offsets: [
+        {string:6, fret:0, interval:'3'},
+        {string:6, fret:4, interval:'#5'},
+        {string:5, fret:2, interval:'7M'},
+        {string:5, fret:3, interval:'T'},
+        {string:4, fret:2, interval:'3'},
+        {string:3, fret:1, interval:'#5'},
+        {string:2, fret:0, interval:'7M'},
+        {string:2, fret:1, interval:'T'},
+        {string:1, fret:0, interval:'3'},
+        {string:1, fret:4, interval:'#5'}
+      ]
+    }
+  ],
   'Arpejo menor com sétima maior': [
     {
       name: 'Position 1',

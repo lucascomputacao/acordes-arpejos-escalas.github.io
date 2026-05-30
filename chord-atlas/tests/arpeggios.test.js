@@ -59,7 +59,7 @@ const EXPECTED_POSITIONS = {
   'Arpejo dominante 7': 5,
   'Arpejo meio-diminuto': 5,
   'Arpejo diminuto': 3,
-  'Arpejo tétrade aumentada': 0,  // Placeholder: positions to be added
+  'Arpejo tétrade aumentada': 5,
   'Arpejo menor com sétima maior': 5,
 };
 const ARPEGGIO_NAMES = Object.keys(EXPECTED_POSITIONS);
