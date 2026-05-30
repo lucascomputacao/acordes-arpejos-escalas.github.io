@@ -91,8 +91,9 @@
   }
 
   // Play an entire diagram from a card play button.
-  // mode 'chord': arpeggiate (sequence) then strum (simultaneous).
-  // mode 'arp':   arpeggiate (sequence) only.
+  // mode 'block':  strum (simultaneous) only.
+  // mode 'chord':  arpeggiate (sequence) then strum (simultaneous).
+  // mode 'arp':    arpeggiate (sequence) only.
   async function playFromButton(btn) {
     const raw = btn.getAttribute('data-notes') || '';
     const notes = raw.split(',').map((n) => n.trim()).filter(Boolean);
@@ -108,16 +109,23 @@
 
     const stepMs = 200;     // gap between sequenced notes
     const pauseMs = 650;    // pause between the sequence and the simultaneous strum
-    window.audioEngine.playArpeggio(notes, { noteDuration: 0.9, delayBetween: stepMs });
-    const seqMs = notes.length * stepMs;
 
-    if (mode === 'chord') {
-      // After the sequence finishes, pause, then play all notes together (strum).
+    if (mode === 'block') {
+      // Play all notes together immediately (strum only).
+      window.audioEngine.playChord(notes, { duration: 2.6 });
+      setTimeout(() => btn.classList.remove('is-playing'), 2600);
+    } else if (mode === 'chord') {
+      // Arpeggiate, pause, then strum.
+      window.audioEngine.playArpeggio(notes, { noteDuration: 0.9, delayBetween: stepMs });
+      const seqMs = notes.length * stepMs;
       setTimeout(() => {
         window.audioEngine.playChord(notes, { duration: 2.6 });
       }, seqMs + pauseMs);
       setTimeout(() => btn.classList.remove('is-playing'), seqMs + pauseMs + 2600);
     } else {
+      // mode 'arp': arpeggiate only
+      window.audioEngine.playArpeggio(notes, { noteDuration: 0.9, delayBetween: stepMs });
+      const seqMs = notes.length * stepMs;
       setTimeout(() => btn.classList.remove('is-playing'), seqMs + 700);
     }
   }

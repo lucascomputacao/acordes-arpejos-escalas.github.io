@@ -73,9 +73,9 @@ test('harmonicChordPitches returns empty array for empty input', () => {
 // ---------------------------------------------------------------------------
 // harmonicChordPlayButton — renders play button with correct mode
 // ---------------------------------------------------------------------------
-test('harmonicChordPlayButton renders button with chord mode by default', () => {
+test('harmonicChordPlayButton renders button with block mode by default', () => {
   const html = E.harmonicChordPlayButton(['C', 'E', 'G', 'B']);
-  assert.ok(html.includes('data-mode="chord"'), 'should have data-mode="chord"');
+  assert.ok(html.includes('data-mode="block"'), 'should have data-mode="block"');
   assert.ok(html.includes('data-notes="C3,E3,G3,B3"'), 'should have correct notes');
   assert.ok(html.includes('class="ca-play super-result-play"'), 'should have correct class');
 });
