@@ -759,12 +759,13 @@ function render(){
       sec.className='section';
       sec.innerHTML=`<h2>${root} — ${dn(name)} — <span class="voicing-label">${v}</span></h2>`;
       let grid=document.createElement('div');
-      grid.className='grid';
+      grid.className=isScale?'grid grid-scale':'grid';
       items.forEach(it=>{
         let card=document.createElement('div');
         card.className='card';
         const playMode=currentCategory==='Acordes'?'chord':'arp';
-        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgFullFretboard(it.positions||[],'chord-fretboard')}`;
+        const diagramClass=isScale?'scale-fretboard':'chord-fretboard';
+        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgFullFretboard(it.positions||[],diagramClass)}`;
         grid.appendChild(card);
         rendered++;
       });
