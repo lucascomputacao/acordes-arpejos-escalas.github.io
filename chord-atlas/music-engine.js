@@ -996,11 +996,13 @@ const BOOK_ARPEGGIO_PATTERNS = {
     {
       name: 'Position 3',
       baseForC: 8,
+      // Corrected per user diagram: removed the A-string #5 and added the
+      // D-string #5 below the 7M.
       offsets: [
         {string:6, fret:-1, interval:'7M'},
         {string:6, fret:0, interval:'T'},
         {string:5, fret:-1, interval:'3'},
-        {string:5, fret:3, interval:'#5'},
+        {string:4, fret:-2, interval:'#5'},
         {string:4, fret:1, interval:'7M'},
         {string:4, fret:2, interval:'T'},
         {string:3, fret:1, interval:'3'},
