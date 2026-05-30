@@ -552,6 +552,43 @@ test('svgFullFretboard shows open circle (o) for open strings', () => {
   assert.ok(svg.includes('fill="transparent"'), 'should have transparent circle for open string');
 });
 
+test('svgFullFretboard open strings have exactly one ca-note group per string', () => {
+  // Regression test for the open-string animation bug: when start===0 the 'o'
+  // indicator was wrapped in audioNoteGroup, creating a hidden duplicate that
+  // querySelector found first, making the flash animation invisible.
+  const positions = [
+    { string: 6, fret: 0, label: 'T' },  // open low E
+    { string: 5, fret: 2, label: '3' },
+    { string: 4, fret: 2, label: '5' },
+    { string: 3, fret: 2, label: 'T' },
+    { string: 2, fret: 1, label: '3' },
+    { string: 1, fret: 0, label: '5' },  // open high E
+  ];
+  const svg = E.svgFullFretboard(positions);
+
+  // data-fret="0" should appear at most once per string in ca-note groups.
+  // Previously it appeared twice: once for the 'o' indicator, once for the
+  // colored note circle — both with the same data-note attribute.
+  const e2Matches = (svg.match(/class="ca-note"[^>]*data-string="6" data-fret="0"/g) || []).length;
+  const e4Matches = (svg.match(/class="ca-note"[^>]*data-string="1" data-fret="0"/g) || []).length;
+  assert.strictEqual(e2Matches, 1, 'string 6 open should have exactly one ca-note group');
+  assert.strictEqual(e4Matches, 1, 'string 1 open should have exactly one ca-note group');
+});
+
+test('svgFullFretboard open string o-indicator is not interactive when colored note is present', () => {
+  // The transparent 'o' circle must not be wrapped in a ca-note group when
+  // the colored note will also be rendered (start===0 path).
+  const positions = [{ string: 6, fret: 0, label: 'T' }];
+  const svg = E.svgFullFretboard(positions);
+
+  // There should be one ca-note group (the colored circle).
+  const caCount = (svg.match(/class="ca-note"/g) || []).length;
+  assert.strictEqual(caCount, 1, 'only one ca-note group for an open string note');
+
+  // The transparent 'o' circle should still render but NOT inside a ca-note group.
+  assert.ok(svg.includes('fill="transparent"'), 'o indicator circle should still be rendered');
+});
+
 test('svgFullFretboard does not show x for strings that have positions', () => {
   const positions = [
     { string: 1, fret: 5, label: 'T' },

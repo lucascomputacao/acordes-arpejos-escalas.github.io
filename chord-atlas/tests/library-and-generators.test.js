@@ -250,3 +250,68 @@ test('noteAt returns the open-string notes and fretted notes correctly', () => {
   assert.strictEqual(E.noteAt(6, 5), 'A');   // low E + 5 frets
   assert.strictEqual(E.noteAt(1, 12), 'E');  // high E at the octave
 });
+
+// ---------------------------------------------------------------------------
+// getVoicingGroups — inversion distribution per chord type
+// ---------------------------------------------------------------------------
+
+// Mirror of voicingInversionType from app.js (pure function, no DOM needed).
+function inversionType(voicing) {
+  const bass = voicing.split('-')[0];
+  if (bass === 'T') return 'root';
+  if (bass === '3' || bass === 'b3') return '1st';
+  if (bass === '5' || bass === 'b5' || bass === '#5') return '2nd';
+  return '3rd';
+}
+
+function allVoicings(groups) {
+  return groups.flatMap(g => g.items);
+}
+
+test('getVoicingGroups triads: all voicings are root, 1st, or 2nd — never 3rd', () => {
+  const triadFormulas = [
+    E.LIBRARY['Acordes']['Tríade maior'],
+    E.LIBRARY['Acordes']['Tríade menor'],
+    E.LIBRARY['Acordes']['Tríade aumentada'],
+    E.LIBRARY['Acordes']['Tríade diminuta'],
+  ];
+  for (const f of triadFormulas) {
+    const voicings = allVoicings(E.getVoicingGroups(f));
+    for (const v of voicings) {
+      assert.notStrictEqual(inversionType(v), '3rd',
+        `Triad voicing ${v} must not be 3rd inversion (formula: ${f})`);
+    }
+  }
+});
+
+test('getVoicingGroups tetrades: voicings include all four inversion types', () => {
+  const f = E.LIBRARY['Acordes']['Tétrade maior 7M'];
+  const voicings = allVoicings(E.getVoicingGroups(f));
+  const types = new Set(voicings.map(inversionType));
+  assert.ok(types.has('root'), 'should have root-position voicings');
+  assert.ok(types.has('1st'),  'should have 1st inversion voicings');
+  assert.ok(types.has('2nd'),  'should have 2nd inversion voicings');
+  assert.ok(types.has('3rd'),  'should have 3rd inversion voicings');
+});
+
+test('getVoicingGroups: root-position voicings always start with T', () => {
+  for (const name of Object.keys(E.LIBRARY['Acordes'])) {
+    const f = E.LIBRARY['Acordes'][name];
+    const voicings = allVoicings(E.getVoicingGroups(f));
+    const roots = voicings.filter(v => inversionType(v) === 'root');
+    assert.ok(roots.length > 0, `${name} should have at least one root-position voicing`);
+    for (const v of roots) {
+      assert.ok(v.startsWith('T-'), `Root-position voicing ${v} must start with T`);
+    }
+  }
+});
+
+test('getVoicingGroups: minor seventh chord has 1st inversion voicings with b3 bass', () => {
+  const f = E.LIBRARY['Acordes']['Tétrade menor 7'];
+  const voicings = allVoicings(E.getVoicingGroups(f));
+  const first = voicings.filter(v => inversionType(v) === '1st');
+  assert.ok(first.length > 0, 'minor 7 should have 1st inversion voicings');
+  for (const v of first) {
+    assert.ok(v.startsWith('b3-'), `Minor 7 1st inversion ${v} should start with b3`);
+  }
+});
