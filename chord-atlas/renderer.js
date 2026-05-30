@@ -187,7 +187,7 @@ function svgIntervalMap(root,name,formulaIntervals,minF,maxF){
   const start=Math.max(0,minF), end=Math.min(24,maxF);
   const fretCount=Math.max(1,end-start);
   const cell=Math.max(18, Math.min(30, 720 / Math.max(1,fretCount)));
-  const x0=54, y0=30, rowGap=22, h=y0+(rowGap*(strings.length-1))+54, w=x0+fretCount*cell+42;
+  const x0=54, y0=30, rowGap=20, h=y0+(rowGap*(strings.length-1))+58, w=x0+fretCount*cell+42;
   const isAll=isAllIntervalsFormula(formulaIntervals);
   const intervalsToShow=isAll?formulaIntervals.filter(iv=>iv!=='8'):['T', (formulaIntervals[1] || 'T')];
   const rootNote=noteFor(root,'T');

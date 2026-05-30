@@ -503,8 +503,8 @@ svg.diagram{width:150px;height:170px;overflow:visible;max-width:100%}
 }
 .interval-map-svg{
   width:100%;
-  max-width:760px;
-  min-width:520px;
+  max-width:980px;
+  min-width:620px;
   height:auto;
   display:block;
   margin:0 auto;
