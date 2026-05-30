@@ -439,9 +439,8 @@ function renderArpeggioSuperimpositionBlock(root,name,out){
 
 function renderArpeggioSuperimposition(root,name,out){
   out.innerHTML='';
-  const rootOptions=(typeof NOTES!=='undefined'?NOTES:['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'])
-    .map(n=>`<option value="${n}" ${n===root?'selected':''}>${n}</option>`)
-    .join('');
+  // The key is controlled by the floating selector (and the sidebar), so this
+  // section no longer renders its own root picker.
   const control=document.createElement('section');
   control.className='section superimposition-control-section';
   control.innerHTML=`
@@ -449,10 +448,6 @@ function renderArpeggioSuperimposition(root,name,out){
       <div>
         <h2>${dn('Superposição de Arpejos')}</h2>
         <div class="tension-note">${tr('superimpositionInfo')}</div>
-      </div>
-      <div class="super-root-control">
-        <label for="superRoot">${tr('root')}</label>
-        <select id="superRoot" onchange="setSuperimpositionRoot(this.value)">${rootOptions}</select>
       </div>
     </div>
   `;

@@ -236,14 +236,6 @@ function renderVoiceLeading(){
 }
 
 
-function setSuperimpositionRoot(value){
-  const rootSelect=document.getElementById('root');
-  if(rootSelect){
-    rootSelect.value=value;
-  }
-  autoRender();
-}
-
 
 
 // Print helper: open all arpeggio-superimposition accordions before printing.
