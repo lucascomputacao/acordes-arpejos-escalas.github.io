@@ -339,10 +339,6 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
         `<circle cx="${x0-12}" cy="${y}" r="5.5" fill="transparent" stroke="#64748b" stroke-width="1.5"/>`);
     }
   });
-  // Indicador de casa inicial (quando não começa em 0)
-  if(start>0){
-    s+=`<text x="${x0-28}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#334155">${start}</text>`;
-  }
   for(const p of positions){
     if(p.fret<start||p.fret>end) continue;
     const row=strings.indexOf(p.string);
