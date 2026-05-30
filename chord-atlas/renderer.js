@@ -452,10 +452,18 @@ function renderArpeggioSuperimposition(root,name,out){
     </div>
   `;
   out.appendChild(control);
+  // Show-all mode (driven by the floating selector) lists every base-chord
+  // table; otherwise only the selected one is shown (with a Clear button to
+  // return to all).
+  const showAll = (typeof window!=='undefined') && window.superShowAll;
   const order=['Acorde tipo 7M','Acorde tipo m7','Acorde tipo m7(b5)','Acorde tipo m7M','Acorde tipo 7M(#5)','Acorde tipo °','Acorde tipo 7'];
   let total=0;
-  order.forEach(key=>{ if(SUPERIMPOSITION_DATA[key]) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
-  Object.keys(SUPERIMPOSITION_DATA).forEach(key=>{ if(!order.includes(key)) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
+  if(showAll){
+    order.forEach(key=>{ if(SUPERIMPOSITION_DATA[key]) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
+    Object.keys(SUPERIMPOSITION_DATA).forEach(key=>{ if(!order.includes(key)) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
+  }else if(SUPERIMPOSITION_DATA[name]){
+    total+=renderArpeggioSuperimpositionBlock(root,name,out);
+  }
   if(!total) out.innerHTML=`<div class="empty">${tr('noPositions')}</div>`;
   document.getElementById('status').textContent=`${total} ${tr('superimpositions')}`;
 }
@@ -598,25 +606,19 @@ function render(){
     renderVoiceLeading();
     return;
   }
-  // Arpejos "show all" mode (driven by the floating selector) renders every
-  // structure at once and ignores the voicing/string-group selection.
-  const arpAll = currentCategory==='Arpejos' && (typeof window!=='undefined') && window.arpejosShowAll;
-  if(!arpAll && (!voices.length||![...document.querySelectorAll('#stringGroups input:checked')].length)){
+  if(!voices.length||![...document.querySelectorAll('#stringGroups input:checked')].length){
     out.innerHTML=`<div class="empty">${tr('emptySelection')}</div>`;
     document.getElementById('status').textContent='0 '+tr('diagrams');
     return;
   }
   let rendered=0;
 
-  if(currentCategory==='Arpejos'&&(arpAll||hasBookArpeggioPattern(name))){
-    const structNames=arpAll?Object.keys(LIBRARY['Arpejos']).filter(hasBookArpeggioPattern):[name];
-    structNames.forEach(structName=>{
-      const structFormula=LIBRARY['Arpejos'][structName];
-      let items=generateBookArpeggio(root,structName,structFormula,minF,maxF,arpAll?null:voices);
-      items.forEach(it=>{
+  if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(name)){
+    let items=generateBookArpeggio(root,name,f,minF,maxF,voices);
+    items.forEach(it=>{
       let sec=document.createElement('section');
       sec.className='section arpeggio-section';
-      sec.innerHTML=`<h2>${root} — ${dn(structName)} — <span class="voicing-label">${it.voicing}</span></h2>`;
+      sec.innerHTML=`<h2>${root} — ${dn(name)} — <span class="voicing-label">${it.voicing}</span></h2>`;
       let grid=document.createElement('div');
       grid.className='fretboard-grid';
       let card=document.createElement('div');
@@ -629,7 +631,6 @@ function render(){
       sec.appendChild(grid);
       makeSectionCloseable(sec);
       out.appendChild(sec);
-      });
     });
   }else{
     voices.forEach(v=>{

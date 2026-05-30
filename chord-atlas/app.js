@@ -5,11 +5,12 @@
 let routeIsApplying = false;
 let routeHasInitialized = false;
 let voiceLeadingRequested = false;
-// Arpejos: the floating selector defaults to showing ALL structures at once.
-// Picking one filters to it (with a Clear button to return to all). The flag
-// lives on window so renderer.js can read it at render time.
-const ARP_ALL = '__all__';
-window.arpejosShowAll = true;
+// Superposição de Arpejos: the floating selector defaults to showing ALL
+// base-chord tables at once. Picking one filters to it (with a Clear button to
+// return to all). The flag lives on window so renderer.js can read it at
+// render time.
+const ALL_SENTINEL = '__all__';
+window.superShowAll = true;
 const CATEGORY_TO_SLUG = { 'Intervalos':'intervals', 'Acordes':'chords', 'Arpejos':'arpeggios', 'Escalas':'scales', 'Modos':'modes', 'Campos Harmônicos':'harmonic-fields', 'Superposição de Arpejos':'arpeggio-superimposition', 'Exercícios':'exercises' };
 const SLUG_TO_CATEGORY = Object.fromEntries(Object.entries(CATEGORY_TO_SLUG).map(([k,v]) => [v,k]));
 function slugify(value){
@@ -171,7 +172,7 @@ function applyCompatibleChord(chord){currentCategory='Acordes'; populateTabs(); 
 
 function selectedStructure(){return document.getElementById('structure').value} function formula(){return LIBRARY[currentCategory][selectedStructure()]}
 function currentStringGroups(size){return [...document.querySelectorAll('#stringGroups input:checked')].map(x=>x.value.split('-').map(Number)).filter(g=>g.length===size)}
-function populateTabs(){document.getElementById('tabs').innerHTML=Object.keys(LIBRARY).map(c=>`<button class="tab ${c===currentCategory?'active':''}" data-cat="${c}">${dn(c)}</button>`).join('');document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentCategory=b.dataset.cat;if(currentCategory==='Arpejos')window.arpejosShowAll=true;populateStructures();populateStringGroups();populateVoicings();populateTabs();renderScaleSuggestions();renderTensions();renderCompatibleChords();autoRender()})}
+function populateTabs(){document.getElementById('tabs').innerHTML=Object.keys(LIBRARY).map(c=>`<button class="tab ${c===currentCategory?'active':''}" data-cat="${c}">${dn(c)}</button>`).join('');document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentCategory=b.dataset.cat;if(currentCategory==='Superposição de Arpejos')window.superShowAll=true;populateStructures();populateStringGroups();populateVoicings();populateTabs();renderScaleSuggestions();renderTensions();renderCompatibleChords();autoRender()})}
 function populateStructures(){const s=document.getElementById('structure');const previous=s.value;const keys=Object.keys(LIBRARY[currentCategory]);s.innerHTML=keys.map(k=>`<option value="${k}">${dn(k)}</option>`).join('');if(keys.includes(previous))s.value=previous;renderScaleSuggestions();renderTensions();renderCompatibleChords();syncFloatingSelector()}
 // Floating quick selector: mirrors the sidebar root + structure selects so the
 // user can change key/structure while viewing the output. Hidden for the
@@ -188,22 +189,23 @@ function syncFloatingSelector(){
   if(!root||!structure||!fRoot||!fStruct)return;
   if(fRoot.innerHTML!==root.innerHTML)fRoot.innerHTML=root.innerHTML;
   fRoot.value=root.value;
-  // Arpejos: prepend an "all structures" sentinel and reflect the show-all state.
-  const isArp=currentCategory==='Arpejos';
-  const structHTML=(isArp?`<option value="${ARP_ALL}">${tr('allStructures')}</option>`:'')+structure.innerHTML;
+  // Superposição de Arpejos: prepend an "all structures" sentinel and reflect
+  // the show-all state.
+  const isSuper=currentCategory==='Superposição de Arpejos';
+  const structHTML=(isSuper?`<option value="${ALL_SENTINEL}">${tr('allStructures')}</option>`:'')+structure.innerHTML;
   if(fStruct.innerHTML!==structHTML)fStruct.innerHTML=structHTML;
-  fStruct.value=(isArp&&window.arpejosShowAll)?ARP_ALL:structure.value;
-  if(clearBtn)clearBtn.style.display=(isArp&&!window.arpejosShowAll)?'':'none';
+  fStruct.value=(isSuper&&window.superShowAll)?ALL_SENTINEL:structure.value;
+  if(clearBtn)clearBtn.style.display=(isSuper&&!window.superShowAll)?'':'none';
 }
 function initFloatingSelector(){
   const fRoot=document.getElementById('floatingRoot'),fStruct=document.getElementById('floatingStructure'),clearBtn=document.getElementById('floatingClear');
   if(fRoot)fRoot.addEventListener('change',()=>{const root=document.getElementById('root');root.value=fRoot.value;root.dispatchEvent(new Event('change'))});
   if(fStruct)fStruct.addEventListener('change',()=>{
-    if(currentCategory==='Arpejos'&&fStruct.value===ARP_ALL){window.arpejosShowAll=true;autoRender();return;}
-    if(currentCategory==='Arpejos')window.arpejosShowAll=false;
+    if(currentCategory==='Superposição de Arpejos'&&fStruct.value===ALL_SENTINEL){window.superShowAll=true;autoRender();return;}
+    if(currentCategory==='Superposição de Arpejos')window.superShowAll=false;
     const structure=document.getElementById('structure');structure.value=fStruct.value;structure.dispatchEvent(new Event('change'));
   });
-  if(clearBtn)clearBtn.addEventListener('click',()=>{window.arpejosShowAll=true;autoRender()});
+  if(clearBtn)clearBtn.addEventListener('click',()=>{window.superShowAll=true;autoRender()});
 }
 function populateStringGroups(){const f=formula();const size=(currentCategory==='Escalas'||currentCategory==='Modos'||currentCategory==='Arpejos'||currentCategory==='Campos Harmônicos'||currentCategory==='Intervalos'||currentCategory==='Superposição de Arpejos'||currentCategory==='Exercícios')?6:Math.min(4,Math.max(3,f.length)); const sets=stringSetsForSize(size);document.getElementById('stringGroups').innerHTML=sets.map(g=>`<label><input type="checkbox" value="${g.join('-')}" checked> ${g.join('-')}</label>`).join('');document.querySelectorAll('#stringGroups input').forEach(x=>x.onchange=autoRender)}
 function populateVoicings(){let groups;if(currentCategory==='Campos Harmônicos'){groups=[{name:'pattern',items:[tr('fieldMap')]}];}else if(currentCategory==='Superposição de Arpejos'){groups=[{name:'pattern',items:[tr('superimpositionTable')]}];}else if(currentCategory==='Intervalos'){groups=[{name:'pattern',items:[tr('intervalMap')]}];}else if(currentCategory==='Exercícios'){groups=[{name:'pattern',items:[tr('tablatureExercise')]}];}else if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_ARPEGGIO_PATTERNS[selectedStructure()].map(p=>p.name)}];}else{groups=getVoicingGroups(formula());}document.getElementById('voicings').innerHTML=groups.map(g=>`<div class="group-title">${tr(g.name)}</div><div class="checkgrid">${g.items.map(v=>`<label><input type="checkbox" value="${v}" checked> ${v}</label>`).join('')}</div>`).join('');document.querySelectorAll('#voicings input').forEach(x=>x.onchange=autoRender)}
