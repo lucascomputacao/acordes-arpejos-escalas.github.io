@@ -123,6 +123,7 @@ function applyRouteFromHash(){
   if(route.vlStructA && LIBRARY['Acordes'][route.vlStructA]) document.getElementById('vlStructA').value = route.vlStructA;
   if(route.vlStructB && LIBRARY['Acordes'][route.vlStructB]) document.getElementById('vlStructB').value = route.vlStructB;
   voiceLeadingRequested = !!route.voiceLeading;
+  syncFloatingSelector();
   render();
   renderVoiceLeading();
   routeIsApplying = false;
@@ -166,10 +167,32 @@ function applyCompatibleChord(chord){currentCategory='Acordes'; populateTabs(); 
 function selectedStructure(){return document.getElementById('structure').value} function formula(){return LIBRARY[currentCategory][selectedStructure()]}
 function currentStringGroups(size){return [...document.querySelectorAll('#stringGroups input:checked')].map(x=>x.value.split('-').map(Number)).filter(g=>g.length===size)}
 function populateTabs(){document.getElementById('tabs').innerHTML=Object.keys(LIBRARY).map(c=>`<button class="tab ${c===currentCategory?'active':''}" data-cat="${c}">${dn(c)}</button>`).join('');document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentCategory=b.dataset.cat;populateStructures();populateStringGroups();populateVoicings();populateTabs();renderScaleSuggestions();renderTensions();renderCompatibleChords();autoRender()})}
-function populateStructures(){const s=document.getElementById('structure');const previous=s.value;const keys=Object.keys(LIBRARY[currentCategory]);s.innerHTML=keys.map(k=>`<option value="${k}">${dn(k)}</option>`).join('');if(keys.includes(previous))s.value=previous;renderScaleSuggestions();renderTensions();renderCompatibleChords()}
+function populateStructures(){const s=document.getElementById('structure');const previous=s.value;const keys=Object.keys(LIBRARY[currentCategory]);s.innerHTML=keys.map(k=>`<option value="${k}">${dn(k)}</option>`).join('');if(keys.includes(previous))s.value=previous;renderScaleSuggestions();renderTensions();renderCompatibleChords();syncFloatingSelector()}
+// Floating quick selector: mirrors the sidebar root + structure selects so the
+// user can change key/structure while viewing the output. Hidden for the
+// 'Exercícios' category (not yet parameterized by root/structure).
+function syncFloatingSelector(){
+  const wrap=document.getElementById('floatingSelector');
+  if(!wrap)return;
+  const hidden=currentCategory==='Exercícios';
+  wrap.style.display=hidden?'none':'';
+  if(hidden)return;
+  const root=document.getElementById('root'),structure=document.getElementById('structure');
+  const fRoot=document.getElementById('floatingRoot'),fStruct=document.getElementById('floatingStructure');
+  if(!root||!structure||!fRoot||!fStruct)return;
+  if(fRoot.innerHTML!==root.innerHTML)fRoot.innerHTML=root.innerHTML;
+  if(fStruct.innerHTML!==structure.innerHTML)fStruct.innerHTML=structure.innerHTML;
+  fRoot.value=root.value;
+  fStruct.value=structure.value;
+}
+function initFloatingSelector(){
+  const fRoot=document.getElementById('floatingRoot'),fStruct=document.getElementById('floatingStructure');
+  if(fRoot)fRoot.addEventListener('change',()=>{const root=document.getElementById('root');root.value=fRoot.value;root.dispatchEvent(new Event('change'))});
+  if(fStruct)fStruct.addEventListener('change',()=>{const structure=document.getElementById('structure');structure.value=fStruct.value;structure.dispatchEvent(new Event('change'))});
+}
 function populateStringGroups(){const f=formula();const size=(currentCategory==='Escalas'||currentCategory==='Modos'||currentCategory==='Arpejos'||currentCategory==='Campos Harmônicos'||currentCategory==='Intervalos'||currentCategory==='Superposição de Arpejos'||currentCategory==='Exercícios')?6:Math.min(4,Math.max(3,f.length)); const sets=stringSetsForSize(size);document.getElementById('stringGroups').innerHTML=sets.map(g=>`<label><input type="checkbox" value="${g.join('-')}" checked> ${g.join('-')}</label>`).join('');document.querySelectorAll('#stringGroups input').forEach(x=>x.onchange=autoRender)}
 function populateVoicings(){let groups;if(currentCategory==='Campos Harmônicos'){groups=[{name:'pattern',items:[tr('fieldMap')]}];}else if(currentCategory==='Superposição de Arpejos'){groups=[{name:'pattern',items:[tr('superimpositionTable')]}];}else if(currentCategory==='Intervalos'){groups=[{name:'pattern',items:[tr('intervalMap')]}];}else if(currentCategory==='Exercícios'){groups=[{name:'pattern',items:[tr('tablatureExercise')]}];}else if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_ARPEGGIO_PATTERNS[selectedStructure()].map(p=>p.name)}];}else{groups=getVoicingGroups(formula());}document.getElementById('voicings').innerHTML=groups.map(g=>`<div class="group-title">${tr(g.name)}</div><div class="checkgrid">${g.items.map(v=>`<label><input type="checkbox" value="${v}" checked> ${v}</label>`).join('')}</div>`).join('');document.querySelectorAll('#voicings input').forEach(x=>x.onchange=autoRender)}
-function toggleAll(sel,val){document.querySelectorAll(sel).forEach(x=>x.checked=val);autoRender()} function setRegion(a,b){document.getElementById('minFret').value=a;document.getElementById('maxFret').value=b;autoRender()} function autoRender(){writeRoute();clearTimeout(renderTimer);renderTimer=setTimeout(render,80)}
+function toggleAll(sel,val){document.querySelectorAll(sel).forEach(x=>x.checked=val);autoRender()} function setRegion(a,b){document.getElementById('minFret').value=a;document.getElementById('maxFret').value=b;autoRender()} function autoRender(){writeRoute();syncFloatingSelector();clearTimeout(renderTimer);renderTimer=setTimeout(render,80)}
 function populateVoiceLeadingControls(){
   ['vlRootA','vlRootB'].forEach((id,i)=>{const el=document.getElementById(id); if(!el)return; const old=el.value; el.innerHTML=NOTES.map(n=>`<option>${n}</option>`).join(''); el.value=old|| (i===0?'C':'F');});
   ['vlStructA','vlStructB'].forEach((id,i)=>{const el=document.getElementById(id); if(!el)return; const old=el.value; const keys=Object.keys(LIBRARY['Acordes']); el.innerHTML=keys.map(k=>`<option value="${k}">${dn(k)}</option>`).join(''); el.value= old && keys.includes(old) ? old : (i===0?'Tétrade maior 7M':'Tétrade menor 7');});
@@ -264,4 +287,4 @@ if(typeof window !== 'undefined'){
 }
 
 function applyLang(){document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.innerHTML=tr(el.dataset.i18n));document.getElementById('lang-pt').classList.toggle('active',currentLang==='pt');document.getElementById('lang-en').classList.toggle('active',currentLang==='en');populateTabs();populateStructures();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords();populateVoiceLeadingControls();render();renderVoiceLeading();writeRoute()}
-function init(){currentLang='en';initMobileDrawer();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{writeRoute();renderVoiceLeading()}));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();
+function init(){currentLang='en';initMobileDrawer();initFloatingSelector();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{writeRoute();renderVoiceLeading()}));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();

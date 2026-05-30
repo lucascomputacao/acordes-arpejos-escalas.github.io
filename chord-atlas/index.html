@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Chord Atlas - Chord Scale Arpegios Modes Compatibility</title>
-<link rel="stylesheet" href="styles.css?v=2" />
+<link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
 <div class="mobile-topbar" aria-label="Mobile navigation">
@@ -70,6 +70,16 @@
   <div class="subtitle" data-i18n="subtitle">Chords, arpeggios, scales, modes, drop 2 and shell voicings</div>
 </header>
 <div class="tabs" id="tabs"></div>
+<div class="floating-selector" id="floatingSelector" aria-label="Quick key and structure">
+  <div class="fs-field">
+    <label for="floatingRoot" data-i18n="root">Tonalidade</label>
+    <select id="floatingRoot"></select>
+  </div>
+  <div class="fs-field fs-field-structure">
+    <label for="floatingStructure" data-i18n="structure">Estrutura</label>
+    <select id="floatingStructure"></select>
+  </div>
+</div>
 <div id="output"></div>
 <div id="voiceLeadingOutput"></div>
 </main>
@@ -77,7 +87,7 @@
 <script src="i18n.js"></script>
 <script src="music-engine.js?v=18"></script>
 <script src="renderer.js?v=2"></script>
-<script src="app.js"></script>
+<script src="app.js?v=2"></script>
 <!-- Playable diagrams: Tone.js sample engine + click-to-play integration -->
 <script src="tone.js"></script>
 <script src="audio-engine-samples.js?v=2"></script>
