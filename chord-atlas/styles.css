@@ -1189,3 +1189,6 @@ body.printing-super-open details.super-accordion > summary::after{
 }
 @keyframes caPlayPulse{0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}50%{box-shadow:0 0 0 6px rgba(22,163,74,0)}}
 @media print{ .ca-play{display:none !important} }
+/* Compact inline play button next to a superimposition "Result" chord */
+.super-result-cell{display:inline-flex;align-items:center;gap:8px}
+.ca-play.super-result-play{width:22px;height:22px;margin:0;font-size:10px;flex:0 0 auto}

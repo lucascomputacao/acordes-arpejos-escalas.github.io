@@ -386,6 +386,35 @@ function transposeSuperimpositionRow(row, root){
   ];
 }
 
+// Result-chord notes for the superimposition tables. Each result chord is the
+// section's base formula plus the row's added tensions; we voice it as an
+// ascending block chord (root low, extensions an octave up) so the ▶ button can
+// play it with the shared audio engine — the same mechanism as the Acordes cards.
+const SUPER_EXT_SEMI = { '9':14, 'b9':13, '#9':15, '11':17, '#11':18, '13':21, 'b13':20 };
+function superChordSemitone(tok){
+  if(tok in SUPER_EXT_SEMI) return SUPER_EXT_SEMI[tok];
+  return (typeof INTERVALS!=='undefined' && INTERVALS[tok]!=null) ? INTERVALS[tok] : null;
+}
+function superResultPitches(root, baseFormula, tensionStr){
+  const toks=(baseFormula||[]).concat((tensionStr||'').split(',').map(s=>s.trim()).filter(Boolean));
+  const base=48+(pc(root)%12); // root around the 3rd octave
+  const midis=[]; const seen=new Set();
+  toks.forEach(tok=>{
+    const semi=superChordSemitone(tok);
+    if(semi==null) return;
+    const m=base+semi;
+    if(seen.has(m)) return; seen.add(m);
+    midis.push(m);
+  });
+  midis.sort((a,b)=>a-b);
+  return midis.map(m=>`${NOTES[((m%12)+12)%12]}${Math.floor(m/12)-1}`);
+}
+function superResultPlayButton(root, baseFormula, tensionStr){
+  const notes=superResultPitches(root, baseFormula, tensionStr);
+  if(!notes.length) return '';
+  return `<button class="ca-play super-result-play" type="button" data-notes="${notes.join(',')}" data-mode="chord" aria-label="${tr('play')||'Play'}" title="${tr('play')||'Play'}">▶</button>`;
+}
+
 function renderArpeggioSuperimpositionBlock(root,name,out,openByDefault){
   const data=SUPERIMPOSITION_DATA[name];
   if(!data) return 0;
@@ -394,7 +423,7 @@ function renderArpeggioSuperimpositionBlock(root,name,out,openByDefault){
   const sec=document.createElement('section');
   sec.className='section superimposition-section superimposition-accordion-section';
 
-  const tableRows=rows.map((r,idx)=>`<tr class="${idx===0?'selected-row':''}"><td class="super-arp"><strong>${r[0]}</strong></td><td><strong>${r[1]}</strong></td><td>${(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>'}</td></tr>`).join('');
+  const tableRows=rows.map((r,idx)=>`<tr class="${idx===0?'selected-row':''}"><td class="super-arp"><strong>${r[0]}</strong></td><td><span class="super-result-cell"><strong>${r[1]}</strong>${superResultPlayButton(root,data.formula,r[2])}</span></td><td>${(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>'}</td></tr>`).join('');
 
   const mobileCards=rows.map((r,idx)=>{
     const tensions=(r[2]||'—').split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tension-chip super-chip">${x}</span>`).join('')||'<span class="muted">—</span>';
@@ -402,7 +431,7 @@ function renderArpeggioSuperimpositionBlock(root,name,out,openByDefault){
       <div class="super-mobile-card-head">
         <strong>${r[0]}</strong>
       </div>
-      <div class="super-mobile-card-row"><span>${tr('result')}</span><strong>${r[1]}</strong></div>
+      <div class="super-mobile-card-row"><span>${tr('result')}</span><span class="super-result-cell"><strong>${r[1]}</strong>${superResultPlayButton(root,data.formula,r[2])}</span></div>
       <div class="super-mobile-card-row"><span>${tr('addedTensions')}</span><div>${tensions}</div></div>
     </article>`;
   }).join('');
