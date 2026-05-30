@@ -14,6 +14,8 @@
   let unlocked = false;
   let silentModeAlertShown = false;
   let silentModeDetected = false;
+  let silentModeCheckDone = false;
+  let firstPlayAttempt = true;
 
   function getCtx() {
     try { return (window.Tone && Tone.context) ? Tone.context : null; }
@@ -27,45 +29,54 @@
   function showSilentModeAlert() {
     if (silentModeAlertShown) return;
     silentModeAlertShown = true;
-    const message = 'Som desativado: Seu dispositivo está em modo silencioso.\n\nPara ouvir as notas:\n1. Desabilite o modo silencioso (pressione o botão lateral do volume)\n2. Aumente o volume do dispositivo\n3. Tente tocar uma nota novamente';
+    const message = '🔇 Som desativado!\n\nSeu dispositivo está em modo silencioso.\n\nPara ouvir as notas:\n\n1️⃣ Desabilite o modo silencioso\n   (pressione o botão lateral do volume)\n\n2️⃣ Aumente o volume do dispositivo\n\n3️⃣ Tente tocar uma nota novamente';
     alert(message);
   }
 
-  async function checkSilentMode() {
-    if (!isMobile() || silentModeDetected) return false;
+  function checkSilentMode() {
+    if (!isMobile() || silentModeCheckDone || !firstPlayAttempt) return;
+
+    firstPlayAttempt = false;
+    silentModeCheckDone = true;
 
     try {
       const ctx = getCtx();
-      if (!ctx) return false;
+      if (!ctx) return;
 
-      // Check Web Audio API output level
+      // Create test oscillator to detect if audio is actually playing
+      const testOsc = ctx.createOscillator();
+      const testGain = ctx.createGain();
       const analyser = ctx.createAnalyser();
-      analyser.connect(ctx.destination);
 
-      // Try to detect if output is muted by checking volume
-      const oscillator = ctx.createOscillator();
-      oscillator.frequency.value = 440;
-      oscillator.connect(analyser);
-      oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + 0.1);
+      analyser.fftSize = 256;
+      testGain.gain.value = 1.0;
+      testOsc.frequency.value = 1200;
+      testOsc.type = 'sine';
 
-      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      testOsc.connect(testGain);
+      testGain.connect(analyser);
+      testGain.connect(ctx.destination);
+      testOsc.start(ctx.currentTime);
 
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          analyser.getByteFrequencyData(dataArray);
-          const hasOutput = dataArray.some(val => val > 0);
+      setTimeout(() => {
+        try {
+          const data = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(data);
+          const maxVal = Math.max(...data);
 
-          if (!hasOutput) {
+          testOsc.stop(ctx.currentTime + 0.01);
+
+          // If no signal detected, device is in silent mode
+          if (maxVal < 10) {
             silentModeDetected = true;
             showSilentModeAlert();
-            resolve(true);
           }
-          resolve(false);
-        }, 150);
-      });
+        } catch (e) {
+          testOsc.stop(ctx.currentTime + 0.01);
+        }
+      }, 50);
     } catch (e) {
-      return false;
+      silentModeCheckDone = false;
     }
   }
 
@@ -137,9 +148,12 @@
     const ready = await ensureAudio();
     if (!ready || !window.audioEngine.isInitialized) return;
     await resumeContext();
-    await checkSilentMode();
     window.audioEngine.playNote(note, { duration: 1.4 });
     flash(groupEl);
+    // Check for silent mode in background on first attempt
+    if (firstPlayAttempt && isMobile()) {
+      checkSilentMode();
+    }
   }
 
   // Play an entire diagram from a card play button.
@@ -155,7 +169,10 @@
     const ready = await ensureAudio();
     if (!ready || !window.audioEngine.isInitialized) return;
     await resumeContext();
-    await checkSilentMode();
+    // Check for silent mode in background on first attempt
+    if (firstPlayAttempt && isMobile()) {
+      checkSilentMode();
+    }
 
     if (btn.classList.contains('is-playing')) return; // avoid overlap
     btn.classList.add('is-playing');
