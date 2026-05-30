@@ -118,9 +118,11 @@ function svgDiagram(item,scale=false){
     if(p.fret===0) continue;
     let idx=STRINGS.indexOf(p.string),off=p.fret-start;
     if(off<0||off>=fretCount) continue;
-    let x=x0+idx*sw,y=y0+off*fh+fh/2,fill=p.label==='T'?'white':'#111',tf=p.label==='T'?'#111':'white';
+    const color=intervalColor(p.label);
+    const isRoot=p.label==='T'||p.label==='8';
+    let x=x0+idx*sw,y=y0+off*fh+fh/2,fill=isRoot?'white':color,tf=isRoot?color:'white',strokeCol=color;
     s+=audioNoteGroup(p.string,p.fret,
-      `<circle cx="${x}" cy="${y}" r="8.5" fill="${fill}" stroke="#111" stroke-width="2"/>`+
+      `<circle cx="${x}" cy="${y}" r="8.5" fill="${fill}" stroke="${strokeCol}" stroke-width="2"/>`+
       `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="bold" fill="${tf}" pointer-events="none">${p.label}</text>`);
   }
   return s+'</svg>';
@@ -751,7 +753,7 @@ function render(){
         let card=document.createElement('div');
         card.className='card';
         const playMode=currentCategory==='Acordes'?'chord':'arp';
-        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgFullFretboard(it.positions||[])}`;
+        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgDiagram(it,isScale)}`;
         grid.appendChild(card);
         rendered++;
       });
