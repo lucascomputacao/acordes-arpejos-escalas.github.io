@@ -598,19 +598,25 @@ function render(){
     renderVoiceLeading();
     return;
   }
-  if(!voices.length||![...document.querySelectorAll('#stringGroups input:checked')].length){
+  // Arpejos "show all" mode (driven by the floating selector) renders every
+  // structure at once and ignores the voicing/string-group selection.
+  const arpAll = currentCategory==='Arpejos' && (typeof window!=='undefined') && window.arpejosShowAll;
+  if(!arpAll && (!voices.length||![...document.querySelectorAll('#stringGroups input:checked')].length)){
     out.innerHTML=`<div class="empty">${tr('emptySelection')}</div>`;
     document.getElementById('status').textContent='0 '+tr('diagrams');
     return;
   }
   let rendered=0;
 
-  if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(name)){
-    let items=generateBookArpeggio(root,name,f,minF,maxF,voices);
-    items.forEach(it=>{
+  if(currentCategory==='Arpejos'&&(arpAll||hasBookArpeggioPattern(name))){
+    const structNames=arpAll?Object.keys(LIBRARY['Arpejos']).filter(hasBookArpeggioPattern):[name];
+    structNames.forEach(structName=>{
+      const structFormula=LIBRARY['Arpejos'][structName];
+      let items=generateBookArpeggio(root,structName,structFormula,minF,maxF,arpAll?null:voices);
+      items.forEach(it=>{
       let sec=document.createElement('section');
       sec.className='section arpeggio-section';
-      sec.innerHTML=`<h2>${root} — ${dn(name)} — <span class="voicing-label">${it.voicing}</span></h2>`;
+      sec.innerHTML=`<h2>${root} — ${dn(structName)} — <span class="voicing-label">${it.voicing}</span></h2>`;
       let grid=document.createElement('div');
       grid.className='fretboard-grid';
       let card=document.createElement('div');
@@ -623,6 +629,7 @@ function render(){
       sec.appendChild(grid);
       makeSectionCloseable(sec);
       out.appendChild(sec);
+      });
     });
   }else{
     voices.forEach(v=>{
