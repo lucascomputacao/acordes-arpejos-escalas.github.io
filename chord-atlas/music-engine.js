@@ -963,10 +963,11 @@ const BOOK_ARPEGGIO_PATTERNS = {
       name: 'Position 1',
       baseForC: 0,
       // Minor major 7 arpeggio (T-b3-5-7M), from the book "Tétrade menor com sétima maior".
-      // Derived from the book minor 7 shape by raising each b7 to 7M (+1 fret).
+      // Corrected per user diagram: removed the low-E 7M (fret 7) and added the
+      // A-string 7M (fret 2) just below the root.
       offsets: [
         {string:6, fret:3, interval:'5'},
-        {string:6, fret:7, interval:'7M'},
+        {string:5, fret:2, interval:'7M'},
         {string:5, fret:3, interval:'T'},
         {string:5, fret:6, interval:'b3'},
         {string:4, fret:5, interval:'5'},
