@@ -12,10 +12,61 @@
   let inited = false;
   let initing = null;
   let unlocked = false;
+  let silentModeAlertShown = false;
+  let silentModeDetected = false;
 
   function getCtx() {
     try { return (window.Tone && Tone.context) ? Tone.context : null; }
     catch (e) { return null; }
+  }
+
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  function showSilentModeAlert() {
+    if (silentModeAlertShown) return;
+    silentModeAlertShown = true;
+    const message = 'Som desativado: Seu dispositivo está em modo silencioso.\n\nPara ouvir as notas:\n1. Desabilite o modo silencioso (pressione o botão lateral do volume)\n2. Aumente o volume do dispositivo\n3. Tente tocar uma nota novamente';
+    alert(message);
+  }
+
+  async function checkSilentMode() {
+    if (!isMobile() || silentModeDetected) return false;
+
+    try {
+      const ctx = getCtx();
+      if (!ctx) return false;
+
+      // Check Web Audio API output level
+      const analyser = ctx.createAnalyser();
+      analyser.connect(ctx.destination);
+
+      // Try to detect if output is muted by checking volume
+      const oscillator = ctx.createOscillator();
+      oscillator.frequency.value = 440;
+      oscillator.connect(analyser);
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.1);
+
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          analyser.getByteFrequencyData(dataArray);
+          const hasOutput = dataArray.some(val => val > 0);
+
+          if (!hasOutput) {
+            silentModeDetected = true;
+            showSilentModeAlert();
+            resolve(true);
+          }
+          resolve(false);
+        }, 150);
+      });
+    } catch (e) {
+      return false;
+    }
   }
 
   // Synchronously nudge the audio context awake within a user gesture.
@@ -86,6 +137,7 @@
     const ready = await ensureAudio();
     if (!ready || !window.audioEngine.isInitialized) return;
     await resumeContext();
+    await checkSilentMode();
     window.audioEngine.playNote(note, { duration: 1.4 });
     flash(groupEl);
   }
@@ -103,6 +155,7 @@
     const ready = await ensureAudio();
     if (!ready || !window.audioEngine.isInitialized) return;
     await resumeContext();
+    await checkSilentMode();
 
     if (btn.classList.contains('is-playing')) return; // avoid overlap
     btn.classList.add('is-playing');
