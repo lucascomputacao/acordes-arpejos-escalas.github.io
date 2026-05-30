@@ -1034,16 +1034,21 @@ const BOOK_ARPEGGIO_PATTERNS = {
       name: 'Position 5',
       baseForC: 0,
       // Corrected per user diagram: removed the B-string b3, G-string 7M and
-      // D-string 5; added the open B-string 7M just below the root.
+      // D-string 5; added the open B-string 7M just below the root, plus the
+      // E-string b3 (one minor third below the 5) on strings 1 and 6 — a
+      // relative offset that shows when on the neck (e.g. D) and is filtered
+      // out when it falls below the nut (e.g. C, where Eb is unreachable here).
       offsets: [
         {string:6, fret:3, interval:'5'},
+        {string:6, fret:-1, interval:'b3'},
         {string:5, fret:2, interval:'7M'},
         {string:5, fret:3, interval:'T'},
         {string:4, fret:1, interval:'b3'},
         {string:3, fret:0, interval:'5'},
         {string:2, fret:0, interval:'7M'},
         {string:2, fret:1, interval:'T'},
-        {string:1, fret:3, interval:'5'}
+        {string:1, fret:3, interval:'5'},
+        {string:1, fret:-1, interval:'b3'}
       ]
     }
   ]
