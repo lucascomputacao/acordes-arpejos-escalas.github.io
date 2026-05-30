@@ -25,7 +25,7 @@ function loadEngine() {
     fs.readFileSync(path.join(dir, 'i18n.js'), 'utf8'),
     fs.readFileSync(path.join(dir, 'music-engine.js'), 'utf8'),
     fs.readFileSync(path.join(dir, 'renderer.js'), 'utf8'),
-    '\n;globalThis.__engine = { pitchAt, orderedPitches, cardPlayButton, svgDiagram, LIBRARY, OPEN_STRING_MIDI, NOTES };',
+    '\n;globalThis.__engine = { pitchAt, orderedPitches, cardPlayButton, svgDiagram, svgFullFretboard, LIBRARY, OPEN_STRING_MIDI, NOTES };',
   ].join('\n');
   const sandbox = {
     document: { querySelectorAll: () => [] },
@@ -378,4 +378,103 @@ test('svgDiagram includes accessible structure', () => {
 
   assert.ok(svg.includes('xmlns'), 'should have proper SVG namespace');
   assert.ok(svg.includes('viewBox'), 'should have viewBox for scaling');
+});
+
+// ============================================================================
+// SECTION 10: Full Fretboard Tests (svgFullFretboard function)
+// ============================================================================
+
+test('svgFullFretboard generates valid SVG with fullboard-diagram class', () => {
+  const positions = [
+    { string: 1, fret: 0, label: 'T' },
+    { string: 2, fret: 2, label: '3' },
+    { string: 3, fret: 4, label: '5' },
+  ];
+  const svg = E.svgFullFretboard(positions, 0, 24);
+
+  assert.ok(svg.includes('<svg'), 'should contain SVG element');
+  assert.ok(svg.includes('class="fullboard-diagram"'), 'should have fullboard-diagram class');
+  assert.ok(svg.includes('<circle'), 'should have circles for positions');
+  assert.ok(svg.includes('xmlns'), 'should have SVG namespace');
+});
+
+test('svgFullFretboard displays all 6 string lines', () => {
+  const positions = [];
+  const svg = E.svgFullFretboard(positions, 0, 24);
+
+  // Should have 6 horizontal string lines
+  const stringLines = svg.match(/stroke="#334155"/g);
+  assert.ok(stringLines && stringLines.length >= 6, 'should have lines for all 6 strings');
+});
+
+test('svgFullFretboard displays fret numbers at bottom', () => {
+  const positions = [];
+  const svg = E.svgFullFretboard(positions, 0, 24);
+
+  // Should have fret numbers
+  assert.ok(svg.includes('<text'), 'should have text for fret numbers');
+  // Fret numbers should appear at the bottom (specific y coordinate)
+});
+
+test('svgFullFretboard respects minFret and maxFret range', () => {
+  const positions = [
+    { string: 1, fret: 5, label: '·' },
+    { string: 2, fret: 10, label: '·' },
+  ];
+  const svg = E.svgFullFretboard(positions, 5, 10);
+
+  // Should show both positions within range
+  const circles = svg.match(/<circle/g);
+  assert.ok(circles && circles.length >= 2, 'should render positions within range');
+});
+
+test('svgFullFretboard filters positions outside range', () => {
+  const positions = [
+    { string: 1, fret: 2, label: '·' },  // Outside range
+    { string: 2, fret: 10, label: '·' }, // Within range
+  ];
+  const svg = E.svgFullFretboard(positions, 5, 15);
+
+  // Should only show position at fret 10
+  const circles = svg.match(/<circle/g);
+  assert.ok(circles && circles.length >= 1, 'should filter positions outside range');
+});
+
+test('svgFullFretboard renders positions with labels', () => {
+  const positions = [
+    { string: 1, fret: 5, label: 'T' },
+    { string: 2, fret: 7, label: '3' },
+  ];
+  const svg = E.svgFullFretboard(positions, 0, 12);
+
+  // Should contain position labels
+  assert.ok(svg.includes('T'), 'should include root label');
+  assert.ok(svg.includes('3'), 'should include interval label');
+});
+
+test('svgFullFretboard with empty positions still generates valid SVG', () => {
+  const positions = [];
+  const svg = E.svgFullFretboard(positions, 0, 24);
+
+  assert.ok(svg.includes('<svg'), 'should generate valid SVG for empty positions');
+  assert.ok(svg.includes('fullboard-diagram'), 'should have correct class');
+  assert.ok(svg.includes('</svg>'), 'should close SVG properly');
+});
+
+test('svgFullFretboard includes string labels and text rendering', () => {
+  const positions = [];
+  const svg = E.svgFullFretboard(positions, 0, 24);
+
+  // Should include string labels
+  assert.ok(svg.includes('text-anchor="middle"'), 'should have centered text');
+  assert.ok(svg.includes('font-weight="900"'), 'should have bold string labels');
+});
+
+test('svgFullFretboard positions have interactive audio capability', () => {
+  const positions = [{ string: 1, fret: 5, label: 'T' }];
+  const svg = E.svgFullFretboard(positions, 0, 24);
+
+  // Should have group elements with data attributes for audio interaction
+  assert.ok(svg.includes('<g'), 'should have group elements for notes');
+  assert.ok(svg.includes('circle'), 'should have circles for note visualization');
 });

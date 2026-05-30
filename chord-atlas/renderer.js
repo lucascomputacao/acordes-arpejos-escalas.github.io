@@ -299,6 +299,42 @@ function svgHarmonicField(root,fieldName,minF,maxF){
   return s+'</svg>';
 }
 
+function svgFullFretboard(positions,minF,maxF){
+  const start=Math.max(0,minF), end=Math.min(24,maxF);
+  const fretCount=Math.max(1,end-start);
+  const cell=Math.max(18, Math.min(30, 650 / Math.max(1,fretCount)));
+  const x0=52, y0=28, rowGap=20, h=158, w=x0+fretCount*cell+38;
+  const strings=[1,2,3,4,5,6];
+  let s=`<svg class="fullboard-diagram" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<rect x="0" y="0" width="${w}" height="${h}" rx="16" fill="#fff"/>`;
+  s+=`<rect x="${x0}" y="${y0}" width="${fretCount*cell}" height="${rowGap*5}" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>`;
+  for(let f=start; f<=end; f++){
+    const x=x0+(f-start)*cell;
+    const isNut=f===0;
+    s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+rowGap*5}" stroke="${isNut?'#0f172a':'#94a3b8'}" stroke-width="${isNut?4:1.5}"/>`;
+    if(f<end){ const lab=f+1; s+=`<text x="${x+cell/2}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${lab}</text>`; }
+  }
+  strings.forEach((str,row)=>{
+    const y=y0+row*rowGap;
+    s+=`<line x1="${x0}" y1="${y}" x2="${x0+fretCount*cell}" y2="${y}" stroke="#334155" stroke-width="${str===1||str===6?2.1:1.5}"/>`;
+    s+=`<text x="${x0-28}" y="${y+4}" text-anchor="middle" font-size="9" font-weight="900" fill="#334155">${STRING_TUNING[str]}</text>`;
+  });
+  for(const p of positions){
+    if(p.fret<start||p.fret>end) continue;
+    const row=strings.indexOf(p.string);
+    if(row===-1) continue;
+    const y=y0+row*rowGap;
+    let x;
+    if(p.fret===0){ x=x0-16; }
+    else { x=x0+(p.fret-start-0.5)*cell; }
+    const fill=p.label==='T'?'#fff':'#111', tf=p.label==='T'?'#111':'#fff';
+    s+=audioNoteGroup(p.string,p.fret,
+      `<circle cx="${x}" cy="${y}" r="7.2" fill="${fill}" stroke="#111" stroke-width="1.8"/>`+
+      `<text x="${x}" y="${y+3}" text-anchor="middle" font-size="6.5" font-weight="900" fill="${tf}" pointer-events="none">${p.label||'·'}</text>`);
+  }
+  return s+'</svg>';
+}
+
 function renderHarmonicField(root,name,minF,maxF,out){
   const data=fieldData(root,name);
   const section=document.createElement('section');
@@ -606,17 +642,24 @@ function renderTabExercises(root,name,out){
   const list=document.createElement('div');
   list.className='exercise-list';
 
-  const block=document.createElement('article');
-  block.className='exercise-tab-card exercise-tab-full';
-  const allLines=ex.lines.map(line=>compactTabForDisplay(line).join('\n')).join('\n');
-  block.innerHTML=`
-    <div class="exercise-card-head">
-      <strong>${title}</strong>
-      <span>${ex.lines.length} ${tr('exercises')}</span>
-    </div>
-    <pre class="tab-pre tab-pre-full">${allLines}</pre>
-  `;
-  list.appendChild(block);
+  // Add fretboard visualization for each exercise line
+  ex.lines.forEach((line, idx) => {
+    const positions = line.notes ? line.notes.map(n => ({string: n.string, fret: n.fret, label: '·'})) : [];
+    const block = document.createElement('article');
+    block.className = 'exercise-tab-card';
+    const lineTitle = `${title} - ${tr('exercises')} ${idx + 1}`;
+    const fretboardSvg = positions.length > 0 ? svgFullFretboard(positions, 0, 24) : '';
+    block.innerHTML = `
+      <div class="exercise-card-head">
+        <strong>${lineTitle}</strong>
+      </div>
+      <div class="exercise-content">
+        ${fretboardSvg ? `<div class="exercise-diagram">${fretboardSvg}</div>` : ''}
+        <pre class="tab-pre">${compactTabForDisplay(line).join('\n')}</pre>
+      </div>
+    `;
+    list.appendChild(block);
+  });
   sec.appendChild(list);
   makeSectionCloseable(sec);
   out.appendChild(sec);
@@ -692,7 +735,7 @@ function render(){
         let card=document.createElement('div');
         card.className='card';
         const playMode=currentCategory==='Acordes'?'chord':'arp';
-        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgDiagram(it,isScale)}`;
+        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgFullFretboard(it.positions||[],minF,maxF)}`;
         grid.appendChild(card);
         rendered++;
       });
