@@ -386,7 +386,7 @@ function transposeSuperimpositionRow(row, root){
   ];
 }
 
-function renderArpeggioSuperimpositionBlock(root,name,out){
+function renderArpeggioSuperimpositionBlock(root,name,out,openByDefault){
   const data=SUPERIMPOSITION_DATA[name];
   if(!data) return 0;
   const rows=(data.rows||[]).map(row=>transposeSuperimpositionRow(row,root));
@@ -408,7 +408,7 @@ function renderArpeggioSuperimpositionBlock(root,name,out){
   }).join('');
 
   sec.innerHTML=`
-    <details class="super-accordion">
+    <details class="super-accordion"${openByDefault?' open':''}>
       <summary class="super-accordion-summary">
         <span class="super-accordion-title">${dn('Superposição de Arpejos')} — ${dn(name)}</span>
         <span class="super-accordion-meta">${rows.length} ${tr('superimpositions')}</span>
@@ -462,7 +462,8 @@ function renderArpeggioSuperimposition(root,name,out){
     order.forEach(key=>{ if(SUPERIMPOSITION_DATA[key]) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
     Object.keys(SUPERIMPOSITION_DATA).forEach(key=>{ if(!order.includes(key)) total+=renderArpeggioSuperimpositionBlock(root,key,out); });
   }else if(SUPERIMPOSITION_DATA[name]){
-    total+=renderArpeggioSuperimpositionBlock(root,name,out);
+    // Filtered to a single base chord: open the accordion by default.
+    total+=renderArpeggioSuperimpositionBlock(root,name,out,true);
   }
   if(!total) out.innerHTML=`<div class="empty">${tr('noPositions')}</div>`;
   document.getElementById('status').textContent=`${total} ${tr('superimpositions')}`;
