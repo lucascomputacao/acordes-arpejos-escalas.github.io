@@ -5,6 +5,10 @@
 let routeIsApplying = false;
 let routeHasInitialized = false;
 let voiceLeadingRequested = false;
+// Inversion filter: 'root' = only root-position voicings (default),
+// 'all' = all inversions, 'select' = only those in selectedInversions.
+let inversionMode = 'root';
+let selectedInversions = new Set();
 // Superposição de Arpejos: the floating selector defaults to showing ALL
 // base-chord tables at once. Picking one filters to it (with a Clear button to
 // return to all). The flag lives on window so renderer.js can read it at
@@ -177,6 +181,51 @@ function populateStructures(){const s=document.getElementById('structure');const
 // Floating quick selector: mirrors the sidebar root + structure selects so the
 // user can change key/structure while viewing the output. Hidden for the
 // 'Exercícios' category (not yet parameterized by root/structure).
+// Returns which inversion type a voicing string represents based on its bass note.
+function voicingInversionType(voicing){
+  const bass=voicing.split('-')[0];
+  if(bass==='T') return 'root';
+  if(bass==='3'||bass==='b3') return '1st';
+  if(bass==='5'||bass==='b5'||bass==='#5') return '2nd';
+  return '3rd';
+}
+
+// Applies the current inversion filter to the voicing checkboxes in the sidebar.
+// Only active for Acordes; other categories are left untouched.
+function applyInversionFilter(){
+  if(currentCategory!=='Acordes') return;
+  document.querySelectorAll('#voicings input').forEach(cb=>{
+    const invType=voicingInversionType(cb.value);
+    if(inversionMode==='root')      cb.checked=(invType==='root');
+    else if(inversionMode==='all')  cb.checked=true;
+    else                            cb.checked=(invType==='root'||selectedInversions.has(invType));
+  });
+}
+
+function initInversionControl(){
+  const row=document.getElementById('inversionRow');
+  if(!row) return;
+  row.querySelectorAll('.inv-pill').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      inversionMode=btn.dataset.mode;
+      row.querySelectorAll('.inv-pill').forEach(b=>b.classList.toggle('active',b===btn));
+      const selRow=document.getElementById('inversionSelectRow');
+      if(selRow) selRow.style.display=inversionMode==='select'?'flex':'none';
+      applyInversionFilter();
+      autoRender();
+    });
+  });
+  const selRow=document.getElementById('inversionSelectRow');
+  if(selRow) selRow.querySelectorAll('input').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      if(cb.checked) selectedInversions.add(cb.value);
+      else selectedInversions.delete(cb.value);
+      applyInversionFilter();
+      autoRender();
+    });
+  });
+}
+
 function syncFloatingSelector(){
   const wrap=document.getElementById('floatingSelector');
   if(!wrap)return;
@@ -196,6 +245,8 @@ function syncFloatingSelector(){
   if(fStruct.innerHTML!==structHTML)fStruct.innerHTML=structHTML;
   fStruct.value=(isSuper&&window.superShowAll)?ALL_SENTINEL:structure.value;
   if(clearBtn)clearBtn.style.display=(isSuper&&!window.superShowAll)?'':'none';
+  const invRow=document.getElementById('inversionRow');
+  if(invRow) invRow.style.display=currentCategory==='Acordes'?'flex':'none';
 }
 function initFloatingSelector(){
   const fRoot=document.getElementById('floatingRoot'),fStruct=document.getElementById('floatingStructure'),clearBtn=document.getElementById('floatingClear');
@@ -208,7 +259,7 @@ function initFloatingSelector(){
   if(clearBtn)clearBtn.addEventListener('click',()=>{window.superShowAll=true;autoRender()});
 }
 function populateStringGroups(){const f=formula();const size=(currentCategory==='Escalas'||currentCategory==='Modos'||currentCategory==='Arpejos'||currentCategory==='Campos Harmônicos'||currentCategory==='Intervalos'||currentCategory==='Superposição de Arpejos'||currentCategory==='Exercícios')?6:Math.min(4,Math.max(3,f.length)); const sets=stringSetsForSize(size);document.getElementById('stringGroups').innerHTML=sets.map(g=>`<label><input type="checkbox" value="${g.join('-')}" checked> ${g.join('-')}</label>`).join('');document.querySelectorAll('#stringGroups input').forEach(x=>x.onchange=autoRender)}
-function populateVoicings(){let groups;if(currentCategory==='Campos Harmônicos'){groups=[{name:'pattern',items:[tr('fieldMap')]}];}else if(currentCategory==='Superposição de Arpejos'){groups=[{name:'pattern',items:[tr('superimpositionTable')]}];}else if(currentCategory==='Intervalos'){groups=[{name:'pattern',items:[tr('intervalMap')]}];}else if(currentCategory==='Exercícios'){groups=[{name:'pattern',items:[tr('tablatureExercise')]}];}else if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_ARPEGGIO_PATTERNS[selectedStructure()].map(p=>p.name)}];}else{groups=getVoicingGroups(formula());}document.getElementById('voicings').innerHTML=groups.map(g=>`<div class="group-title">${tr(g.name)}</div><div class="checkgrid">${g.items.map(v=>`<label><input type="checkbox" value="${v}" checked> ${v}</label>`).join('')}</div>`).join('');document.querySelectorAll('#voicings input').forEach(x=>x.onchange=autoRender)}
+function populateVoicings(){let groups;if(currentCategory==='Campos Harmônicos'){groups=[{name:'pattern',items:[tr('fieldMap')]}];}else if(currentCategory==='Superposição de Arpejos'){groups=[{name:'pattern',items:[tr('superimpositionTable')]}];}else if(currentCategory==='Intervalos'){groups=[{name:'pattern',items:[tr('intervalMap')]}];}else if(currentCategory==='Exercícios'){groups=[{name:'pattern',items:[tr('tablatureExercise')]}];}else if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_ARPEGGIO_PATTERNS[selectedStructure()].map(p=>p.name)}];}else{groups=getVoicingGroups(formula());}document.getElementById('voicings').innerHTML=groups.map(g=>`<div class="group-title">${tr(g.name)}</div><div class="checkgrid">${g.items.map(v=>`<label><input type="checkbox" value="${v}" checked> ${v}</label>`).join('')}</div>`).join('');applyInversionFilter();document.querySelectorAll('#voicings input').forEach(x=>x.onchange=autoRender)}
 function toggleAll(sel,val){document.querySelectorAll(sel).forEach(x=>x.checked=val);autoRender()} function setRegion(a,b){document.getElementById('minFret').value=a;document.getElementById('maxFret').value=b;autoRender()} function autoRender(){writeRoute();syncFloatingSelector();clearTimeout(renderTimer);renderTimer=setTimeout(render,80)}
 function populateVoiceLeadingControls(){
   ['vlRootA','vlRootB'].forEach((id,i)=>{const el=document.getElementById(id); if(!el)return; const old=el.value; el.innerHTML=NOTES.map(n=>`<option>${n}</option>`).join(''); el.value=old|| (i===0?'C':'F');});
@@ -296,4 +347,4 @@ if(typeof window !== 'undefined'){
 }
 
 function applyLang(){document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.innerHTML=tr(el.dataset.i18n));document.getElementById('lang-pt').classList.toggle('active',currentLang==='pt');document.getElementById('lang-en').classList.toggle('active',currentLang==='en');populateTabs();populateStructures();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords();populateVoiceLeadingControls();render();renderVoiceLeading();writeRoute()}
-function init(){currentLang='en';initMobileDrawer();initFloatingSelector();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{writeRoute();renderVoiceLeading()}));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();
+function init(){currentLang='en';initMobileDrawer();initFloatingSelector();initInversionControl();document.getElementById('root').innerHTML=NOTES.map(n=>`<option>${n}</option>`).join('');populateTabs();populateStructures();populateStringGroups();populateVoicings();populateVoiceLeadingControls();renderScaleSuggestions();renderTensions();renderCompatibleChords();['root','structure','minFret','maxFret'].forEach(id=>{document.getElementById(id).addEventListener('change',()=>{if(id==='structure'){populateStringGroups();populateVoicings();renderScaleSuggestions();renderTensions();renderCompatibleChords()}autoRender()});document.getElementById(id).addEventListener('input',()=>{autoRender();renderVoiceLeading()})});['vlRootA','vlRootB','vlStructA','vlStructB'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{writeRoute();renderVoiceLeading()}));document.getElementById('lang-pt').onclick=()=>{currentLang='pt';applyLang()};document.getElementById('lang-en').onclick=()=>{currentLang='en';applyLang()};if(!applyRouteFromHash()) applyLang();routeHasInitialized=true;writeRoute();window.addEventListener('hashchange',applyRouteFromHash)} init();

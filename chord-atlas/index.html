@@ -80,15 +80,28 @@
     <select id="floatingStructure"></select>
   </div>
   <button type="button" id="floatingClear" class="fs-clear" data-i18n="clearStructure" style="display:none">Limpar</button>
+  <div class="inv-row" id="inversionRow" style="display:none">
+    <span class="inv-label" data-i18n="inversions">Inversões</span>
+    <div class="inv-pills">
+      <button type="button" class="inv-pill active" data-mode="root" data-i18n="invRoot">Só fundamental</button>
+      <button type="button" class="inv-pill" data-mode="all" data-i18n="invAll">Todas</button>
+      <button type="button" class="inv-pill" data-mode="select" data-i18n="invSelect">Selecionar</button>
+    </div>
+    <div class="inv-sel" id="inversionSelectRow" style="display:none">
+      <label class="inv-sel-item"><input type="checkbox" value="1st"> <span data-i18n="inv1st">1ª inv.</span></label>
+      <label class="inv-sel-item"><input type="checkbox" value="2nd"> <span data-i18n="inv2nd">2ª inv.</span></label>
+      <label class="inv-sel-item"><input type="checkbox" value="3rd"> <span data-i18n="inv3rd">3ª inv.</span></label>
+    </div>
+  </div>
 </div>
 <div id="output"></div>
 <div id="voiceLeadingOutput"></div>
 </main>
 </div>
-<script src="i18n.js"></script>
+<script src="i18n.js?v=2"></script>
 <script src="music-engine.js?v=18"></script>
 <script src="renderer.js?v=9"></script>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 <!-- Playable diagrams: Tone.js sample engine + click-to-play integration -->
 <script src="tone.js"></script>
 <script src="audio-engine-samples.js?v=2"></script>
