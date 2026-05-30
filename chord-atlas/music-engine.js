@@ -962,13 +962,14 @@ const BOOK_ARPEGGIO_PATTERNS = {
       name: 'Position 1',
       baseForC: 0,
       // Augmented major 7 arpeggio (T-3-#5-7M), from the book "Tétrade aumentada".
-      // Derived from the book major 7 shape by raising each 5 to #5 (+1 fret).
+      // Corrected per user diagram: added the G-string #5 just below the 7M.
       offsets: [
         {string:6, fret:4, interval:'#5'},
         {string:5, fret:2, interval:'7M'},
         {string:5, fret:3, interval:'T'},
         {string:4, fret:2, interval:'3'},
         {string:4, fret:6, interval:'#5'},
+        {string:3, fret:1, interval:'#5'},
         {string:3, fret:4, interval:'7M'},
         {string:3, fret:5, interval:'T'},
         {string:2, fret:5, interval:'3'},
