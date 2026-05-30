@@ -734,12 +734,12 @@ function render(){
       sec.className='section arpeggio-section';
       sec.innerHTML=`<h2>${root} — ${dn(name)} — <span class="voicing-label">${it.voicing}</span></h2>`;
       let grid=document.createElement('div');
-      grid.className='fretboard-grid';
+      grid.className='grid grid-scale';
       let card=document.createElement('div');
-      card.className='card horizontal-card';
+      card.className='card';
       const minNote=Math.min(...it.positions.map(p=>p.fret));
       const maxNote=Math.max(...it.positions.map(p=>p.fret));
-      card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${minNote}-${maxNote}</div>${cardPlayButton(it,'arp')}${svgHorizontalArpeggio(it)}`;
+      card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${minNote}-${maxNote}</div>${cardPlayButton(it,'arp')}${svgFullFretboard(it.positions||[],'scale-fretboard')}`;
       grid.appendChild(card);
       rendered++;
       sec.appendChild(grid);
