@@ -321,8 +321,8 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
     const x=x0+(f-start)*cell;
     const isNut=f===start;
     s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+rowGap*5}" stroke="${isNut?'#0f172a':'#94a3b8'}" stroke-width="${isNut?4:1.5}"/>`;
-    // Numeração nas barras (não nos espaços), começando após o nut
-    if(f>start && f<=end){ s+=`<text x="${x}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${f}</text>`; }
+    // Numeração centrada nas casas (espaços entre trastes), a partir da 1ª casa após o nut
+    if(f>=start && f<end){ s+=`<text x="${x+cell/2}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${f+1}</text>`; }
   }
   // Pré-calcular quais cordas estão em uso
   const playedStrings=new Set(positions.map(p=>p.string));

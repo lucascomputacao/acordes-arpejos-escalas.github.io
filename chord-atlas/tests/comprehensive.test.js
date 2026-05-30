@@ -407,18 +407,18 @@ test('svgFullFretboard displays all 6 string lines', () => {
   assert.ok(stringLines && stringLines.length >= 6, 'should have lines for all 6 strings');
 });
 
-test('svgFullFretboard displays fret numbers at fret bars after nut', () => {
+test('svgFullFretboard displays casa numbers centered in spaces after nut', () => {
+  // start=4 (rawMin-1=4), first casa = space between bars 4 and 5 → labeled "5"
   const positions = [{ string: 1, fret: 5, label: 'T' }];
   const svg = E.svgFullFretboard(positions);
 
-  // start=4 (rawMin-1), fret bars at 5,6,7,8 should be labeled at the bar
-  assert.ok(svg.includes('>5<'), 'should show fret 5 label at bar');
-  assert.ok(svg.includes('>6<'), 'should show fret 6 label at bar');
-  // Nut (start=4) may show as position indicator on the side, but NOT in the grid
-  // All fret bar labels come after the nut line
-  const labelsInOrder = (svg.match(/>\d+</g) || []).map(m => parseInt(m.slice(1)));
-  const firstGridLabel = labelsInOrder.find(n => n >= 5);
-  assert.ok(firstGridLabel === 5, `first grid label should be 5, got ${firstGridLabel}`);
+  // Labels should appear IN the casas (spaces), starting from the first casa after nut
+  assert.ok(svg.includes('>5<'), 'should show casa 5 label in first space');
+  assert.ok(svg.includes('>6<'), 'should show casa 6 label in second space');
+  // First numeric label >= 5 should be 5
+  const labelsInOrder = (svg.match(/>\d+</g) || []).map(m => parseInt(m.slice(1, -1)));
+  const firstCasaLabel = labelsInOrder.find(n => n >= 5);
+  assert.strictEqual(firstCasaLabel, 5, `first casa label should be 5, got ${firstCasaLabel}`);
 });
 
 test('svgFullFretboard shows minimum of 4 frets', () => {
