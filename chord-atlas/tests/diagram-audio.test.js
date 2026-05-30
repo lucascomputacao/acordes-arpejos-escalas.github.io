@@ -112,3 +112,79 @@ test("diagram-audio.js uses is-playing class to prevent overlap", () => {
   assert.ok(diagramAudioCode.includes("btn.classList.remove('is-playing')"),
     'should remove is-playing class when done');
 });
+
+// ============================================================================
+// Synchronized visual flash effects
+// ============================================================================
+
+test('diagram-audio.js defines flashNote and flashMultipleNotes helpers', () => {
+  assert.ok(diagramAudioCode.includes('function flashNote('),
+    'should define flashNote for per-note visual feedback');
+  assert.ok(diagramAudioCode.includes('function flashMultipleNotes('),
+    'should define flashMultipleNotes for simultaneous note feedback');
+});
+
+test('diagram-audio.js flashes each note at the correct audio timing offset', () => {
+  // Notes are flashed at idx * stepMs so the visual effect fires exactly when
+  // the audio engine plays each note in the arpeggio sequence.
+  assert.ok(diagramAudioCode.includes('idx * stepMs'),
+    'each note should flash at idx * stepMs to stay in sync with audio');
+});
+
+test('diagram-audio.js flash effects are scoped to the clicked diagram context', () => {
+  // Without context, querySelector would find the first matching note anywhere on
+  // the page, causing wrong diagrams to light up when multiple exist.
+  assert.ok(diagramAudioCode.includes("btn.closest('div')"),
+    'should derive context from the closest parent div of the button');
+  assert.ok(diagramAudioCode.includes('flashNote(note, idx * stepMs, context)'),
+    'arp/chord sequence should pass context to flashNote');
+  assert.ok(diagramAudioCode.includes('flashMultipleNotes(notes, 0, context)'),
+    'block/chord strum should pass context to flashMultipleNotes');
+});
+
+test('diagram-audio.js block mode flashes all notes simultaneously', () => {
+  // Block mode: strum only — all notes light up at delay=0 together.
+  const blockSection = diagramAudioCode.split("if (mode === 'block')")[1].split('} else')[0];
+  assert.ok(blockSection.includes('flashMultipleNotes(notes, 0, context)'),
+    'block mode should flash all notes at delay=0');
+});
+
+test('diagram-audio.js chord mode flashes sequence then all notes together', () => {
+  // Chord mode: sequence flash + strum flash after the pause.
+  const chordSection = diagramAudioCode.split("} else if (mode === 'chord')")[1].split('} else {')[0];
+  assert.ok(chordSection.includes('flashNote(note, idx * stepMs, context)'),
+    'chord mode sequence should flash each note at its timing offset');
+  assert.ok(chordSection.includes('flashMultipleNotes(notes, 0, context)'),
+    'chord mode strum should flash all notes simultaneously');
+});
+
+// ============================================================================
+// Silent mode warning (mobile)
+// ============================================================================
+
+test('diagram-audio.js defines mobile silent mode warning', () => {
+  assert.ok(diagramAudioCode.includes('function showSilentModeWarning()'),
+    'should define showSilentModeWarning');
+  assert.ok(diagramAudioCode.includes('function isMobile()'),
+    'should define isMobile device detection');
+  assert.ok(diagramAudioCode.includes('firstPlayAttemptOnMobile'),
+    'should track first play attempt on mobile to show warning only once');
+});
+
+test('diagram-audio.js silent mode warning shown on first mobile play attempt only', () => {
+  // The guard must check both isMobile() AND firstPlayAttemptOnMobile to avoid
+  // showing the warning on desktop or repeatedly on mobile.
+  assert.ok(diagramAudioCode.includes('if (!firstPlayAttemptOnMobile || !isMobile()) return'),
+    'should return early if not first attempt or not mobile');
+  assert.ok(diagramAudioCode.includes('firstPlayAttemptOnMobile = false'),
+    'should mark warning as shown after first call');
+});
+
+test('diagram-audio.js silent mode warning is triggered from both play paths', () => {
+  // showSilentModeWarning must be called from playFromElement (tap on note) and
+  // playFromButton (card play button) so no play path is left without the warning.
+  assert.ok(diagramAudioCode.includes('showSilentModeWarning()'),
+    'should call showSilentModeWarning');
+  const calls = (diagramAudioCode.match(/showSilentModeWarning\(\)/g) || []).length;
+  assert.ok(calls >= 2, `showSilentModeWarning should be called from at least 2 play paths, found ${calls}`);
+});

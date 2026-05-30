@@ -19,13 +19,14 @@ const path = require('path');
 const vm = require('vm');
 
 // Load music engine and renderer
-function loadEngine() {
+function loadAll() {
   const dir = path.join(__dirname, '..');
   const code = [
     fs.readFileSync(path.join(dir, 'i18n.js'), 'utf8'),
     fs.readFileSync(path.join(dir, 'music-engine.js'), 'utf8'),
     fs.readFileSync(path.join(dir, 'renderer.js'), 'utf8'),
-    '\n;globalThis.__engine = { pitchAt, orderedPitches, cardPlayButton, svgDiagram, svgFullFretboard, LIBRARY, OPEN_STRING_MIDI, NOTES };',
+    '\n;globalThis.__engine = { pitchAt, orderedPitches, cardPlayButton, svgDiagram, svgFullFretboard,' +
+      ' LIBRARY, OPEN_STRING_MIDI, NOTES, intervalColor, harmonicChordPitches, harmonicChordPlayButton };',
   ].join('\n');
   const sandbox = {
     document: { querySelectorAll: () => [] },
@@ -38,7 +39,7 @@ function loadEngine() {
   return sandbox.__engine;
 }
 
-const E = loadEngine();
+const E = loadAll();
 
 // All 12 chromatic roots
 const ROOTS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -603,4 +604,46 @@ test('svgFullFretboard does not show x for strings that have positions', () => {
   // All 6 strings played, so no x markers
   const xMarkers = (svg.match(/>x</g) || []).length;
   assert.strictEqual(xMarkers, 0, 'should have no x markers when all strings are played');
+});
+
+// ============================================================================
+// SECTION: Interval Colors
+// ============================================================================
+
+test('intervalColor returns a valid hex color for every defined interval', () => {
+  const intervals = ['T','8','b2','2','b3','3','4','#4','b5','5','#5','b6','6','bb7','b7','7','7M'];
+  for (const iv of intervals) {
+    const color = E.intervalColor(iv);
+    assert.match(color, /^#[0-9a-f]{6}$/i, `${iv} should have a valid 6-digit hex color, got: ${color}`);
+  }
+});
+
+test('intervalColor: enharmonic interval pairs share the same color', () => {
+  // These pairs are the same pitch class and must look identical on a diagram.
+  assert.strictEqual(E.intervalColor('T'),  E.intervalColor('8'),  'Tonic and octave must share color');
+  assert.strictEqual(E.intervalColor('#4'), E.intervalColor('b5'), 'Tritone enharmonics must share color');
+  assert.strictEqual(E.intervalColor('#5'), E.intervalColor('b6'), 'Aug5/min6 enharmonics must share color');
+  assert.strictEqual(E.intervalColor('7'),  E.intervalColor('7M'),'Major-7 aliases must share color');
+});
+
+test('intervalColor: tonic uses the brand blue #3b82f6', () => {
+  // The tonic (T) is the reference point — its color is used for the root indicator
+  // stroke and must match the brand color used in the rest of the UI.
+  assert.strictEqual(E.intervalColor('T'), '#3b82f6');
+});
+
+test('intervalColor: all 12 chromatic intervals have distinct colors', () => {
+  // Map one representative per semitone (0..11) and verify no two distinct
+  // semitone classes share the same color.
+  const representatives = ['T','b2','2','b3','3','4','#4','5','b6','6','b7','7M'];
+  const colors = representatives.map(iv => E.intervalColor(iv));
+  const unique = new Set(colors);
+  assert.strictEqual(unique.size, representatives.length,
+    `All 12 semitone classes should have distinct colors — got ${unique.size} unique colors`);
+});
+
+test('intervalColor: returns a fallback for unknown intervals', () => {
+  // Unknown tokens should not throw; they return a dark default.
+  const unknown = E.intervalColor('xyz');
+  assert.match(unknown, /^#[0-9a-f]{6}$/i, 'unknown interval should return a valid hex fallback');
 });
