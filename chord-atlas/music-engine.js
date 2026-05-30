@@ -694,15 +694,15 @@ const BOOK_ARPEGGIO_PATTERNS = {
       name: 'Position 2',
       baseForC: 4,
       // Diminished triad arpeggio from the book diagram, position 2.
-      // Corrected from user reference image. Formula: T-b3-b5.
-      // Removed extra notes; kept essential voicing per the diagram.
+      // Same T-b3-b5 material in the next region of the neck.
       offsets: [
-        {string:6, fret:4, interval:'b5'},
-        {string:5, fret:3, interval:'b3'},
-        {string:4, fret:0, interval:'T'},
-        {string:3, fret:2, interval:'b5'},
-        {string:2, fret:0, interval:'T'},
-        {string:1, fret:1, interval:'T'}
+        {string:1, fret:4, interval:'T'},
+        {string:2, fret:3, interval:'b5'},
+        {string:3, fret:1, interval:'T'},
+        {string:3, fret:4, interval:'b3'},
+        {string:5, fret:2, interval:'b3'},
+        {string:5, fret:5, interval:'b5'},
+        {string:6, fret:4, interval:'T'}
       ]
     }
   ],
@@ -921,16 +921,15 @@ const BOOK_ARPEGGIO_PATTERNS = {
       name: 'Position 2',
       baseForC: 3,
       // Dim7 — P1 shifted +3 semitones. Label cycle: b5→bb7, bb7→T, T→b3, b3→b5.
-      // C: casas 4-8 / D: casas 6-10.
+      // Corrected per user diagram: removed the three far-right notes (C frets 7-8)
+      // leaving one note per string in the casa 4-6 box.
+      // C: casas 4-6 / D: casas 6-8.
       offsets: [
         {string:6, fret:2, interval:'bb7'},
-        {string:6, fret:5, interval:'T'},
         {string:5, fret:3, interval:'b3'},
         {string:4, fret:1, interval:'b5'},
-        {string:4, fret:4, interval:'bb7'},
         {string:3, fret:2, interval:'T'},
         {string:2, fret:1, interval:'b3'},
-        {string:2, fret:4, interval:'b5'},
         {string:1, fret:2, interval:'bb7'}
       ]
     },
