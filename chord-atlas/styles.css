@@ -216,35 +216,9 @@ svg.scale-fretboard{width:100%;height:auto;display:block;overflow:visible}
 }
 
 /* Horizontal arpeggio fretboards - book-style regional shapes */
-.arpeggio-section .fretboard-grid{
-  display:block;
-}
-.horizontal-card{
-  width:100%;
-  max-width:none;
-  text-align:center;
-  overflow-x:auto;
-  padding:16px;
-}
-.horizontal-card .meta{
-  margin-bottom:12px;
-}
-.horizontal-arpeggio{
-  width:100%;
-  min-width:260px;
-  max-width:360px;
-  height:auto;
-  display:block;
-  margin:0 auto;
-  overflow:visible;
-  filter:drop-shadow(0 6px 14px rgba(15,23,42,.06));
-}
+/* Removed old horizontal arpeggio layout — now uses svgFullFretboard like scales */
 .voicing-label{
   text-transform:none !important;
-}
-@media(max-width:760px){
-  .horizontal-card{padding:10px;}
-  .horizontal-arpeggio{min-width:260px;}
 }
 
 
