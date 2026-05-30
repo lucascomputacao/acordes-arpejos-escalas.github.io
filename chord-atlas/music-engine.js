@@ -1033,16 +1033,16 @@ const BOOK_ARPEGGIO_PATTERNS = {
     {
       name: 'Position 5',
       baseForC: 0,
+      // Corrected per user diagram: removed the B-string b3, G-string 7M and
+      // D-string 5; added the open B-string 7M just below the root.
       offsets: [
         {string:6, fret:3, interval:'5'},
         {string:5, fret:2, interval:'7M'},
         {string:5, fret:3, interval:'T'},
         {string:4, fret:1, interval:'b3'},
-        {string:4, fret:5, interval:'5'},
         {string:3, fret:0, interval:'5'},
-        {string:3, fret:4, interval:'7M'},
+        {string:2, fret:0, interval:'7M'},
         {string:2, fret:1, interval:'T'},
-        {string:2, fret:4, interval:'b3'},
         {string:1, fret:3, interval:'5'}
       ]
     }
