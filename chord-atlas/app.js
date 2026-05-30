@@ -198,7 +198,7 @@ function applyInversionFilter(){
     const invType=voicingInversionType(cb.value);
     if(inversionMode==='root')      cb.checked=(invType==='root');
     else if(inversionMode==='all')  cb.checked=true;
-    else                            cb.checked=(invType==='root'||selectedInversions.has(invType));
+    else                            cb.checked=selectedInversions.has(invType);
   });
 }
 
