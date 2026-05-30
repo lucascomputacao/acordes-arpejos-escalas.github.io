@@ -310,7 +310,7 @@ function renderHarmonicField(root,name,minF,maxF,out){
     const el=document.createElement('div');
     el.className='field-degree-card';
     el.style.setProperty('--degree-color',c.color);
-    el.innerHTML=`<div class="field-degree">${c.degree}</div><div class="field-chord">${c.root}${c.quality}</div><div class="field-function">${functionName(c.function)} (${c.function})</div><div class="field-notes">${c.notes.join(' - ')}</div>`;
+    el.innerHTML=`<div class="field-degree">${c.degree}</div><div class="field-chord">${c.root}${c.quality}</div><div class="field-function">${functionName(c.function)} (${c.function})</div><div class="field-notes"><span class="super-result-cell">${harmonicChordPlayButton(c.notes)}<span>${c.notes.join(' - ')}</span></span></div>`;
     cards.appendChild(el);
   });
   section.appendChild(cards);
@@ -320,7 +320,7 @@ function renderHarmonicField(root,name,minF,maxF,out){
   section.appendChild(map);
   const table=document.createElement('div');
   table.className='field-table-wrap';
-  table.innerHTML=`<h3>${tr('diatonicChords')}</h3><table class="field-table"><thead><tr><th>${tr('degree')}</th><th>${tr('chord')}</th><th>${tr('functionLabel')}</th><th>${tr('chordNotes')}</th><th>${tr('intervalFormula')}</th></tr></thead><tbody>${data.chords.map(c=>`<tr><td><span class="degree-pill" style="--degree-color:${c.color}">${c.degree}</span></td><td><strong>${c.root}${c.quality}</strong></td><td>${functionName(c.function)} (${c.function})</td><td>${c.notes.join(' - ')}</td><td>${c.formula.join(' - ')}</td></tr>`).join('')}</tbody></table>`;
+  table.innerHTML=`<h3>${tr('diatonicChords')}</h3><table class="field-table"><thead><tr><th>${tr('degree')}</th><th>${tr('chord')}</th><th>${tr('functionLabel')}</th><th>${tr('chordNotes')}</th><th>${tr('intervalFormula')}</th></tr></thead><tbody>${data.chords.map(c=>`<tr><td><span class="degree-pill" style="--degree-color:${c.color}">${c.degree}</span></td><td><strong>${c.root}${c.quality}</strong></td><td>${functionName(c.function)} (${c.function})</td><td><span class="super-result-cell">${harmonicChordPlayButton(c.notes)}<span>${c.notes.join(' - ')}</span></span></td><td>${c.formula.join(' - ')}</td></tr>`).join('')}</tbody></table>`;
   section.appendChild(table);
   out.appendChild(section);
   document.getElementById('status').textContent=`${data.chords.length} ${tr('diagrams')}`;
@@ -411,6 +411,22 @@ function superResultPitches(root, baseFormula, tensionStr){
 }
 function superResultPlayButton(root, baseFormula, tensionStr){
   const notes=superResultPitches(root, baseFormula, tensionStr);
+  if(!notes.length) return '';
+  return `<button class="ca-play super-result-play" type="button" data-notes="${notes.join(',')}" data-mode="chord" aria-label="${tr('play')||'Play'}" title="${tr('play')||'Play'}">▶</button>`;
+}
+
+// Harmonic field chord notes with octaves. Receives note names (e.g., ['C', 'E', 'G', 'B']).
+function harmonicChordPitches(notesArray){
+  if(!Array.isArray(notesArray) || notesArray.length===0) return [];
+  const base=48; // C3 octave
+  const midis=notesArray.map(noteName=>{
+    const pc=noteNameToPc(noteName);
+    return base+pc;
+  }).sort((a,b)=>a-b);
+  return midis.map(m=>`${NOTES[((m%12)+12)%12]}${Math.floor(m/12)-1}`);
+}
+function harmonicChordPlayButton(notesArray){
+  const notes=harmonicChordPitches(notesArray);
   if(!notes.length) return '';
   return `<button class="ca-play super-result-play" type="button" data-notes="${notes.join(',')}" data-mode="chord" aria-label="${tr('play')||'Play'}" title="${tr('play')||'Play'}">▶</button>`;
 }
