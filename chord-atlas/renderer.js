@@ -301,7 +301,7 @@ function svgHarmonicField(root,fieldName,minF,maxF){
   return s+'</svg>';
 }
 
-function svgFullFretboard(positions){
+function svgFullFretboard(positions, cssClass='fullboard-diagram'){
   // Calcular apenas as casas necessárias para o conjunto de posições
   const frettedFrets=positions.map(p=>p.fret).filter(f=>f>0);
   const hasOpen=positions.some(p=>p.fret===0);
@@ -314,7 +314,7 @@ function svgFullFretboard(positions){
   const cell=Math.max(22, Math.min(40, 500 / Math.max(1,fretCount)));
   const x0=52, y0=28, rowGap=20, h=158, w=x0+fretCount*cell+38;
   const strings=[1,2,3,4,5,6];
-  let s=`<svg class="fullboard-diagram" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  let s=`<svg class="${cssClass}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
   s+=`<rect x="0" y="0" width="${w}" height="${h}" rx="16" fill="#fff"/>`;
   s+=`<rect x="${x0}" y="${y0}" width="${fretCount*cell}" height="${rowGap*5}" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>`;
   for(let f=start; f<=end; f++){
@@ -753,7 +753,7 @@ function render(){
         let card=document.createElement('div');
         card.className='card';
         const playMode=currentCategory==='Acordes'?'chord':'arp';
-        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgDiagram(it,isScale)}`;
+        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${it.baseFret}</div>${cardPlayButton(it,playMode)}${svgFullFretboard(it.positions||[],'chord-fretboard')}`;
         grid.appendChild(card);
         rendered++;
       });
