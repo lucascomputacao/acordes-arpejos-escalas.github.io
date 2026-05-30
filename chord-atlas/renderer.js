@@ -307,9 +307,9 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
   const hasOpen=positions.some(p=>p.fret===0);
   const rawMin=frettedFrets.length?Math.min(...frettedFrets):0;
   const rawMax=frettedFrets.length?Math.max(...frettedFrets):4;
-  // Margem de 1 casa nos lados para respiração visual
+  // Margem de 1 casa nos lados; mínimo de 4 casas visíveis
   const start=hasOpen&&rawMin<=1?0:Math.max(0,rawMin-1);
-  const end=Math.min(24,rawMax+1);
+  const end=Math.min(24, Math.max(rawMax+1, start+4));
   const fretCount=Math.max(1,end-start);
   const cell=Math.max(22, Math.min(40, 500 / Math.max(1,fretCount)));
   const x0=52, y0=28, rowGap=20, h=158, w=x0+fretCount*cell+38;
@@ -319,9 +319,10 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
   s+=`<rect x="${x0}" y="${y0}" width="${fretCount*cell}" height="${rowGap*5}" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>`;
   for(let f=start; f<=end; f++){
     const x=x0+(f-start)*cell;
-    const isNut=f===start;  // primeira linha visível = nut (espessa), independente da casa
+    const isNut=f===start;
     s+=`<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+rowGap*5}" stroke="${isNut?'#0f172a':'#94a3b8'}" stroke-width="${isNut?4:1.5}"/>`;
-    if(f<end){ const lab=f+1; s+=`<text x="${x+cell/2}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${lab}</text>`; }
+    // Numeração nas barras (não nos espaços), começando após o nut
+    if(f>start && f<=end){ s+=`<text x="${x}" y="${y0+rowGap*5+23}" text-anchor="middle" font-size="9" font-weight="800" fill="#64748b">${f}</text>`; }
   }
   strings.forEach((str,row)=>{
     const y=y0+row*rowGap;

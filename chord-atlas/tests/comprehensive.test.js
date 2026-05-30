@@ -407,12 +407,34 @@ test('svgFullFretboard displays all 6 string lines', () => {
   assert.ok(stringLines && stringLines.length >= 6, 'should have lines for all 6 strings');
 });
 
-test('svgFullFretboard displays fret numbers at bottom', () => {
+test('svgFullFretboard displays fret numbers at fret bars after nut', () => {
   const positions = [{ string: 1, fret: 5, label: 'T' }];
   const svg = E.svgFullFretboard(positions);
 
-  // Should have fret numbers
-  assert.ok(svg.includes('<text'), 'should have text for fret numbers');
+  // start=4 (rawMin-1), fret bars at 5,6,7,8 should be labeled at the bar
+  assert.ok(svg.includes('>5<'), 'should show fret 5 label at bar');
+  assert.ok(svg.includes('>6<'), 'should show fret 6 label at bar');
+  // Nut (start=4) may show as position indicator on the side, but NOT in the grid
+  // All fret bar labels come after the nut line
+  const labelsInOrder = (svg.match(/>\d+</g) || []).map(m => parseInt(m.slice(1)));
+  const firstGridLabel = labelsInOrder.find(n => n >= 5);
+  assert.ok(firstGridLabel === 5, `first grid label should be 5, got ${firstGridLabel}`);
+});
+
+test('svgFullFretboard shows minimum of 4 frets', () => {
+  // Even a chord spanning only 1 fret should show at least 4 frets
+  const positions = [
+    { string: 1, fret: 7, label: 'T' },
+    { string: 2, fret: 7, label: '5' },
+  ];
+  const svg = E.svgFullFretboard(positions);
+  const box = svg.match(/viewBox="0 0 (\d+) (\d+)"/);
+  assert.ok(box, 'should have viewBox');
+  // start=6 (rawMin-1), end>=start+4=10, so at least 4 fret lines after nut
+  // width = x0 + fretCount*cell + 38, fretCount >= 4
+  // minimum: 52 + 4*22 + 38 = 178
+  const svgWidth = parseInt(box[1]);
+  assert.ok(svgWidth >= 178, `should be at least 178px wide for 4 frets (got ${svgWidth})`);
 });
 
 test('svgFullFretboard auto-calculates fret range from positions', () => {
