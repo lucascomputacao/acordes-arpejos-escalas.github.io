@@ -247,6 +247,16 @@ function syncFloatingSelector(){
   if(clearBtn)clearBtn.style.display=(isSuper&&!window.superShowAll)?'':'none';
   const invRow=document.getElementById('inversionRow');
   if(invRow) invRow.style.display=currentCategory==='Acordes'?'flex':'none';
+  // 3rd inversion only exists for 4-note chords (tétrades); hide for triads.
+  const inv3label=document.querySelector('#inversionSelectRow .inv-sel-item[data-inv="3rd"]');
+  if(inv3label){
+    const is4note=currentCategory==='Acordes'&&formula().length>=4;
+    inv3label.style.display=is4note?'':'none';
+    if(!is4note){
+      const cb=inv3label.querySelector('input');
+      if(cb&&cb.checked){cb.checked=false;selectedInversions.delete('3rd');applyInversionFilter();}
+    }
+  }
 }
 function initFloatingSelector(){
   const fRoot=document.getElementById('floatingRoot'),fStruct=document.getElementById('floatingStructure'),clearBtn=document.getElementById('floatingClear');

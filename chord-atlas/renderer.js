@@ -335,8 +335,12 @@ function svgFullFretboard(positions, cssClass='fullboard-diagram'){
     if(!playedStrings.has(str)){
       s+=`<text x="${x0-12}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="900" fill="#64748b">x</text>`;
     } else if(openStrings.has(str)){
-      s+=audioNoteGroup(str,0,
-        `<circle cx="${x0-12}" cy="${y}" r="5.5" fill="transparent" stroke="#64748b" stroke-width="1.5"/>`);
+      // When start===0 the colored note circle renders on top of this in the positions loop,
+      // so skip audioNoteGroup here to avoid a hidden duplicate .ca-note that querySelector
+      // would find first and flash invisibly. When start>0 the colored circle is clipped out,
+      // so this indicator must be the interactive element.
+      const openCircle=`<circle cx="${x0-12}" cy="${y}" r="5.5" fill="transparent" stroke="#64748b" stroke-width="1.5"/>`;
+      s+=start===0?openCircle:audioNoteGroup(str,0,openCircle);
     }
   });
   for(const p of positions){
