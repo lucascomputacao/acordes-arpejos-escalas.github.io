@@ -759,7 +759,7 @@ function render(){
       sec.className='section';
       sec.innerHTML=`<h2>${root} — ${dn(name)} — <span class="voicing-label">${v}</span></h2>`;
       let grid=document.createElement('div');
-      grid.className=isScale?'grid grid-scale':'grid';
+      grid.className='grid grid-scale';
       items.forEach(it=>{
         let card=document.createElement('div');
         card.className='card';
