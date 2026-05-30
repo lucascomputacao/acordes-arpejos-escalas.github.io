@@ -142,17 +142,19 @@
     setTimeout(() => groupEl.classList.remove('ca-note-playing'), 240);
   }
 
-  function flashNote(noteName, delay = 0) {
+  function flashNote(noteName, delay = 0, context = null) {
     setTimeout(() => {
-      const noteEl = document.querySelector(`.ca-note[data-note="${noteName}"]`);
+      const selector = `.ca-note[data-note="${noteName}"]`;
+      const noteEl = context ? context.querySelector(selector) : document.querySelector(selector);
       if (noteEl) flash(noteEl);
     }, delay);
   }
 
-  function flashMultipleNotes(noteNames, delay = 0) {
+  function flashMultipleNotes(noteNames, delay = 0, context = null) {
     setTimeout(() => {
       noteNames.forEach(noteName => {
-        const noteEl = document.querySelector(`.ca-note[data-note="${noteName}"]`);
+        const selector = `.ca-note[data-note="${noteName}"]`;
+        const noteEl = context ? context.querySelector(selector) : document.querySelector(selector);
         if (noteEl) flash(noteEl);
       });
     }, delay);
@@ -195,33 +197,30 @@
 
     const stepMs = 200;     // gap between sequenced notes
     const pauseMs = 650;    // pause between the sequence and the simultaneous strum
+    const context = btn.closest('div') || btn.parentElement || document; // find context for effects
 
     if (mode === 'block') {
       // Play all notes together immediately (strum only).
       window.audioEngine.playChord(notes, { duration: 2.6 });
-      // Flash all notes at the same time
-      flashMultipleNotes(notes, 0);
+      flashMultipleNotes(notes, 0, context);
       setTimeout(() => btn.classList.remove('is-playing'), 2600);
     } else if (mode === 'chord') {
       // Arpeggiate, pause, then strum.
       window.audioEngine.playArpeggio(notes, { noteDuration: 0.9, delayBetween: stepMs });
-      // Flash each note as it plays in the sequence
       notes.forEach((note, idx) => {
-        flashNote(note, idx * stepMs);
+        flashNote(note, idx * stepMs, context);
       });
       const seqMs = notes.length * stepMs;
       setTimeout(() => {
         window.audioEngine.playChord(notes, { duration: 2.6 });
-        // Flash all notes together when the chord plays
-        flashMultipleNotes(notes, 0);
+        flashMultipleNotes(notes, 0, context);
       }, seqMs + pauseMs);
       setTimeout(() => btn.classList.remove('is-playing'), seqMs + pauseMs + 2600);
     } else {
       // mode 'arp': arpeggiate only
       window.audioEngine.playArpeggio(notes, { noteDuration: 0.9, delayBetween: stepMs });
-      // Flash each note as it plays in the sequence
       notes.forEach((note, idx) => {
-        flashNote(note, idx * stepMs);
+        flashNote(note, idx * stepMs, context);
       });
       const seqMs = notes.length * stepMs;
       setTimeout(() => btn.classList.remove('is-playing'), seqMs + 700);
