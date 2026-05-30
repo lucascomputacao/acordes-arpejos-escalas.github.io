@@ -922,14 +922,17 @@ const BOOK_ARPEGGIO_PATTERNS = {
       baseForC: 3,
       // Dim7 — P1 shifted +3 semitones. Label cycle: b5→bb7, bb7→T, T→b3, b3→b5.
       // Corrected per user diagram: removed the three far-right notes (C frets 7-8)
-      // leaving one note per string in the casa 4-6 box.
-      // C: casas 4-6 / D: casas 6-8.
+      // and added the three lower-fret tones on strings 1/3/5 (E/G/A) that complete
+      // the box one minor third below. C: casas 2-6 / D: casas 4-8.
       offsets: [
         {string:6, fret:2, interval:'bb7'},
+        {string:5, fret:0, interval:'T'},
         {string:5, fret:3, interval:'b3'},
         {string:4, fret:1, interval:'b5'},
+        {string:3, fret:-1, interval:'bb7'},
         {string:3, fret:2, interval:'T'},
         {string:2, fret:1, interval:'b3'},
+        {string:1, fret:-1, interval:'b5'},
         {string:1, fret:2, interval:'bb7'}
       ]
     },
