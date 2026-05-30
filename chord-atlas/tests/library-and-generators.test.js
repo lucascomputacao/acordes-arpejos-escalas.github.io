@@ -75,7 +75,7 @@ test('LIBRARY keeps its expected number of entries per category', () => {
   // plus the superimposition and exercise tables), so lock the runtime totals.
   assert.deepStrictEqual(counts, {
     'Intervalos': 14,
-    'Acordes': 13,
+    'Acordes': 14,
     'Arpejos': 11,
     'Escalas': 11,
     'Modos': 8,
@@ -99,6 +99,7 @@ const LOCKED_FORMULAS = {
     'Tétrade dominante 7': ['T', '3', '5', 'b7'],
     'Tétrade meio-diminuta m7(b5)': ['T', 'b3', 'b5', 'b7'],
     'Tétrade diminuta dim7': ['T', 'b3', 'b5', 'bb7'],
+    'Tétrade aumentada 7M(#5)': ['T', '3', '#5', '7M'],
     'Menor com sétima maior m(7M)': ['T', 'b3', '5', '7M'],
     'Maior com sexta 6': ['T', '3', '5', '6'],
     'Menor com sexta m6': ['T', 'b3', '5', '6'],
