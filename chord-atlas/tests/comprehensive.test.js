@@ -477,16 +477,16 @@ test('svgFullFretboard renders positions with labels', () => {
 
 test('svgFullFretboard uses interval colors for notes', () => {
   const positions = [
-    { string: 1, fret: 5, label: 'T' },   // root: #2563eb
-    { string: 2, fret: 7, label: '3' },   // major third: #16a34a
-    { string: 3, fret: 9, label: '5' },   // fifth: #06b6d4
+    { string: 1, fret: 5, label: 'T' },   // root: #3b82f6
+    { string: 2, fret: 7, label: '3' },   // major third: #10b981
+    { string: 3, fret: 9, label: '5' },   // fifth: #0891b2
   ];
   const svg = E.svgFullFretboard(positions);
 
   // Should use interval-specific colors
-  assert.ok(svg.includes('#2563eb'), 'root (T) should use brand blue color');
-  assert.ok(svg.includes('#16a34a'), 'major third should use green color');
-  assert.ok(svg.includes('#06b6d4'), 'fifth should use cyan color');
+  assert.ok(svg.includes('#3b82f6'), 'root (T) should use brand blue color');
+  assert.ok(svg.includes('#10b981'), 'major third should use green color');
+  assert.ok(svg.includes('#0891b2'), 'fifth should use cyan color');
 });
 
 test('svgFullFretboard root note (T) has white fill with colored stroke', () => {
@@ -495,7 +495,7 @@ test('svgFullFretboard root note (T) has white fill with colored stroke', () => 
 
   // Root note should be white fill (inverted) with colored stroke
   assert.ok(svg.includes('fill="#fff"'), 'root should have white fill');
-  assert.ok(svg.includes('stroke="#2563eb"'), 'root should have blue stroke');
+  assert.ok(svg.includes('stroke="#3b82f6"'), 'root should have blue stroke');
 });
 
 test('svgFullFretboard with empty positions still generates valid SVG', () => {

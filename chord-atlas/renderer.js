@@ -1,11 +1,11 @@
 
 const INTERVAL_COLORS={
-  'T':'#2563eb','8':'#2563eb',       // azul
-  'b2':'#ef4444','2':'#f97316',       // vermelho / laranja
-  'b3':'#c084fc','3':'#16a34a',       // lilás claro / verde (b3 mais claro que b7)
-  '4':'#0ea5a4','#4':'#eab308','b5':'#eab308',  // teal / amarelo
-  '5':'#06b6d4','#5':'#ec4899','b6':'#ec4899',  // ciano / rosa
-  '6':'#84cc16','bb7':'#64748b','b7':'#7c3aed','7':'#f59e0b','7M':'#f59e0b' // lima / cinza / violeta / âmbar
+  'T':'#3b82f6','8':'#3b82f6',       // azul profundo (tônica/oitava)
+  'b2':'#ef4444','2':'#f97316',       // vermelho vivo / laranja quente
+  'b3':'#d946ef','3':'#10b981',       // magenta / verde esmeralda
+  '4':'#0ea5e9','#4':'#eab308','b5':'#eab308',  // ciano sky / amarelo brilhante
+  '5':'#0891b2','#5':'#ec4899','b6':'#ec4899',  // ciano teal escuro / pink hot
+  '6':'#84cc16','bb7':'#78716c','b7':'#8b5cf6','7':'#f59e0b','7M':'#f59e0b' // lima vibrante / cinza quente / roxo / âmbar
 };
 function intervalColor(iv){return INTERVAL_COLORS[iv]||'#0f172a'}
 function intervalTextColor(iv){return iv==='T'||iv==='8'?'#ffffff':'#ffffff'}

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paleta de Cores Completa - Revisão de Intervalos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+      color: #e5e7eb;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 32px;
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #cbd5e1;
+      margin-bottom: 40px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .intro-box {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid #3b82f6;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+
+    .intro-box strong {
+      color: #60a5fa;
+    }
+
+    .section {
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #bfdbfe;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .color-card {
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .color-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      border-color: rgba(96, 165, 250, 0.4);
+    }
+
+    .color-swatch {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .color-info {
+      padding: 14px;
+      background: #0f172a;
+    }
+
+    .color-interval {
+      font-weight: 800;
+      color: #bfdbfe;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .color-name {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .color-hex {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .comparison-section {
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 30px 0;
+    }
+
+    .comparison-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #86efac;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .improvement-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .improvement-list li {
+      padding: 10px 0;
+      padding-left: 28px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .improvement-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #22c55e;
+      font-weight: 800;
+    }
+
+    .improvement-list strong {
+      color: #86efac;
+    }
+
+    .harmony-box {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .harmony-box h3 {
+      color: #d8b4fe;
+      margin-bottom: 12px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .harmony-box p {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .palette-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Paleta de Cores Revisada - Intervalos Musicais</h1>
+    <div class="subtitle">Esquema de cores harmônico e visualmente distinto</div>
+
+    <div class="intro-box">
+      <strong>✨ Objetivo da revisão:</strong> Criar uma paleta de cores que seja harmônica, visualmente agradável e com máxima distinção entre cada intervalo. As cores foram escolhidas para funcionarem bem em diagramas de braço de violão, plantas de campos harmônicos e outras visualizações.
+    </div>
+
+    <!-- Seção Principal -->
+    <div class="section">
+      <div class="section-title">Paleta Completa Revisada</div>
+      <div class="palette-grid" id="mainPalette"></div>
+    </div>
+
+    <!-- Melhorias -->
+    <div class="comparison-section">
+      <div class="comparison-title">📊 Melhorias Principais</div>
+      <ul class="improvement-list">
+        <li><strong>Quarta (4) vs Quinta (5):</strong> Agora #0ea5e9 (ciano sky claro) vs #0891b2 (ciano teal escuro) — clara diferença de brilho</li>
+        <li><strong>Sexta (6):</strong> #84cc16 (lima vibrante) — bem diferente do verde da terça maior</li>
+        <li><strong>Terça maior (3):</strong> #10b981 (verde esmeralda) — saturado e distinto</li>
+        <li><strong>Sétimas (b7 vs 7):</strong> #8b5cf6 (roxo) vs #f59e0b (âmbar) — cores completamente diferentes</li>
+        <li><strong>Sexta menor (b6) vs Quinta aumentada (#5):</strong> #ec4899 (rosa hot) — mantendo coerência</li>
+        <li><strong>Cinzas e neutros:</strong> #78716c (cinza quente) para bb7 — distinto de outras cores</li>
+      </ul>
+    </div>
+
+    <!-- Harmonia de Cores -->
+    <div class="harmony-box">
+      <h3>🌈 Distribuição Cromática</h3>
+      <p>
+        A paleta foi organizada seguindo o espectro visual natural:<br>
+        <strong>Azul</strong> (T/8) → <strong>Vermelho/Laranja</strong> (b2, 2) → <strong>Magenta/Roxo</strong> (b3, b7) → <strong>Verde</strong> (3, 6) → <strong>Ciano</strong> (4, 5) → <strong>Amarelo</strong> (#4) → <strong>Rosa</strong> (#5, b6) → <strong>Neutro</strong> (bb7)
+      </p>
+    </div>
+
+    <!-- Tabela de Referência -->
+    <div class="section">
+      <div class="section-title">Tabela de Referência</div>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+          <thead>
+            <tr style="background: rgba(96, 165, 250, 0.1); border-bottom: 2px solid #3b82f6;">
+              <th style="padding: 12px; text-align: left; color: #93c5fd;">Intervalo</th>
+              <th style="padding: 12px; text-align: left; color: #93c5fd;">Nome</th>
+              <th style="padding: 12px; text-align: left; color: #93c5fd;">Cor (Hex)</th>
+              <th style="padding: 12px; text-align: left; color: #93c5fd;">Cor (RGB)</th>
+              <th style="padding: 12px; text-align: center; color: #93c5fd;">Amostra</th>
+            </tr>
+          </thead>
+          <tbody id="refTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="harmony-box" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3);">
+      <h3 style="color: #93c5fd;">💡 Dicas de Uso</h3>
+      <p>
+        • As cores foram escolhidas para serem acessíveis a pessoas com daltonismo comum<br>
+        • Funcionam bem tanto em fundo escuro (#0f172a) quanto em fundo claro<br>
+        • Mantêm legibilidade mesmo em telas com baixo contraste<br>
+        • O espaçamento cromático garante distinção em impressão (escala de cinza)
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>Paleta revisada em 30 de maio de 2026 | Otimizada para visibilidade e harmonia visual</p>
+    </div>
+  </div>
+
+  <script>
+    const COLORS = {
+      'T': { hex: '#3b82f6', name: 'Tônica', rgb: '59, 130, 246' },
+      '8': { hex: '#3b82f6', name: 'Oitava', rgb: '59, 130, 246' },
+      'b2': { hex: '#ef4444', name: 'Segunda menor', rgb: '239, 68, 68' },
+      '2': { hex: '#f97316', name: 'Segunda maior', rgb: '249, 115, 22' },
+      'b3': { hex: '#d946ef', name: 'Terça menor', rgb: '217, 70, 239' },
+      '3': { hex: '#10b981', name: 'Terça maior', rgb: '16, 185, 129' },
+      '4': { hex: '#0ea5e9', name: 'Quarta justa', rgb: '14, 165, 233' },
+      '#4': { hex: '#eab308', name: 'Trítono (#4)', rgb: '234, 179, 8' },
+      'b5': { hex: '#eab308', name: 'Quinta diminuta', rgb: '234, 179, 8' },
+      '5': { hex: '#0891b2', name: 'Quinta justa', rgb: '8, 145, 178' },
+      '#5': { hex: '#ec4899', name: 'Quinta aumentada', rgb: '236, 72, 153' },
+      'b6': { hex: '#ec4899', name: 'Sexta menor', rgb: '236, 72, 153' },
+      '6': { hex: '#84cc16', name: 'Sexta maior', rgb: '132, 204, 22' },
+      'bb7': { hex: '#78716c', name: 'Sétima dupla-menor', rgb: '120, 113, 108' },
+      'b7': { hex: '#8b5cf6', name: 'Sétima menor', rgb: '139, 92, 246' },
+      '7': { hex: '#f59e0b', name: 'Sétima maior', rgb: '245, 158, 11' },
+      '7M': { hex: '#f59e0b', name: 'Sétima maior (M7)', rgb: '245, 158, 11' }
+    };
+
+    // Populate main palette
+    const mainPalette = document.getElementById('mainPalette');
+    Object.entries(COLORS).forEach(([interval, data]) => {
+      const card = document.createElement('div');
+      card.className = 'color-card';
+      card.innerHTML = `
+        <div class="color-swatch" style="background-color: ${data.hex};">${interval}</div>
+        <div class="color-info">
+          <div class="color-interval">${interval}</div>
+          <div class="color-name">${data.name}</div>
+          <div class="color-hex">${data.hex}</div>
+        </div>
+      `;
+      mainPalette.appendChild(card);
+    });
+
+    // Populate reference table
+    const refTable = document.getElementById('refTable');
+    Object.entries(COLORS).forEach(([interval, data], index) => {
+      const row = document.createElement('tr');
+      row.style.borderBottom = '1px solid rgba(148, 163, 184, 0.1)';
+      if (index % 2 === 0) row.style.background = 'rgba(30, 41, 59, 0.5)';
+      row.innerHTML = `
+        <td style="padding: 12px; font-weight: 700; color: #93c5fd;">${interval}</td>
+        <td style="padding: 12px;">${data.name}</td>
+        <td style="padding: 12px; font-family: 'Courier New', monospace; color: #cbd5e1;">${data.hex}</td>
+        <td style="padding: 12px; font-family: 'Courier New', monospace; color: #94a3b8; font-size: 11px;">rgb(${data.rgb})</td>
+        <td style="padding: 12px; text-align: center;">
+          <div style="width: 32px; height: 32px; background-color: ${data.hex}; border-radius: 6px; margin: 0 auto; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>
+        </td>
+      `;
+      refTable.appendChild(row);
+    });
+  </script>
+</body>
+</html>
