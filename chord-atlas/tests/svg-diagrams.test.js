@@ -13,6 +13,7 @@ const { test } = require('node:test');
 const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
 // Read the renderer.js source to verify parameter consistency
 const rendererPath = path.join(__dirname, '..', 'renderer.js');
@@ -95,4 +96,116 @@ test('svgIntervalMap viewBox formula is symmetric to svgHarmonicField', () => {
   );
   const viewBoxMatches = rendererCode.match(/viewBox="0 0 \$\{w\} \$\{h\}"/g);
   assert.ok(viewBoxMatches && viewBoxMatches.length >= 2, 'should have viewBox formula at least twice');
+});
+
+// ---------------------------------------------------------------------------
+// FUNCTIONAL TESTS: Verify actual SVG generation and dimensions
+// ---------------------------------------------------------------------------
+
+function loadEngineForExecution() {
+  const dir = path.join(__dirname, '..');
+  const code = [
+    fs.readFileSync(path.join(dir, 'i18n.js'), 'utf8'),
+    fs.readFileSync(path.join(dir, 'music-engine.js'), 'utf8'),
+    fs.readFileSync(path.join(dir, 'renderer.js'), 'utf8'),
+    '\n;globalThis.__engine = { svgIntervalMap, svgHarmonicField };',
+  ].join('\n');
+  const sandbox = {
+    document: {
+      querySelectorAll: () => [],
+    },
+    window: {},
+    console,
+    navigator: {},
+  };
+  vm.createContext(sandbox);
+  vm.runInContext(code, sandbox, { filename: 'engine.bundle.js' });
+  return sandbox.__engine;
+}
+
+function parseViewBox(svgString) {
+  const match = svgString.match(/viewBox="0 0 (\d+) (\d+)"/);
+  if (!match) return null;
+  return { w: parseInt(match[1], 10), h: parseInt(match[2], 10) };
+}
+
+function extractGridRect(svgString) {
+  const match = svgString.match(/<rect[^>]*x="(\d+)"[^>]*y="(\d+)"[^>]*width="(\d+)"[^>]*height="(\d+)"[^>]*fill="#f8fafc"/);
+  if (!match) return null;
+  return {
+    x: parseInt(match[1], 10),
+    y: parseInt(match[2], 10),
+    width: parseInt(match[3], 10),
+    height: parseInt(match[4], 10),
+  };
+}
+
+test('svgIntervalMap generates valid SVG with correct viewBox', () => {
+  const E = loadEngineForExecution();
+  const svg = E.svgIntervalMap('C', 'Todos os intervalos', ['T', '2', '3', '4', '5', '6', '7', 'b7', '8', '9', 'b9', '#9', '11', '#11', '13', 'b13'], 0, 24);
+
+  assert.ok(svg, 'should generate SVG string');
+  assert.ok(svg.includes('<svg class="interval-map-svg"'), 'should have interval-map-svg class');
+
+  const viewBox = parseViewBox(svg);
+  assert.ok(viewBox, 'should have valid viewBox');
+  assert.strictEqual(viewBox.h, 158, 'viewBox height should be 158');
+  assert.ok(viewBox.w >= 700, 'viewBox width should be at least 700');
+});
+
+test('svgHarmonicField generates valid SVG with correct viewBox', () => {
+  const E = loadEngineForExecution();
+  const svg = E.svgHarmonicField('C', 'Campo maior (jônico)', 0, 24);
+
+  assert.ok(svg, 'should generate SVG string');
+  assert.ok(svg.includes('<svg class="field-map-svg"'), 'should have field-map-svg class');
+
+  const viewBox = parseViewBox(svg);
+  assert.ok(viewBox, 'should have valid viewBox');
+  assert.strictEqual(viewBox.h, 158, 'viewBox height should be 158');
+  assert.ok(viewBox.w >= 700, 'viewBox width should be at least 700');
+});
+
+test('svgIntervalMap and svgHarmonicField have identical viewBox dimensions', () => {
+  const E = loadEngineForExecution();
+  const intervalSvg = E.svgIntervalMap('C', 'Todos os intervalos', ['T', '2', '3', '4', '5', '6', '7', 'b7', '8', '9', 'b9', '#9', '11', '#11', '13', 'b13'], 0, 24);
+  const fieldSvg = E.svgHarmonicField('C', 'Campo maior (jônico)', 0, 24);
+
+  const intervalBox = parseViewBox(intervalSvg);
+  const fieldBox = parseViewBox(fieldSvg);
+
+  assert.strictEqual(intervalBox.w, fieldBox.w, 'viewBox widths should be identical');
+  assert.strictEqual(intervalBox.h, fieldBox.h, 'viewBox heights should be identical');
+});
+
+test('svgIntervalMap grid rect has same dimensions as svgHarmonicField', () => {
+  const E = loadEngineForExecution();
+  const intervalSvg = E.svgIntervalMap('C', 'Todos os intervalos', ['T', '2', '3', '4', '5', '6', '7', 'b7', '8', '9', 'b9', '#9', '11', '#11', '13', 'b13'], 0, 24);
+  const fieldSvg = E.svgHarmonicField('C', 'Campo maior (jônico)', 0, 24);
+
+  const intervalRect = extractGridRect(intervalSvg);
+  const fieldRect = extractGridRect(fieldSvg);
+
+  assert.ok(intervalRect, 'interval map should have grid rect');
+  assert.ok(fieldRect, 'field map should have grid rect');
+
+  assert.strictEqual(intervalRect.x, fieldRect.x, 'grid x position should be identical');
+  assert.strictEqual(intervalRect.y, fieldRect.y, 'grid y position should be identical');
+  assert.strictEqual(intervalRect.height, fieldRect.height, 'grid height should be identical');
+});
+
+test('svgIntervalMap and svgHarmonicField have identical aspect ratios', () => {
+  const E = loadEngineForExecution();
+  const intervalSvg = E.svgIntervalMap('C', 'Todos os intervalos', ['T', '2', '3', '4', '5', '6', '7', 'b7', '8', '9', 'b9', '#9', '11', '#11', '13', 'b13'], 0, 24);
+  const fieldSvg = E.svgHarmonicField('C', 'Campo maior (jônico)', 0, 24);
+
+  const intervalBox = parseViewBox(intervalSvg);
+  const fieldBox = parseViewBox(fieldSvg);
+
+  const intervalAspect = intervalBox.w / intervalBox.h;
+  const fieldAspect = fieldBox.w / fieldBox.h;
+
+  // Should be identical (difference < 0.1%)
+  const diff = Math.abs(intervalAspect - fieldAspect) / fieldAspect;
+  assert.ok(diff < 0.001, `aspect ratios should be identical (interval: ${intervalAspect.toFixed(4)}, field: ${fieldAspect.toFixed(4)})`);
 });
