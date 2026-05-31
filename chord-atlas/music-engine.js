@@ -2741,7 +2741,6 @@ const BOOK_SCALE_PATTERNS = {
         {string:3, fret:0, interval:'4'},
         {string:3, fret:2, interval:'5'},
         {string:3, fret:3, interval:'b6'},
-        {string:2, fret:-1, interval:'b6'},
         {string:2, fret:2, interval:'7'},
         {string:2, fret:3, interval:'T'},
         {string:1, fret:0, interval:'2'},
