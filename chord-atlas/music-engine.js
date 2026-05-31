@@ -1319,7 +1319,979 @@ const BOOK_CHORD_PATTERNS = {
         {string:1, fret:0, interval:'T'}
       ]
     }
-  ]
+  ],
+  'Tétrade maior 7M': [
+    {
+      name: 'F1 · 1,7,3,5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:1, interval:'7M'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'F1 · 3,1,5,7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:2, interval:'3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F1 · 5,3,7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:2, interval:'5'},
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · 7,5,1,3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:2, interval:'7M'},
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'}
+      ]
+    },
+    {
+      name: 'F2 · 1,5,7,3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:1, interval:'7M'},
+        {string:2, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'F2 · 3,7,1,5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:2, interval:'3'},
+        {string:4, fret:4, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:3, interval:'5'}
+      ]
+    },
+    {
+      name: 'F2 · 5,1,3,7',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:0, interval:'5'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-1, interval:'3'},
+        {string:2, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F2 · 7,3,5,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:1, interval:'7M'},
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:-1, interval:'5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 1,3,5,7',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-1, interval:'3'},
+        {string:3, fret:-3, interval:'5'},
+        {string:2, fret:-3, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F3 · 3,5,7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:6, interval:'3'},
+        {string:4, fret:4, interval:'5'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 5,7,1,3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:4, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'}
+      ]
+    },
+    {
+      name: 'F3 · 7,1,3,5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:4, interval:'7M'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-1, interval:'3'},
+        {string:2, fret:-2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 1,5,7,3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:2, interval:'7M'},
+        {string:1, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'F4 · 3,7,1,5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 5,1,3,7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'},
+        {string:1, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F4 · 7,3,5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:1, interval:'7M'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Tétrade menor 7': [
+    {
+      name: 'F1 · 1,b7,b3,5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'F1 · b3,1,5,b7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F1 · 5,b3,b7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:2, interval:'5'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · b7,5,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:1, interval:'b7'},
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · 1,5,b7,b3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:2, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · b3,b7,1,5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:3, interval:'5'}
+      ]
+    },
+    {
+      name: 'F2 · 5,1,b3,b7',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:0, interval:'5'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F2 · b7,b3,5,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:0, interval:'b7'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:-1, interval:'5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 1,b3,5,b7',
+      baseForC: 15,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:3, fret:-3, interval:'5'},
+        {string:2, fret:-4, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F3 · b3,5,b7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:5, interval:'b3'},
+        {string:4, fret:4, interval:'5'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 5,b7,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F3 · b7,1,b3,5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:-2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 1,5,b7,b3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:1, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F4 · b3,b7,1,5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 5,1,b3,b7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'},
+        {string:1, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F4 · b7,b3,5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Tétrade meio-diminuta m7(b5)': [
+    {
+      name: 'F1 · 1,b7,b3,b5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-1, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F1 · b3,1,b5,b7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:1, interval:'b5'},
+        {string:2, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F1 · b5,b3,b7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:1, interval:'b5'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · b7,b5,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:1, interval:'b7'},
+        {string:4, fret:-1, interval:'b5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · 1,b5,b7,b3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:1, interval:'b5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:2, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · b3,b7,1,b5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:2, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F2 · b5,1,b3,b7',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:-1, interval:'b5'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F2 · b7,b3,b5,1',
+      baseForC: 13,
+      offsets: [
+        {string:5, fret:0, interval:'b7'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:-2, interval:'b5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 1,b3,b5,b7',
+      baseForC: 15,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:3, fret:-4, interval:'b5'},
+        {string:2, fret:-4, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F3 · b3,b5,b7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:5, interval:'b3'},
+        {string:4, fret:3, interval:'b5'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · b5,b7,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:4, interval:'b5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F3 · b7,1,b3,b5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:-3, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F4 · 1,b5,b7,b3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:1, interval:'b5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:1, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F4 · b3,b7,1,b5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:1, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F4 · b5,1,b3,b7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:-1, interval:'b5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'},
+        {string:1, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F4 · b7,b3,b5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-1, interval:'b5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Tétrade dominante 7': [
+    {
+      name: 'F1 · 1,b7,3,5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'F1 · 3,1,5,b7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:2, interval:'3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F1 · 5,3,b7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:2, interval:'5'},
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · b7,5,1,3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:1, interval:'b7'},
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'}
+      ]
+    },
+    {
+      name: 'F2 · 1,5,b7,3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:2, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'F2 · 3,b7,1,5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:2, interval:'3'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:3, interval:'5'}
+      ]
+    },
+    {
+      name: 'F2 · 5,1,3,b7',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:0, interval:'5'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-1, interval:'3'},
+        {string:2, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F2 · b7,3,5,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:0, interval:'b7'},
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:-1, interval:'5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 1,3,5,b7',
+      baseForC: 15,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-1, interval:'3'},
+        {string:3, fret:-3, interval:'5'},
+        {string:2, fret:-4, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F3 · 3,5,b7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:6, interval:'3'},
+        {string:4, fret:4, interval:'5'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 5,b7,1,3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:3, interval:'b7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'}
+      ]
+    },
+    {
+      name: 'F3 · b7,1,3,5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-1, interval:'3'},
+        {string:2, fret:-2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 1,5,b7,3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:1, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'F4 · 3,b7,1,5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:2, interval:'b7'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 5,1,3,b7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'},
+        {string:1, fret:1, interval:'b7'}
+      ]
+    },
+    {
+      name: 'F4 · b7,3,5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Menor com sétima maior m(7M)': [
+    {
+      name: 'F1 · 1,7,b3,5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:1, interval:'7M'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'F1 · b3,1,5,7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F1 · 5,b3,7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:2, interval:'5'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · 7,5,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:2, interval:'7M'},
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · 1,5,7,b3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:1, interval:'7M'},
+        {string:2, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · b3,7,1,5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:4, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:3, interval:'5'}
+      ]
+    },
+    {
+      name: 'F2 · 5,1,b3,7',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:0, interval:'5'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F2 · 7,b3,5,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:1, interval:'7M'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:-1, interval:'5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 1,b3,5,7',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:3, fret:-3, interval:'5'},
+        {string:2, fret:-3, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F3 · b3,5,7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:5, interval:'b3'},
+        {string:4, fret:4, interval:'5'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 5,7,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:5, interval:'5'},
+        {string:4, fret:4, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F3 · 7,1,b3,5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:4, interval:'7M'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:-2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 1,5,7,b3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:2, interval:'7M'},
+        {string:1, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F4 · b3,7,1,5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'5'}
+      ]
+    },
+    {
+      name: 'F4 · 5,1,b3,7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:0, interval:'5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'},
+        {string:1, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F4 · 7,b3,5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:1, interval:'7M'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Tétrade diminuta dim7': [
+    {
+      name: 'F1 · 1,bb7,b3,b5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:-1, interval:'bb7'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-1, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F1 · b3,1,b5,bb7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:1, interval:'b5'},
+        {string:2, fret:0, interval:'bb7'}
+      ]
+    },
+    {
+      name: 'F1 · b5,b3,bb7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:1, interval:'b5'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:1, interval:'bb7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · bb7,b5,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:0, interval:'bb7'},
+        {string:4, fret:-1, interval:'b5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · 1,b5,bb7,b3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:1, interval:'b5'},
+        {string:3, fret:-1, interval:'bb7'},
+        {string:2, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F2 · b3,bb7,1,b5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:1, interval:'b3'},
+        {string:4, fret:2, interval:'bb7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:2, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F2 · b5,1,b3,bb7',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:-1, interval:'b5'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:0, interval:'bb7'}
+      ]
+    },
+    {
+      name: 'F2 · bb7,b3,b5,1',
+      baseForC: 13,
+      offsets: [
+        {string:5, fret:-1, interval:'bb7'},
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:-2, interval:'b5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · 1,b3,b5,bb7',
+      baseForC: 15,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:3, fret:-4, interval:'b5'},
+        {string:2, fret:-5, interval:'bb7'}
+      ]
+    },
+    {
+      name: 'F3 · b3,b5,bb7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:5, interval:'b3'},
+        {string:4, fret:3, interval:'b5'},
+        {string:3, fret:1, interval:'bb7'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · b5,bb7,1,b3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:4, interval:'b5'},
+        {string:4, fret:2, interval:'bb7'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F3 · bb7,1,b3,b5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:2, interval:'bb7'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:-2, interval:'b3'},
+        {string:2, fret:-3, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F4 · 1,b5,bb7,b3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:1, interval:'b5'},
+        {string:2, fret:0, interval:'bb7'},
+        {string:1, fret:1, interval:'b3'}
+      ]
+    },
+    {
+      name: 'F4 · b3,bb7,1,b5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:0, interval:'b3'},
+        {string:3, fret:1, interval:'bb7'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:1, interval:'b5'}
+      ]
+    },
+    {
+      name: 'F4 · b5,1,b3,bb7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:-1, interval:'b5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:-1, interval:'b3'},
+        {string:1, fret:0, interval:'bb7'}
+      ]
+    },
+    {
+      name: 'F4 · bb7,b3,b5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:-1, interval:'bb7'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-1, interval:'b5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
 };
 
 function intervalForNote(root, note, formulaIntervals){
