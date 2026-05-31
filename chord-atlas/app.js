@@ -183,8 +183,12 @@ function populateStructures(){const s=document.getElementById('structure');const
 // 'Exercícios' category (not yet parameterized by root/structure).
 // Returns which inversion type a voicing string represents based on its bass note.
 function voicingInversionType(voicing){
-  const bass=voicing.split('-')[0];
-  if(bass==='T') return 'root';
+  // Book chord formation names look like "F1 · 1,7,3,#5" — the bass is the first
+  // interval listed after the formation tag. Generic voicings are "T-3-5-..." instead.
+  const bass = voicing.includes('·')
+    ? voicing.split('·').pop().trim().split(',')[0].trim()
+    : voicing.split('-')[0];
+  if(bass==='T'||bass==='1') return 'root';
   if(bass==='3'||bass==='b3') return '1st';
   if(bass==='5'||bass==='b5'||bass==='#5') return '2nd';
   return '3rd';
@@ -269,7 +273,7 @@ function initFloatingSelector(){
   if(clearBtn)clearBtn.addEventListener('click',()=>{window.superShowAll=true;autoRender()});
 }
 function populateStringGroups(){const f=formula();const size=(currentCategory==='Escalas'||currentCategory==='Modos'||currentCategory==='Arpejos'||currentCategory==='Campos Harmônicos'||currentCategory==='Intervalos'||currentCategory==='Superposição de Arpejos'||currentCategory==='Exercícios')?6:Math.min(4,Math.max(3,f.length)); const sets=stringSetsForSize(size);document.getElementById('stringGroups').innerHTML=sets.map(g=>`<label><input type="checkbox" value="${g.join('-')}" checked> ${g.join('-')}</label>`).join('');document.querySelectorAll('#stringGroups input').forEach(x=>x.onchange=autoRender)}
-function populateVoicings(){let groups;if(currentCategory==='Campos Harmônicos'){groups=[{name:'pattern',items:[tr('fieldMap')]}];}else if(currentCategory==='Superposição de Arpejos'){groups=[{name:'pattern',items:[tr('superimpositionTable')]}];}else if(currentCategory==='Intervalos'){groups=[{name:'pattern',items:[tr('intervalMap')]}];}else if(currentCategory==='Exercícios'){groups=[{name:'pattern',items:[tr('tablatureExercise')]}];}else if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_ARPEGGIO_PATTERNS[selectedStructure()].map(p=>p.name)}];}else{groups=getVoicingGroups(formula());}document.getElementById('voicings').innerHTML=groups.map(g=>`<div class="group-title">${tr(g.name)}</div><div class="checkgrid">${g.items.map(v=>`<label><input type="checkbox" value="${v}" checked> ${v}</label>`).join('')}</div>`).join('');applyInversionFilter();document.querySelectorAll('#voicings input').forEach(x=>x.onchange=autoRender)}
+function populateVoicings(){let groups;if(currentCategory==='Campos Harmônicos'){groups=[{name:'pattern',items:[tr('fieldMap')]}];}else if(currentCategory==='Superposição de Arpejos'){groups=[{name:'pattern',items:[tr('superimpositionTable')]}];}else if(currentCategory==='Intervalos'){groups=[{name:'pattern',items:[tr('intervalMap')]}];}else if(currentCategory==='Exercícios'){groups=[{name:'pattern',items:[tr('tablatureExercise')]}];}else if(currentCategory==='Arpejos'&&hasBookArpeggioPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_ARPEGGIO_PATTERNS[selectedStructure()].map(p=>p.name)}];}else if(currentCategory==='Acordes'&&hasBookChordPattern(selectedStructure())){groups=[{name:'bookPatterns',items:BOOK_CHORD_PATTERNS[selectedStructure()].map(p=>p.name)}];}else{groups=getVoicingGroups(formula());}document.getElementById('voicings').innerHTML=groups.map(g=>`<div class="group-title">${tr(g.name)}</div><div class="checkgrid">${g.items.map(v=>`<label><input type="checkbox" value="${v}" checked> ${v}</label>`).join('')}</div>`).join('');applyInversionFilter();document.querySelectorAll('#voicings input').forEach(x=>x.onchange=autoRender)}
 function toggleAll(sel,val){document.querySelectorAll(sel).forEach(x=>x.checked=val);autoRender()} function setRegion(a,b){document.getElementById('minFret').value=a;document.getElementById('maxFret').value=b;autoRender()} function autoRender(){writeRoute();syncFloatingSelector();clearTimeout(renderTimer);renderTimer=setTimeout(render,80)}
 function populateVoiceLeadingControls(){
   ['vlRootA','vlRootB'].forEach((id,i)=>{const el=document.getElementById(id); if(!el)return; const old=el.value; el.innerHTML=NOTES.map(n=>`<option>${n}</option>`).join(''); el.value=old|| (i===0?'C':'F');});

@@ -750,6 +750,27 @@ function render(){
       makeSectionCloseable(sec);
       out.appendChild(sec);
     });
+  }else if(currentCategory==='Acordes'&&hasBookChordPattern(name)){
+    let items=generateBookChord(root,name,f,minF,maxF,voices);
+    if(items.length){
+      let sec=document.createElement('section');
+      sec.className='section';
+      sec.innerHTML=`<h2>${root} — ${dn(name)}</h2>`;
+      let grid=document.createElement('div');
+      grid.className='grid grid-scale';
+      items.forEach(it=>{
+        let card=document.createElement('div');
+        card.className='card';
+        const minNote=Math.min(...it.positions.map(p=>p.fret));
+        const maxNote=Math.max(...it.positions.map(p=>p.fret));
+        card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${minNote}-${maxNote}</div>${cardPlayButton(it,'chord')}${svgFullFretboard(it.positions||[],'chord-fretboard')}`;
+        grid.appendChild(card);
+        rendered++;
+      });
+      sec.appendChild(grid);
+      makeSectionCloseable(sec);
+      out.appendChild(sec);
+    }
   }else{
     voices.forEach(v=>{
       let isScale=currentCategory==='Escalas'||currentCategory==='Modos'||v==='Desenho por região'||v==='Pattern by region';

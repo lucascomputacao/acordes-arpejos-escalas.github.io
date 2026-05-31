@@ -1146,6 +1146,182 @@ const BOOK_ARPEGGIO_PATTERNS = {
   ]
 };
 
+// Book chord voicings (Nelson Faria) — same data shape as BOOK_ARPEGGIO_PATTERNS:
+// each shape is a movable voicing whose absolute C-position fret is baseForC + offset.fret.
+// Keyed by chord structure name. Formations follow the book ("4 formações × 4 shapes").
+const BOOK_CHORD_PATTERNS = {
+  // Tétrade aumentada 7M(#5): T-3-#5-7M.
+  // Formação 1 "1,7,3,#5": four inversions on strings 6-4-3-2 (skips 5th and 1st),
+  // cascading up the neck. Confirmed against the book diagram by the user.
+  'Tétrade aumentada 7M(#5)': [
+    {
+      name: 'F1 · 1,7,3,#5',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:4, fret:1, interval:'7M'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:1, interval:'#5'}
+      ]
+    },
+    {
+      name: 'F1 · 3,1,#5,7',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:2, interval:'3'},
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:3, interval:'#5'},
+        {string:2, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F1 · #5,3,7,1',
+      baseForC: 1,
+      offsets: [
+        {string:6, fret:3, interval:'#5'},
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'F1 · 7,#5,1,3',
+      baseForC: 5,
+      offsets: [
+        {string:6, fret:2, interval:'7M'},
+        {string:4, fret:1, interval:'#5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'}
+      ]
+    },
+    // Formação 2 "1,#5,7,3": four inversions on strings 5-4-3-2 (root on the 5th
+    // string). Same voicing as Formação 4 but one string set lower. Confirmed by user.
+    {
+      name: 'F2 · 1,#5,7,3',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'#5'},
+        {string:3, fret:1, interval:'7M'},
+        {string:2, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'F2 · 3,7,1,#5',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:2, interval:'3'},
+        {string:4, fret:4, interval:'7M'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:4, interval:'#5'}
+      ]
+    },
+    {
+      name: 'F2 · #5,1,3,7',
+      baseForC: 9,
+      offsets: [
+        {string:5, fret:2, interval:'#5'},
+        {string:4, fret:1, interval:'T'},
+        {string:3, fret:0, interval:'3'},
+        {string:2, fret:3, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F2 · 7,3,#5,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:1, interval:'7M'},
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:0, interval:'#5'},
+        {string:2, fret:0, interval:'T'}
+      ]
+    },
+    // Formação 3 "1,3,#5,7": four inversions on strings 5-4-3-2. Confirmed by user.
+    {
+      name: 'F3 · 1,3,#5,7',
+      baseForC: 3,
+      offsets: [
+        {string:5, fret:0,  interval:'T'},
+        {string:4, fret:-1, interval:'3'},
+        {string:3, fret:-2, interval:'#5'},
+        {string:2, fret:-3, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F3 · 3,#5,7,1',
+      baseForC: 1,
+      offsets: [
+        {string:5, fret:6,  interval:'3'},
+        {string:4, fret:5,  interval:'#5'},
+        {string:3, fret:3,  interval:'7M'},
+        {string:2, fret:0,  interval:'T'}
+      ]
+    },
+    {
+      name: 'F3 · #5,7,1,3',
+      baseForC: 5,
+      offsets: [
+        {string:5, fret:6,  interval:'#5'},
+        {string:4, fret:4,  interval:'7M'},
+        {string:3, fret:0,  interval:'T'},
+        {string:2, fret:0,  interval:'3'}
+      ]
+    },
+    {
+      name: 'F3 · 7,1,3,#5',
+      baseForC: 10,
+      offsets: [
+        {string:5, fret:4,  interval:'7M'},
+        {string:4, fret:0,  interval:'T'},
+        {string:3, fret:-1, interval:'3'},
+        {string:2, fret:-1, interval:'#5'}
+      ]
+    },
+    // Formação 4 "1,#5,7,3": four inversions on strings 4-3-2-1 (top four),
+    // cascading up the neck. Confirmed against the book diagram by the user.
+    {
+      name: 'F4 · 1,#5,7,3',
+      baseForC: 10,
+      offsets: [
+        {string:4, fret:0, interval:'T'},
+        {string:3, fret:3, interval:'#5'},
+        {string:2, fret:2, interval:'7M'},
+        {string:1, fret:2, interval:'3'}
+      ]
+    },
+    {
+      name: 'F4 · 3,7,1,#5',
+      baseForC: 1,
+      offsets: [
+        {string:4, fret:1, interval:'3'},
+        {string:3, fret:3, interval:'7M'},
+        {string:2, fret:0, interval:'T'},
+        {string:1, fret:3, interval:'#5'}
+      ]
+    },
+    {
+      name: 'F4 · #5,1,3,7',
+      baseForC: 5,
+      offsets: [
+        {string:4, fret:1, interval:'#5'},
+        {string:3, fret:0, interval:'T'},
+        {string:2, fret:0, interval:'3'},
+        {string:1, fret:2, interval:'7M'}
+      ]
+    },
+    {
+      name: 'F4 · 7,3,#5,1',
+      baseForC: 8,
+      offsets: [
+        {string:4, fret:1, interval:'7M'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:1, interval:'#5'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ]
+};
+
 function intervalForNote(root, note, formulaIntervals){
   for(const iv of formulaIntervals){
     if(noteFor(root, iv) === note) return iv;
@@ -1209,6 +1385,67 @@ function generateBookArpeggio(root, structureName, formulaIntervals, minF, maxF,
 
 function hasBookArpeggioPattern(structureName){
   return !!BOOK_ARPEGGIO_PATTERNS[structureName];
+}
+
+// Place a book chord voicing at the chosen root/region. Mirrors generateBookArpeggio
+// but keeps every shape note (a 4-note chord, not a multi-octave run).
+function generateBookChord(root, structureName, formulaIntervals, minF, maxF, selectedPatternNames){
+  const patterns = BOOK_CHORD_PATTERNS[structureName];
+  if(!patterns) return [];
+  const rawShift = pc(root) - pc('C');
+  const selected = new Set(selectedPatternNames || patterns.map(p => p.name));
+  const items = [];
+
+  patterns.forEach(pattern => {
+    if(!selected.has(pattern.name)) return;
+
+    const minOffset = Math.min(...pattern.offsets.map(p => p.fret));
+    const maxOffset = Math.max(...pattern.offsets.map(p => p.fret));
+    const candidates = [];
+    for(let octave=-2; octave<=3; octave++){
+      const baseFret = pattern.baseForC + rawShift + (12 * octave);
+      const low = baseFret + minOffset;
+      const high = baseFret + maxOffset;
+      const overlapsRegion = high >= minF && low <= maxF;
+      const insideInstrument = low >= 0 && high <= 24;
+      if(overlapsRegion && insideInstrument) candidates.push(baseFret);
+    }
+    if(!candidates.length) return;
+
+    const baseFret = candidates.sort((a,b)=>Math.abs(a-minF)-Math.abs(b-minF))[0];
+    const positions = pattern.offsets
+      .map(p => {
+        const fret = baseFret + p.fret;
+        const note = noteAt(p.string, fret);
+        const explicitInterval = p.interval || p.label;
+        return {
+          string: p.string,
+          fret,
+          note,
+          label: explicitInterval || intervalForNote(root, note, formulaIntervals)
+        };
+      })
+      .filter(p => p.fret >= 0 && p.fret <= 24 && formulaIntervals.includes(p.label));
+
+    // Keep the shape only if every note placed (full chord) and at least one is in view.
+    const visible = positions.some(p => p.fret >= minF && p.fret <= maxF);
+    if(visible && positions.length === pattern.offsets.length){
+      items.push({
+        positions,
+        baseFret,
+        span: Math.max(...positions.map(p => p.fret)) - Math.min(...positions.map(p => p.fret)),
+        voicing: pattern.name,
+        strings: STRINGS,
+        isChordPattern: true
+      });
+    }
+  });
+
+  return items;
+}
+
+function hasBookChordPattern(structureName){
+  return !!BOOK_CHORD_PATTERNS[structureName];
 }
 
 
