@@ -2568,7 +2568,6 @@ const BOOK_SCALE_PATTERNS = {
       name: 'Position 2',
       baseForC: 8,
       offsets: [
-        {string:6, fret:-4, interval:'b6'},
         {string:6, fret:-2, interval:'b7'},
         {string:6, fret:0, interval:'T'},
         {string:5, fret:-3, interval:'2'},
@@ -2580,10 +2579,9 @@ const BOOK_SCALE_PATTERNS = {
         {string:3, fret:-3, interval:'T'},
         {string:3, fret:-1, interval:'2'},
         {string:3, fret:0, interval:'b3'},
-        {string:2, fret:-4, interval:'b3'},
         {string:2, fret:-2, interval:'4'},
         {string:2, fret:0, interval:'5'},
-        {string:1, fret:-4, interval:'b6'},
+        {string:2, fret:1, interval:'b6'},
         {string:1, fret:-2, interval:'b7'},
         {string:1, fret:0, interval:'T'}
       ]
