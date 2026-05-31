@@ -2538,6 +2538,862 @@ const BOOK_SCALE_PATTERNS = {
         {string:1, fret:0, interval:'5'}
       ]
     }
+  ],
+  'Escala menor natural': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:1, interval:'b6'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:1, interval:'b3'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:1, interval:'b6'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-4, interval:'b6'},
+        {string:6, fret:-2, interval:'b7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-2, interval:'b6'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-4, interval:'b3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-4, interval:'b6'},
+        {string:1, fret:-2, interval:'b7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:2, interval:'2'},
+        {string:5, fret:0, interval:'4'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:0, interval:'b7'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:1, interval:'b6'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'2'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:0, interval:'2'},
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:3, interval:'4'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:1, interval:'b6'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'2'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:0, interval:'4'},
+        {string:3, fret:2, interval:'5'},
+        {string:3, fret:3, interval:'b6'},
+        {string:2, fret:-1, interval:'b6'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:0, interval:'2'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:3, interval:'4'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 15,
+      offsets: [
+        {string:6, fret:-2, interval:'4'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-2, interval:'b7'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-3, interval:'2'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:-2, interval:'b6'},
+        {string:3, fret:0, interval:'b7'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:1, fret:-2, interval:'4'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    }
+  ],
+  'Escala menor harmônica': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:1, interval:'b6'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:1, interval:'7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:1, interval:'b3'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:1, interval:'b6'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-4, interval:'b6'},
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-2, interval:'b6'},
+        {string:3, fret:-4, interval:'7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-4, interval:'b3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-4, interval:'b6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:2, interval:'2'},
+        {string:5, fret:0, interval:'4'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:1, interval:'7'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:1, interval:'b6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'2'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:0, interval:'2'},
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:3, interval:'4'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:1, interval:'b6'},
+        {string:4, fret:-1, interval:'7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'2'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:0, interval:'4'},
+        {string:3, fret:2, interval:'5'},
+        {string:3, fret:3, interval:'b6'},
+        {string:2, fret:-1, interval:'b6'},
+        {string:2, fret:2, interval:'7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:0, interval:'2'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:3, interval:'4'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 15,
+      offsets: [
+        {string:6, fret:-2, interval:'4'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-3, interval:'2'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:-2, interval:'b6'},
+        {string:2, fret:-3, interval:'7'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:1, fret:-2, interval:'4'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    }
+  ],
+  'Escala menor melódica': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:2, interval:'6'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:3, fret:1, interval:'7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:1, interval:'b3'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:2, interval:'6'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-3, interval:'6'},
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:3, fret:-4, interval:'7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-4, interval:'b3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-3, interval:'6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:2, interval:'2'},
+        {string:5, fret:0, interval:'4'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:4, fret:1, interval:'7'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:2, interval:'6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'2'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:0, interval:'2'},
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:3, interval:'4'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:2, interval:'6'},
+        {string:4, fret:-1, interval:'7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'2'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:0, interval:'4'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:0, interval:'6'},
+        {string:2, fret:2, interval:'7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:0, interval:'2'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:3, interval:'4'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 15,
+      offsets: [
+        {string:6, fret:-2, interval:'4'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-3, interval:'6'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-3, interval:'2'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:2, fret:-3, interval:'7'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:1, fret:-2, interval:'4'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    }
+  ],
+  'Pentatonic/root maior': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-3, interval:'3'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-3, interval:'6'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-3, interval:'2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:1, fret:-3, interval:'3'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:2, interval:'6'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:2, interval:'3'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:2, interval:'6'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-3, interval:'6'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-1, interval:'3'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:2, fret:-3, interval:'3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-3, interval:'6'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:2, interval:'2'},
+        {string:5, fret:-1, interval:'3'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:2, interval:'6'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'2'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:0, interval:'2'},
+        {string:6, fret:2, interval:'3'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:2, interval:'6'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'2'},
+        {string:3, fret:-1, interval:'3'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:0, interval:'6'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:0, interval:'2'},
+        {string:1, fret:2, interval:'3'}
+      ]
+    }
+  ],
+  'Pentatonic/root menor': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-2, interval:'4'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-2, interval:'b7'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:1, interval:'b3'},
+        {string:1, fret:-2, interval:'4'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:3, interval:'b7'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:3, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:1, interval:'b3'},
+        {string:2, fret:3, interval:'4'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:3, interval:'b7'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-2, interval:'b7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-2, interval:'b7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:3, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:0, interval:'b7'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:3, interval:'b7'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:3, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:3, interval:'4'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:0, interval:'4'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:3, interval:'4'}
+      ]
+    }
+  ],
+  'Blues maior': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-3, interval:'3'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-3, interval:'6'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-3, interval:'2'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:4, fret:-1, interval:'3'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:1, fret:-3, interval:'3'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:2, interval:'6'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:1, interval:'b3'},
+        {string:2, fret:2, interval:'3'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:2, interval:'6'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-3, interval:'6'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:-1, interval:'3'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-3, interval:'3'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-3, interval:'6'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:2, interval:'2'},
+        {string:5, fret:-1, interval:'3'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:1, interval:'3'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:2, interval:'6'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'2'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:0, interval:'2'},
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:2, interval:'3'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:2, interval:'6'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'2'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:-1, interval:'3'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:0, interval:'6'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:0, interval:'2'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:2, interval:'3'}
+      ]
+    }
+  ],
+  'Blues menor': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-2, interval:'4'},
+        {string:6, fret:-1, interval:'b5'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-2, interval:'b7'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-2, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:1, interval:'b5'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:1, interval:'b3'},
+        {string:1, fret:-2, interval:'4'},
+        {string:1, fret:-1, interval:'b5'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:3, interval:'b7'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:3, interval:'b3'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:1, interval:'b5'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:0, interval:'b7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:1, interval:'b3'},
+        {string:2, fret:3, interval:'4'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:3, interval:'b7'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-2, interval:'b7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:-1, interval:'b5'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-2, interval:'b7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:3, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:5, fret:1, interval:'b5'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:0, interval:'b7'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:0, interval:'b3'},
+        {string:3, fret:2, interval:'4'},
+        {string:3, fret:3, interval:'b5'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:3, interval:'b7'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:3, interval:'b3'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:1, interval:'b3'},
+        {string:6, fret:3, interval:'4'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:3, interval:'b7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:3, interval:'b3'},
+        {string:3, fret:0, interval:'4'},
+        {string:3, fret:1, interval:'b5'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:1, interval:'b7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:1, interval:'b3'},
+        {string:1, fret:3, interval:'4'}
+      ]
+    }
+  ],
+  'Escala diminuta': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-1, interval:'b5'},
+        {string:6, fret:1, interval:'b6'},
+        {string:6, fret:2, interval:'6'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:1, interval:'b5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:3, fret:1, interval:'7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:1, interval:'b3'},
+        {string:1, fret:-1, interval:'b5'},
+        {string:1, fret:1, interval:'b6'},
+        {string:1, fret:2, interval:'6'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-4, interval:'b6'},
+        {string:6, fret:-3, interval:'6'},
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-4, interval:'b5'},
+        {string:4, fret:-2, interval:'b6'},
+        {string:4, fret:-1, interval:'6'},
+        {string:3, fret:-4, interval:'7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-4, interval:'b3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:-1, interval:'b5'},
+        {string:1, fret:-4, interval:'b6'},
+        {string:1, fret:-3, interval:'6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Diminuta dominante': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-1, interval:'b5'},
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:2, interval:'6'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:1, interval:'b2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:4, fret:1, interval:'b5'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:3, fret:0, interval:'b7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:-1, interval:'b2'},
+        {string:2, fret:1, interval:'b3'},
+        {string:2, fret:2, interval:'3'},
+        {string:1, fret:-1, interval:'b5'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:2, interval:'6'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-3, interval:'6'},
+        {string:6, fret:-2, interval:'b7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-4, interval:'b2'},
+        {string:5, fret:-2, interval:'b3'},
+        {string:5, fret:-1, interval:'3'},
+        {string:4, fret:-4, interval:'b5'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-2, interval:'b2'},
+        {string:3, fret:0, interval:'b3'},
+        {string:2, fret:-4, interval:'b3'},
+        {string:2, fret:-3, interval:'3'},
+        {string:2, fret:-1, interval:'b5'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-3, interval:'6'},
+        {string:1, fret:-2, interval:'b7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
+  ],
+  'Tons inteiros': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:-1, interval:'#4'},
+        {string:6, fret:1, interval:'#5'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:4, fret:1, interval:'#4'},
+        {string:3, fret:0, interval:'b7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:2, interval:'3'},
+        {string:1, fret:-1, interval:'#4'},
+        {string:1, fret:1, interval:'#5'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-4, interval:'#5'},
+        {string:6, fret:-2, interval:'b7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-1, interval:'3'},
+        {string:4, fret:-4, interval:'#4'},
+        {string:4, fret:-2, interval:'#5'},
+        {string:4, fret:0, interval:'b7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:2, fret:-3, interval:'3'},
+        {string:2, fret:-1, interval:'#4'},
+        {string:1, fret:-4, interval:'#5'},
+        {string:1, fret:-2, interval:'b7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    }
   ]
 };
 
