@@ -750,6 +750,25 @@ function render(){
       makeSectionCloseable(sec);
       out.appendChild(sec);
     });
+  }else if(currentCategory==='Escalas'&&hasBookScalePattern(name)){
+    let items=generateBookScale(root,name,f,minF,maxF,voices);
+    items.forEach(it=>{
+      let sec=document.createElement('section');
+      sec.className='section';
+      sec.innerHTML=`<h2>${root} — ${dn(name)} — <span class="voicing-label">${it.voicing}</span></h2>`;
+      let grid=document.createElement('div');
+      grid.className='grid grid-scale';
+      let card=document.createElement('div');
+      card.className='card';
+      const minNote=Math.min(...it.positions.map(p=>p.fret));
+      const maxNote=Math.max(...it.positions.map(p=>p.fret));
+      card.innerHTML=`<div class="title">${root}</div><div class="meta">${it.voicing} · ${tr('fret')} ${minNote}-${maxNote}</div>${cardPlayButton(it,'arp')}${svgFullFretboard(it.positions||[],'scale-fretboard')}`;
+      grid.appendChild(card);
+      rendered++;
+      sec.appendChild(grid);
+      makeSectionCloseable(sec);
+      out.appendChild(sec);
+    });
   }else if(currentCategory==='Acordes'&&hasBookChordPattern(name)){
     let items=generateBookChord(root,name,f,minF,maxF,voices);
     if(items.length){

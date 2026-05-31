@@ -2420,6 +2420,183 @@ function hasBookChordPattern(structureName){
   return !!BOOK_CHORD_PATTERNS[structureName];
 }
 
+// Book scale fingerings (Nelson Faria) — the 5 classic "box" positions of a
+// scale across the 6 strings. Same data shape as BOOK_ARPEGGIO_PATTERNS, but
+// each position keeps every note (a full box, not a single voicing).
+const BOOK_SCALE_PATTERNS = {
+  'Escala maior': [
+    {
+      name: 'Position 1',
+      baseForC: 3,
+      offsets: [
+        {string:6, fret:0, interval:'5'},
+        {string:6, fret:2, interval:'6'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:5, fret:2, interval:'2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:4, fret:0, interval:'4'},
+        {string:4, fret:2, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:3, fret:1, interval:'7'},
+        {string:3, fret:2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:2, fret:2, interval:'3'},
+        {string:1, fret:0, interval:'5'},
+        {string:1, fret:2, interval:'6'}
+      ]
+    },
+    {
+      name: 'Position 2',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-3, interval:'6'},
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:5, fret:-3, interval:'2'},
+        {string:5, fret:-1, interval:'3'},
+        {string:5, fret:0, interval:'4'},
+        {string:4, fret:-3, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:3, fret:-4, interval:'7'},
+        {string:3, fret:-3, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:2, fret:-3, interval:'3'},
+        {string:2, fret:-2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:1, fret:-3, interval:'6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'}
+      ]
+    },
+    {
+      name: 'Position 3',
+      baseForC: 8,
+      offsets: [
+        {string:6, fret:-1, interval:'7'},
+        {string:6, fret:0, interval:'T'},
+        {string:6, fret:2, interval:'2'},
+        {string:5, fret:-1, interval:'3'},
+        {string:5, fret:0, interval:'4'},
+        {string:5, fret:2, interval:'5'},
+        {string:4, fret:-1, interval:'6'},
+        {string:4, fret:1, interval:'7'},
+        {string:4, fret:2, interval:'T'},
+        {string:3, fret:-1, interval:'2'},
+        {string:3, fret:1, interval:'3'},
+        {string:3, fret:2, interval:'4'},
+        {string:2, fret:0, interval:'5'},
+        {string:2, fret:2, interval:'6'},
+        {string:1, fret:-1, interval:'7'},
+        {string:1, fret:0, interval:'T'},
+        {string:1, fret:2, interval:'2'}
+      ]
+    },
+    {
+      name: 'Position 4',
+      baseForC: 10,
+      offsets: [
+        {string:6, fret:0, interval:'2'},
+        {string:6, fret:2, interval:'3'},
+        {string:6, fret:3, interval:'4'},
+        {string:5, fret:0, interval:'5'},
+        {string:5, fret:2, interval:'6'},
+        {string:4, fret:-1, interval:'7'},
+        {string:4, fret:0, interval:'T'},
+        {string:4, fret:2, interval:'2'},
+        {string:3, fret:-1, interval:'3'},
+        {string:3, fret:0, interval:'4'},
+        {string:3, fret:2, interval:'5'},
+        {string:2, fret:0, interval:'6'},
+        {string:2, fret:2, interval:'7'},
+        {string:2, fret:3, interval:'T'},
+        {string:1, fret:0, interval:'2'},
+        {string:1, fret:2, interval:'3'},
+        {string:1, fret:3, interval:'4'}
+      ]
+    },
+    {
+      name: 'Position 5',
+      baseForC: 15,
+      offsets: [
+        {string:6, fret:-3, interval:'3'},
+        {string:6, fret:-2, interval:'4'},
+        {string:6, fret:0, interval:'5'},
+        {string:5, fret:-3, interval:'6'},
+        {string:5, fret:-1, interval:'7'},
+        {string:5, fret:0, interval:'T'},
+        {string:4, fret:-3, interval:'2'},
+        {string:4, fret:-1, interval:'3'},
+        {string:4, fret:0, interval:'4'},
+        {string:3, fret:-3, interval:'5'},
+        {string:3, fret:-1, interval:'6'},
+        {string:2, fret:-3, interval:'7'},
+        {string:2, fret:-2, interval:'T'},
+        {string:2, fret:0, interval:'2'},
+        {string:1, fret:-3, interval:'3'},
+        {string:1, fret:-2, interval:'4'},
+        {string:1, fret:0, interval:'5'}
+      ]
+    }
+  ]
+};
+
+// Place a book scale box at the chosen root/region. Unlike the arpeggio/chord
+// generators (which snap to the fret window nearest minF), each scale position
+// is rendered at its OWN canonical neck slot so the 5 boxes stay distinct and
+// ascending — we only shift by whole octaves to keep the box inside [0,24].
+function generateBookScale(root, structureName, formulaIntervals, minF, maxF, selectedPatternNames){
+  const patterns = BOOK_SCALE_PATTERNS[structureName];
+  if(!patterns) return [];
+  const rawShift = pc(root) - pc('C');
+  const selected = new Set(selectedPatternNames || patterns.map(p => p.name));
+  const items = [];
+
+  patterns.forEach(pattern => {
+    if(!selected.has(pattern.name)) return;
+    const minOffset = Math.min(...pattern.offsets.map(p => p.fret));
+    const maxOffset = Math.max(...pattern.offsets.map(p => p.fret));
+    // Canonical placement: keep the box at baseForC+rawShift, octave-shift only
+    // as needed so it fits on the neck.
+    let baseFret = pattern.baseForC + rawShift;
+    while(baseFret + minOffset < 0) baseFret += 12;
+    while(baseFret + maxOffset > 24) baseFret -= 12;
+    if(baseFret + minOffset < 0) return; // cannot fit
+
+    const positions = pattern.offsets
+      .map(p => {
+        const fret = baseFret + p.fret;
+        const note = noteAt(p.string, fret);
+        const explicitInterval = p.interval || p.label;
+        return {
+          string: p.string,
+          fret,
+          note,
+          label: explicitInterval || intervalForNote(root, note, formulaIntervals)
+        };
+      })
+      .filter(p => p.fret >= 0 && p.fret <= 24 && formulaIntervals.includes(p.label));
+
+    const visible = positions.some(p => p.fret >= minF && p.fret <= maxF);
+    if(visible && positions.length === pattern.offsets.length){
+      items.push({
+        positions,
+        baseFret,
+        span: Math.max(...positions.map(p => p.fret)) - Math.min(...positions.map(p => p.fret)),
+        voicing: pattern.name,
+        strings: STRINGS,
+        isScalePattern: true
+      });
+    }
+  });
+
+  return items;
+}
+
+function hasBookScalePattern(structureName){
+  return !!BOOK_SCALE_PATTERNS[structureName];
+}
+
 
 // Arpeggio Superimposition -------------------------------------------------
 // Tables transcribed as reusable data from the studied material. These are
