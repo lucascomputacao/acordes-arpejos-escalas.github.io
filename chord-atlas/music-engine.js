@@ -2592,8 +2592,10 @@ const BOOK_SCALE_PATTERNS = {
       offsets: [
         {string:6, fret:0, interval:'T'},
         {string:6, fret:2, interval:'2'},
+        {string:6, fret:3, interval:'b3'},
         {string:5, fret:0, interval:'4'},
         {string:5, fret:2, interval:'5'},
+        {string:5, fret:3, interval:'b6'},
         {string:4, fret:0, interval:'b7'},
         {string:4, fret:2, interval:'T'},
         {string:3, fret:-1, interval:'2'},
@@ -2601,8 +2603,10 @@ const BOOK_SCALE_PATTERNS = {
         {string:3, fret:2, interval:'4'},
         {string:2, fret:0, interval:'5'},
         {string:2, fret:1, interval:'b6'},
+        {string:2, fret:3, interval:'b7'},
         {string:1, fret:0, interval:'T'},
-        {string:1, fret:2, interval:'2'}
+        {string:1, fret:2, interval:'2'},
+        {string:1, fret:3, interval:'b3'}
       ]
     },
     {
